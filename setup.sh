@@ -43,7 +43,7 @@ case "$DISTRO" in
         fi
 
         echo "📦 Installing toolchains via mise..."
-        mise install || { echo "❌ Error: 'mise install' failed."; exit 1; }
+        mise trust && mise install || { echo "❌ Error: 'mise install' failed."; exit 1; }
 
         echo "🚀 Running project setup tasks..."
         mise run setup || { echo "❌ Error: Project setup task failed."; exit 1; }

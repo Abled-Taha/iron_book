@@ -21,7 +21,7 @@ This project is divided into multiple parts as following:
 | Linux/Windows App | Not Decided Yet |      Planned       |      -      |
 | Database          | PostgreSQL      |      Planned       |      -      |
 | Cache             | Redis           |      Planned       |      -      |
-| Project Website   | NextJS          |      Planned       |      -      |
+| Project Website   | NextJS          |      Working       |      -      |
 
 ### Project Directory Structure
 ```

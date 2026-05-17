@@ -1,0 +1,25 @@
+[tools]
+rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
+node = "24"
+
+[env]
+_path = "./.cargo/bin"
+MISE_COREPACK = "1"
+
+[tasks."setup"]
+description = "Install all dependencies"
+run = """
+corepack enable pnpm
+corepack use pnpm@11.1.2
+
+cargo check
+pnpm install
+"""
+
+[tasks."dev:api"]
+description = "Run Rust API Dev Server"
+run = "cargo run --bin api"
+
+[tasks."dev:home"]
+description = "Run NextJS Dev Server"
+run = "pnpm --filter ./apps/home dev"

@@ -2,7 +2,7 @@
 A Digital Financial Ledger
 
 This repo (If I finish it) is my biggest achievement till now. Because of it's 3 main features, as following:
-1. It has 7 different parts to it, all integrated and managed into one ploglot monorepo.
+1. It has 7 different parts to it, all integrated and managed into one polyglot monorepo.
 1. All the parts of this repo use different tech stacks, and are perfectly made to work with each other with no redundancies while being environment agnostic.
 1. Just like these 3 features, developer on-boarding also doesn't exceed more than 3 steps.
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="Theme.IronBook" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme colors here if you want -->
+        <item name="colorPrimary">#6200EE</item>
+        <item name="colorAccent">#03DAC6</item>
+    </style>
+</resources>

@@ -30,3 +30,11 @@
 *node_modules
 *.pnp
 *.pnp.*
+.android_sdk/
+.gradle/
+
+# mise
+.mise
+
+# IDEs
+*.idea/

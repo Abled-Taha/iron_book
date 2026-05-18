@@ -4,4 +4,33 @@
     "**/.cargo/git/checkouts/**/*.rs": true,
     "**/lib/rustlib/src/rust/library/**/*.rs": true,
     },
+    "java.import.gradle.enabled": true,
+    
+    "java.configuration.runtimes": [
+        {
+        "name": "JavaSE-21",
+        "path": "${workspaceFolder}/.mise/installs/java/openjdk-21",
+        "default": true
+        }
+    ],
+    "java.import.gradle.user.home": "${workspaceFolder}/.gradle",
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.cargo": true,
+        "**/target": true,
+        "**/node_modules": true,
+        "**/.next": true
+    },
+    "search.exclude": {
+        "**/target": true,
+        "**/node_modules": true
+    },
+    
+    "java.import.exclusions": [
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/target/**",
+        "**/.next/**"
+    ]
 }

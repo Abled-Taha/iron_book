@@ -2,7 +2,7 @@
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
 java = "openjdk-21"
-android-sdk = "3.6.0"
+android-sdk = "1.0"
 
 [env]
 MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"

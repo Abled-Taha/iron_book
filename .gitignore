@@ -1,5 +1,8 @@
 # env
 *.env
+apps/web/.venv/
+__pycache__/
+*.pyc
 
 # typescript
 *.tsbuildinfo
@@ -14,6 +17,7 @@
 # misc
 *.DS_Store
 *.pem
+*sqlite3
 
 # production
 *build

@@ -1,0 +1,61 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}"> <!-- Animate Css -->
+    {% block extra_css %}{% endblock %} <!-- This block can be used for page specific css --> <!-- Global css can be applied in theme/static_src/src/styles.css -->
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="{% static 'js/alpine.min.js' %}" defer></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans leading-normal tracking-normal">
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 mt-4"
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 3000)" 
+        x-show="show"
+        x-transition
+    >
+        {% for message in messages %}
+        <div class="p-4 rounded-lg {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200{% else %}bg-blue-50 text-blue-700 border border-blue-200{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+    <!-- Empty Modal Shell -->
+    <div x-data="{ open: false }" 
+        @open-modal.window="open = true" 
+        @close-modal.window="open = false"
+        x-cloak>
+        
+        <div x-show="open" 
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+            
+            <div @click.away="open = false" 
+                class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative overflow-hidden animate__animated animate__zoomIn animate__faster">
+                
+                <button @click="open = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <div id="modal-body" class="p-8">
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

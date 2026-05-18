@@ -16,7 +16,7 @@ This project is divided into multiple parts as following:
 | Sub-Part          | Tech            | Development Status | Extra Notes |
 | ----------------- | --------------- | :----------------: | :---------: |
 | API               | Rust            |      Planned       |      -      |
-| Web App           | Not Decided Yet |      Planned       |      -      |
+| Web App           | Python          |      Planned       |      -      |
 | Android App       | Kotlin          |      Planned       |      -      |
 | Linux/Windows App | Not Decided Yet |      Planned       |      -      |
 | Database          | PostgreSQL      |      Planned       |      -      |
@@ -55,26 +55,63 @@ This project is divided into multiple parts as following:
 │   │   ├── Cargo.toml
 │   │   └── src
 │   │       └── main.rs
-│   └── home
-│       ├── eslint.config.mjs
-│       ├── next.config.ts
-│       ├── package.json
-│       ├── pnpm-lock.yaml
-│       ├── postcss.config.mjs
-│       ├── public
-│       │   ├── file.svg
-│       │   ├── globe.svg
-│       │   ├── next.svg
-│       │   ├── vercel.svg
-│       │   └── window.svg
-│       ├── README.md
-│       ├── src
-│       │   └── app
-│       │       ├── favicon.ico
-│       │       ├── globals.css
-│       │       ├── layout.tsx
-│       │       └── page.tsx
-│       └── tsconfig.json
+│   ├── home
+│   │   ├── eslint.config.mjs
+│   │   ├── next.config.ts
+│   │   ├── package.json
+│   │   ├── pnpm-lock.yaml
+│   │   ├── postcss.config.mjs
+│   │   ├── public
+│   │   │   ├── file.svg
+│   │   │   ├── globe.svg
+│   │   │   ├── next.svg
+│   │   │   ├── vercel.svg
+│   │   │   └── window.svg
+│   │   ├── README.md
+│   │   ├── src
+│   │   │   └── app
+│   │   │       ├── favicon.ico
+│   │   │       ├── globals.css
+│   │   │       ├── layout.tsx
+│   │   │       └── page.tsx
+│   │   └── tsconfig.json
+│   └── web
+│       ├── iron_book
+│       │   ├── asgi.py
+│       │   ├── settings.py
+│       │   ├── urls.py
+│       │   ├── views.py
+│       │   └── wsgi.py
+│       ├── manage.py
+│       ├── Procfile.tailwind
+│       ├── pyproject.toml
+│       ├── static
+│       │   ├── css
+│       │   │   └── animate.css
+│       │   ├── img
+│       │   │   └── favicon.png
+│       │   └── js
+│       │       ├── alpine.min.js
+│       │       └── htmx.min.js
+│       ├── templates
+│       │   ├── 404.html
+│       │   ├── base.html
+│       │   ├── home.html
+│       │   └── robots.txt
+│       ├── theme
+│       │   ├── apps.py
+│       │   ├── static
+│       │   │   └── css
+│       │   │       └── dist
+│       │   │           └── styles.css
+│       │   └── static_src
+│       │       └── src
+│       │           └── styles.css
+│       ├── uv.lock
+│       └── web
+│           ├── apps.py
+│           ├── urls.py
+│           └── views.py
 ├── Cargo.lock
 ├── Cargo.toml
 ├── docker-compose.yaml
@@ -102,9 +139,11 @@ This project is divided into multiple parts as following:
 ### Todo
 
 - [ ] Rather than this `README.md`, make the Project Website the main page, as well as the documentation.
-- [ ] Implement `setup.ps1`
-- [ ] Implement Nix Flakes
-- [ ] Implement Docker
+- [ ] `setup.ps1`
+- [ ] Nix Flakes
+- [ ] Docker
+- [ ] Django does not serve static files in prod
+- [ ] Add other prod features (I can't remember right now which ones)
 
 ## Users
 

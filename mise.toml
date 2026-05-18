@@ -3,6 +3,7 @@ rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
 java = "openjdk-21"
 android-sdk = "1.0"
+uv = "0.11.14"
 
 [env]
 MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"
@@ -10,6 +11,7 @@ _path = "./.cargo/bin"
 MISE_COREPACK = "1"
 ANDROID_HOME = "{{config_root}}/.android_sdk"
 JAVA_HOME = "{{config_root}}/.mise/installs/java/openjdk-21"
+_.python.venv = "{{config_root}}/apps/web/.venv"
 
 [tasks."setup"]
 description = "Install all dependencies"
@@ -22,6 +24,7 @@ echo "sdk.dir=$PWD/.android_sdk" > apps/android/local.properties
 
 cargo check
 pnpm install
+uv sync --project apps/web
 """
 
 [tasks."dev:api"]
@@ -31,6 +34,16 @@ run = "cargo run --bin api"
 [tasks."dev:home"]
 description = "Run NextJS Dev Server"
 run = "pnpm --filter ./apps/home dev"
+
+[tasks."dev:web"]
+dir = "apps/web"
+description = "Run Django Dev Server"
+run = "python manage.py tailwind dev"
+
+[tasks."web:activate"]
+dir = "apps/web"
+description = "Activate environmental Python Interpreter"
+run = "source .venv/bin/activate"
 
 [tasks."code"]
 description = "Launch VS Code with injected monorepo environment"

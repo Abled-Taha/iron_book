@@ -28,18 +28,65 @@ This project is divided into multiple parts as following:
 .
 ├── apps
 │   ├── android
+│   │   ├── app
+│   │   │   ├── build.gradle
+│   │   │   └── src
+│   │   │       └── main
+│   │   │           ├── AndroidManifest.xml
+│   │   │           ├── java
+│   │   │           │   └── online
+│   │   │           │       └── abledtaha
+│   │   │           │           ├── ironbook
+│   │   │           │           └── MainActivity.kt
+│   │   │           └── res
+│   │   │               └── values
+│   │   │                   └── styles.xml
+│   │   ├── build.gradle
+│   │   ├── gradle
+│   │   │   └── wrapper
+│   │   │       ├── gradle-wrapper.jar
+│   │   │       └── gradle-wrapper.properties
+│   │   ├── gradle.properties
+│   │   ├── gradlew
+│   │   ├── gradlew.bat
+│   │   ├── local.properties
+│   │   └── settings.gradle
 │   ├── api
-│   ├── desktop
-│   ├── home
-│   └── web
+│   │   ├── Cargo.toml
+│   │   └── src
+│   │       └── main.rs
+│   └── home
+│       ├── eslint.config.mjs
+│       ├── next.config.ts
+│       ├── package.json
+│       ├── pnpm-lock.yaml
+│       ├── postcss.config.mjs
+│       ├── public
+│       │   ├── file.svg
+│       │   ├── globe.svg
+│       │   ├── next.svg
+│       │   ├── vercel.svg
+│       │   └── window.svg
+│       ├── README.md
+│       ├── src
+│       │   └── app
+│       │       ├── favicon.ico
+│       │       ├── globals.css
+│       │       ├── layout.tsx
+│       │       └── page.tsx
+│       └── tsconfig.json
+├── Cargo.lock
+├── Cargo.toml
 ├── docker-compose.yaml
 ├── Dockerfile
-├── .env.template
+├── .env.example
 ├── .gitignore
 ├── iron_book.sh
 ├── LICENSE
 ├── mise.toml
-├── .notes
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
 ├── README.md
 ├── setup.sh
 └── .vscode

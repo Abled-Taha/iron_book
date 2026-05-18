@@ -17,7 +17,7 @@ This project is divided into multiple parts as following:
 | ----------------- | --------------- | :----------------: | :---------: |
 | API               | Rust            |      Planned       |      -      |
 | Web App           | Not Decided Yet |      Planned       |      -      |
-| Android App       | Not Decided Yet |      Planned       |      -      |
+| Android App       | Kotlin          |      Planned       |      -      |
 | Linux/Windows App | Not Decided Yet |      Planned       |      -      |
 | Database          | PostgreSQL      |      Planned       |      -      |
 | Cache             | Redis           |      Planned       |      -      |

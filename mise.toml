@@ -27,6 +27,8 @@ pnpm install
 uv sync --project apps/web
 """
 
+# Development
+
 [tasks."dev:api"]
 description = "Run Rust API Dev Server"
 run = "cargo run --bin api"
@@ -39,6 +41,14 @@ run = "pnpm --filter ./apps/home dev"
 dir = "apps/web"
 description = "Run Django Dev Server"
 run = "python manage.py tailwind dev"
+
+# Production
+
+[tasks."prod:home"]
+description = "Run NextJS Prod Server"
+run = "pnpm --filter ./apps/home build; pnpm --filter ./apps/home start"
+
+# Environment
 
 [tasks."web:activate"]
 dir = "apps/web"

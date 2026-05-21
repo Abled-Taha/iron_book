@@ -62,6 +62,27 @@ export default function Docs() {
             >
               Users
             </a>
+
+            <a
+              href="#features"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Features
+            </a>
+
+            <a
+              href="#complaints"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Complaints
+            </a>
+
+            <a
+              href="#self-deployment"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Self Deployment
+            </a>
           </nav>
         </aside>
 
@@ -238,27 +259,27 @@ export default function Docs() {
 
                 <div className="overflow-x-auto rounded-xl bg-zinc-950 p-6">
                   <pre className="min-w-max text-sm leading-6 text-zinc-100">
-{`. 
-├── apps
-│   ├── android
-│   ├── api
-│   ├── home
-│   └── web
-├── Cargo.lock
-├── Cargo.toml
-├── docker-compose.yaml
-├── Dockerfile
-├── .env.example
-├── .gitignore
-├── iron_book.sh
-├── LICENSE
-├── mise.toml
-├── package.json
-├── pnpm-lock.yaml
-├── pnpm-workspace.yaml
-├── README.md
-├── setup.sh
-└── .vscode`}
+                    {`. 
+                    ├── apps
+                    │   ├── android
+                    │   ├── api
+                    │   ├── home
+                    │   └── web
+                    ├── Cargo.lock
+                    ├── Cargo.toml
+                    ├── docker-compose.yaml
+                    ├── Dockerfile
+                    ├── .env.example
+                    ├── .gitignore
+                    ├── iron_book.sh
+                    ├── LICENSE
+                    ├── mise.toml
+                    ├── package.json
+                    ├── pnpm-lock.yaml
+                    ├── pnpm-workspace.yaml
+                    ├── README.md
+                    ├── setup.sh
+                    └── .vscode`}
                   </pre>
                 </div>
               </div>
@@ -390,7 +411,7 @@ export default function Docs() {
               </div>
 
               {/* Features */}
-              <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div id="features" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                 <h3 className="text-2xl font-semibold">Features</h3>
 
                 <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
@@ -399,7 +420,7 @@ export default function Docs() {
               </div>
 
               {/* Complaints */}
-              <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div id="complaints" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                 <h3 className="text-2xl font-semibold">Complaints</h3>
 
                 <p className="text-zinc-700 dark:text-zinc-300">
@@ -412,6 +433,15 @@ export default function Docs() {
                   </a>
                   .
                 </p>
+              </div>
+
+              {/* Self Deployment */}
+              <div id="self-deployment" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <h3 className="text-2xl font-semibold">Self Deployment</h3>
+
+                <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
+                  <li><a href="/docs/home">Home / Docs Site</a></li>
+                </ul>
               </div>
             </section>
           </div>

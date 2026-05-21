@@ -1,0 +1,15 @@
+# Exclude everything by default for the web app build context
+*
+
+# Allow root configurations for pnpm
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+
+# Only allow this app's code context
+!apps/home
+!apps/home/**
+
+# Housekeeping
+**/node_modules
+**/.next

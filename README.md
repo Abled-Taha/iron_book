@@ -149,6 +149,7 @@ This project is divided into multiple parts as following:
 - [ ] Docker
 - [ ] Django does not serve static files in prod
 - [ ] Add other prod features (I can't remember right now which ones)
+- [ ] `mise.toml` does not support Windows
 
 ## Users
 

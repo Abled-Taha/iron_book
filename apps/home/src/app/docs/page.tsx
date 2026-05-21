@@ -1,0 +1,422 @@
+export default function Docs() {
+  return (
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-100">
+      <div className="mx-auto flex max-w-7xl">
+        {/* Sidebar */}
+        <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-black lg:block">
+          <h2 className="mb-6 text-lg font-semibold">Contents</h2>
+
+          <nav className="space-y-3 text-sm">
+            <a
+              href="#about"
+              className="block text-zinc-600 transition hover:text-black dark:text-zinc-400 dark:hover:text-white"
+            >
+              About
+            </a>
+
+            <a
+              href="#development"
+              className="block text-zinc-600 transition hover:text-black dark:text-zinc-400 dark:hover:text-white"
+            >
+              Development
+            </a>
+
+            <a
+              href="#philosophy"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Philosophy
+            </a>
+
+            <a
+              href="#project-structure"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Project Structure
+            </a>
+
+            <a
+              href="#directory-structure"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Directory Structure
+            </a>
+
+            <a
+              href="#setup"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Setup
+            </a>
+
+            <a
+              href="#todo"
+              className="ml-3 block text-zinc-500 transition hover:text-black dark:text-zinc-500 dark:hover:text-white"
+            >
+              Todo
+            </a>
+
+            <a
+              href="#users"
+              className="block text-zinc-600 transition hover:text-black dark:text-zinc-400 dark:hover:text-white"
+            >
+              Users
+            </a>
+          </nav>
+        </aside>
+
+        {/* Main */}
+        <main className="flex-1 px-6 py-16 sm:px-12 lg:px-20">
+          <div className="mx-auto max-w-5xl space-y-24">
+            {/* Hero */}
+            <section className="space-y-6">
+              <div className="inline-flex items-center rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900">
+                Documentation
+              </div>
+
+              <div className="space-y-3">
+                <h1 className="text-5xl font-black tracking-tight">
+                  Project Iron Book
+                </h1>
+
+                <h2 className="text-xl text-zinc-600 dark:text-zinc-400">
+                  A Digital Financial Ledger
+                </h2>
+              </div>
+
+              <p className="max-w-3xl text-lg leading-8 text-zinc-700 dark:text-zinc-300">
+                This repo (if I finish it) is my biggest achievement till now
+                because of its 3 main features.
+              </p>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                  <h3 className="mb-2 font-semibold">Polyglot Monorepo</h3>
+
+                  <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                    7 different parts integrated into one reproducible system.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                  <h3 className="mb-2 font-semibold">Environment Agnostic</h3>
+
+                  <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                    Multiple tech stacks working together with minimal
+                    redundancy.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                  <h3 className="mb-2 font-semibold">Simple Onboarding</h3>
+
+                  <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                    Developers can start contributing in only 3 steps.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* About */}
+            <section
+              id="about"
+              className="space-y-6 scroll-mt-24"
+            >
+              <h2 className="text-3xl font-bold">About</h2>
+
+              <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
+                  <li>
+                    It has 7 different parts to it, all integrated and managed
+                    into one polyglot monorepo.
+                  </li>
+
+                  <li>
+                    All parts use different tech stacks and are designed to work
+                    together with no redundancies while remaining environment
+                    agnostic.
+                  </li>
+
+                  <li>
+                    Developer onboarding does not exceed more than 3 steps.
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            {/* Development */}
+            <section
+              id="development"
+              className="space-y-12 scroll-mt-24"
+            >
+              <div className="space-y-3">
+                <h2 className="text-3xl font-bold">Development</h2>
+
+                <p className="text-zinc-700 dark:text-zinc-300">
+                  This section is targeted towards developers who are or will be
+                  contributing to this project.
+                </p>
+              </div>
+
+              {/* Philosophy */}
+              <div
+                id="philosophy"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <h3 className="text-2xl font-semibold">Philosophy</h3>
+
+                <p className="leading-8 text-zinc-700 dark:text-zinc-300">
+                  Every single thing needs to be reproducible on any machine. No
+                  more than 3 steps to start working on the project, among
+                  which, 2 of them are only the prerequisites.
+                </p>
+              </div>
+
+              {/* Project Structure */}
+              <div
+                id="project-structure"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-semibold">
+                    Project Structure
+                  </h3>
+
+                  <p className="text-zinc-700 dark:text-zinc-300">
+                    This project is divided into multiple parts as follows.
+                  </p>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="min-w-full border-collapse text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                        <th className="px-4 py-3 font-semibold">Sub-Part</th>
+                        <th className="px-4 py-3 font-semibold">Tech</th>
+                        <th className="px-4 py-3 font-semibold">
+                          Development Status
+                        </th>
+                        <th className="px-4 py-3 font-semibold">
+                          Extra Notes
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody className="text-zinc-700 dark:text-zinc-300">
+                      {[
+                        ["API", "Rust", "Planned"],
+                        ["Web App", "Python", "Planned"],
+                        ["Android App", "Kotlin", "Planned"],
+                        ["Linux/Windows App", "Not Decided Yet", "Planned"],
+                        ["Database", "PostgreSQL", "Planned"],
+                        ["Cache", "Redis", "Planned"],
+                        ["Project Website", "NextJS", "Working"],
+                      ].map(([part, tech, status]) => (
+                        <tr
+                          key={part}
+                          className="border-b border-zinc-100 dark:border-zinc-800"
+                        >
+                          <td className="px-4 py-3">{part}</td>
+                          <td className="px-4 py-3">{tech}</td>
+                          <td className="px-4 py-3">{status}</td>
+                          <td className="px-4 py-3">-</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Directory Structure */}
+              <div
+                id="directory-structure"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <h3 className="text-2xl font-semibold">
+                  Project Directory Structure
+                </h3>
+
+                <div className="overflow-x-auto rounded-xl bg-zinc-950 p-6">
+                  <pre className="min-w-max text-sm leading-6 text-zinc-100">
+{`. 
+├── apps
+│   ├── android
+│   ├── api
+│   ├── home
+│   └── web
+├── Cargo.lock
+├── Cargo.toml
+├── docker-compose.yaml
+├── Dockerfile
+├── .env.example
+├── .gitignore
+├── iron_book.sh
+├── LICENSE
+├── mise.toml
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+├── setup.sh
+└── .vscode`}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Setup */}
+              <div
+                id="setup"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <h3 className="text-2xl font-semibold">Setup</h3>
+
+                <ol className="list-decimal space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
+                  <li>
+                    Install{" "}
+                    <a
+                      href="https://mise.jdx.dev"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      Mise
+                    </a>
+                  </li>
+
+                  <li>Clone the repository</li>
+
+                  <li>
+                    Run{" "}
+                    <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
+                      setup.sh
+                    </code>
+                  </li>
+                </ol>
+              </div>
+
+              {/* Todo */}
+              <div
+                id="todo"
+                className="space-y-6 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-semibold">Todo</h3>
+
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    Current development tasks and completed milestones.
+                  </p>
+                </div>
+
+                {/* Pending Tasks */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+                    Pending
+                  </h4>
+
+                  <ul className="space-y-4 text-zinc-700 dark:text-zinc-300">
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>
+                        <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
+                          setup.ps1
+                        </code>
+                      </span>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>Nix Flakes</span>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>Docker</span>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>Django does not serve static files in production</span>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>Add other production features</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Completed Tasks Dropdown */}
+                <details className="group overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
+                  <summary className="flex cursor-pointer list-none items-center justify-between bg-zinc-100 px-5 py-4 font-medium transition hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700">
+                    <span className="flex items-center gap-2">
+                      ✅ Completed Tasks
+                    </span>
+
+                    <span className="transition group-open:rotate-180">
+                      ▼
+                    </span>
+                  </summary>
+
+                  <div className="border-t border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+                    <ul className="space-y-4 text-zinc-700 dark:text-zinc-300">
+                      <li className="flex items-start gap-3">
+                        <span className="mt-1 text-emerald-500">✔</span>
+
+                        <span>
+                          Replace this README with the Project Website and use it as the
+                          main documentation.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            {/* Users */}
+            <section
+              id="users"
+              className="space-y-12 scroll-mt-24"
+            >
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold">Users</h2>
+
+                <p className="text-zinc-700 dark:text-zinc-300">
+                  This section is targeted towards the users of this project.
+                </p>
+              </div>
+
+              {/* Features */}
+              <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <h3 className="text-2xl font-semibold">Features</h3>
+
+                <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
+                  <li>None</li>
+                </ul>
+              </div>
+
+              {/* Complaints */}
+              <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <h3 className="text-2xl font-semibold">Complaints</h3>
+
+                <p className="text-zinc-700 dark:text-zinc-300">
+                  Open an issue on{" "}
+                  <a
+                    href="https://github.com/Abled-Taha/iron_book"
+                    className="font-medium text-blue-600 hover:underline"
+                  >
+                    GitHub
+                  </a>
+                  .
+                </p>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

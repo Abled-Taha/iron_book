@@ -259,7 +259,8 @@ export default function Docs() {
 
                 <div className="overflow-x-auto rounded-xl bg-zinc-950 p-6">
                   <pre className="min-w-max text-sm leading-6 text-zinc-100">
-                    {`. 
+                    {`
+                    . 
                     ├── apps
                     │   ├── android
                     │   ├── api
@@ -440,7 +441,7 @@ export default function Docs() {
                 <h3 className="text-2xl font-semibold">Self Deployment</h3>
 
                 <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
-                  <li><a href="/docs/home">Home / Docs Site</a></li>
+                  <li><a href="/docs/home" className="font-medium text-blue-600 hover:underline">Home / Docs Site</a></li>
                 </ul>
               </div>
             </section>

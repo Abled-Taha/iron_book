@@ -30,7 +30,7 @@ export default function DocsHome() {
               <h2 className="text-3xl font-bold">Setup Instructions</h2>
 
               <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-                <h3 className="text-2xl font-bold">Docker Setup</h3>
+                <h3 className="text-2xl font-bold">Docker Setup (Recommended)</h3>
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>
                     File which can be used to deploy is

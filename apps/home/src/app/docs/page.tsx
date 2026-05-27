@@ -310,6 +310,10 @@ export default function Docs() {
                     <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
                       setup.sh
                     </code>
+                    or on Windows,{" "}
+                    <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
+                      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process; .\setup.ps1
+                    </code>
                   </li>
                 </ol>
               </div>

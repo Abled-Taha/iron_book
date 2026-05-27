@@ -15,17 +15,20 @@ _.python.venv = "{{config_root}}/apps/web/.venv"
 
 [tasks."setup"]
 description = "Install all dependencies"
-run = """
-corepack enable pnpm
-corepack use pnpm@11.1.2
+run = [
+  "corepack enable pnpm",
+  "corepack use pnpm@11.1.2",
+  "sdkmanager --sdk_root={{env.ANDROID_HOME}} --licenses",
+  "sdkmanager --sdk_root={{env.ANDROID_HOME}} \"platform-tools\" \"build-tools;34.0.0\" \"platforms;android-34\" \"cmdline-tools;latest\"",
+  "cargo check",
+  "pnpm install",
+  "uv sync --project apps/web"
+]
 
-yes | sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest"
-echo "sdk.dir=$PWD/.android_sdk" > apps/android/local.properties
-
-cargo check
-pnpm install
-uv sync --project apps/web
-"""
+[tasks."setup:local-props"]
+description = "Generate local.properties safely across OS"
+dir = "apps/android"
+run = "python -c \"open('local.properties', 'w').write('sdk.dir=' + r'{{env.ANDROID_HOME}}'.replace('\\\\', '/'))\""
 
 # Development
 
@@ -46,14 +49,12 @@ run = "python manage.py tailwind dev"
 
 [tasks."prod:home"]
 description = "Run NextJS Prod Server"
-run = "pnpm --filter ./apps/home build; pnpm --filter ./apps/home start"
+run = [
+  "pnpm --filter ./apps/home build",
+  "pnpm --filter ./apps/home start"
+]
 
 # Environment
-
-[tasks."web:activate"]
-dir = "apps/web"
-description = "Activate environmental Python Interpreter"
-run = "source .venv/bin/activate"
 
 [tasks."code"]
 description = "Launch VS Code with injected monorepo environment"
@@ -62,14 +63,14 @@ run = "code ."
 [tasks."android:build"]
 description = "Compile the Android App"
 dir = "apps/android"
-run = "./gradlew assembleDebug"
+run = "gradlew assembleDebug"
 
 [tasks."android:install"]
 description = "Install the debug APK on a connected device/emulator"
 dir = "apps/android"
-run = "./gradlew installDebug"
+run = "gradlew installDebug"
 
 [tasks."android:clean"]
 description = "Clean the Gradle build cache"
 dir = "apps/android"
-run = "./gradlew clean"
+run = "gradlew clean"

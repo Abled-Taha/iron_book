@@ -6,7 +6,7 @@ android-sdk = "1.0"
 uv = "0.11.14"
 
 [env]
-MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"
+MISE_DATA_DIR = "{{config_root}}/.mise/installs"
 _path = "./.cargo/bin"
 MISE_COREPACK = "1"
 ANDROID_HOME = "{{config_root}}/.android_sdk"

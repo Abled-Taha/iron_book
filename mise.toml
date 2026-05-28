@@ -1,7 +1,3 @@
-[settings]
-data_dir = "{{config_root}}/.mise"
-cache_dir = "{{config_root}}/.mise/cache"
-
 [tools]
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
@@ -10,6 +6,9 @@ android-sdk = "1.0"
 uv = "0.11.14"
 
 [env]
+MISE_DATA_DIR = "{{config_root}}/.mise"
+MISE_STATE_DIR = "{{config_root}}/.mise/state"
+MISE_CACHE_DIR = "{{config_root}}/.mise/cache"
 _path = "./.cargo/bin"
 MISE_COREPACK = "1"
 ANDROID_HOME = "{{config_root}}/.android_sdk"

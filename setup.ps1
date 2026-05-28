@@ -40,6 +40,8 @@ if (Test-CommandExists "mise") {
 Write-Host "📦 Installing toolchains via mise..."
 try {
     # Run mise trust and install sequential commands
+    $env:MISE_DATA_DIR = "$PSScriptRoot\.mise"
+    $env:MISE_CACHE_DIR = "$PSScriptRoot\.mise\cache"
     & mise trust
     & mise install
 } catch {

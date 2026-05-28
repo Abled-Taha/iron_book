@@ -1,3 +1,7 @@
+[settings]
+data_dir = "{{config_root}}/.mise"
+cache_dir = "{{config_root}}/.mise/cache"
+
 [tools]
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"

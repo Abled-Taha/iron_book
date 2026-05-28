@@ -43,8 +43,6 @@ nixos)
   fi
 
   echo "📦 Installing toolchains via mise..."
-  export MISE_DATA_DIR="$(pwd)/.mise"
-  export MISE_CACHE_DIR="$(pwd)/.mise/cache"
   mise trust && mise install || {
     echo "❌ Error: 'mise install' failed."
     exit 1
@@ -60,4 +58,3 @@ nixos)
   exit 0
   ;;
 esac
-

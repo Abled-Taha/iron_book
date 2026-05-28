@@ -1,15 +1,7 @@
-# Avoid continuing if a crucial step fails (similar to 'set -e' or '|| exit 1')
 $ErrorActionPreference = "Stop"
 
-function Get-WindowsArchitecture {
-    # Simple check to confirm host environment context if needed
-    return "windows"
-}
-
 function Test-CommandExists {
-    param (
-        [string]$Command
-    )
+    param ([string]$Command)
     return [bool](Get-Command $Command -ErrorAction SilentlyContinue)
 }
 
@@ -39,10 +31,13 @@ if (Test-CommandExists "mise") {
 
 Write-Host "📦 Installing toolchains via mise..."
 try {
-    # Run mise trust and install sequential commands
-    $env:MISE_DATA_DIR = "$PSScriptRoot\.mise"
-    $env:MISE_STATE_DIR = "$PSScriptRoot\.mise\state"
-    $env:MISE_CACHE_DIR = "$PSScriptRoot\.mise\cache"
+    # Dynamically grab the current directory path safely without string interpolation bugs
+    $ScriptDir = Get-Location
+    
+    $env:MISE_DATA_DIR  = Join-Path $ScriptDir ".mise"
+    $env:MISE_STATE_DIR = Join-Path $ScriptDir ".mise\state"
+    $env:MISE_CACHE_DIR = Join-Path $ScriptDir ".mise\cache"
+
     & mise trust
     & mise install
 } catch {

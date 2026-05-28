@@ -10,9 +10,9 @@ if not exist .env (
     )
 )
 
-:: Prompt user for confirmation (Old school batch style)
+:: Prompt user for confirmation cleanly
 echo Kindly verify the entries in '.env' file in the project directory.
-set /p "="<nul"&pause"
+pause
 echo.
 
 echo 🪟 Running on Windows (Batch Mode)

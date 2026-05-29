@@ -2,10 +2,13 @@
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
 java = "openjdk-21"
+android-sdk = "1.0"
 uv = "0.11.14"
 
 [env]
-MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"
+MISE_DATA_DIR = "{{config_root}}/.mise"
+MISE_STATE_DIR = "{{config_root}}/.mise/state"
+MISE_CACHE_DIR = "{{config_root}}/.mise/cache"
 _path = "./.cargo/bin"
 MISE_COREPACK = "1"
 ANDROID_HOME = "{{config_root}}/.android_sdk"
@@ -17,7 +20,8 @@ description = "Install all dependencies"
 run = [
   "corepack enable pnpm",
   "corepack use pnpm@11.1.2",
-  "python -c \"import urllib.request, zipfile, os; url='https://dl.google.com/android/repository/commandlinetools-win-6200805_latest.zip' if os.name == 'nt' else 'https://dl.google.com/android/repository/commandlinetools-linux-6200805_latest.zip'; dest=os.path.expandvars(r'{{env.ANDROID_HOME}}/cmdline-tools.zip'); os.makedirs(os.path.dirname(dest), exist_ok=True); urllib.request.urlretrieve(url, dest) if not os.path.exists(dest) else None\"",
+  "sdkmanager --sdk_root={{env.ANDROID_HOME}} --licenses",
+  "sdkmanager --sdk_root={{env.ANDROID_HOME}} \"platform-tools\" \"build-tools;34.0.0\" \"platforms;android-34\" \"cmdline-tools;latest\"",
   "cargo check",
   "pnpm install",
   "uv sync --project apps/web"

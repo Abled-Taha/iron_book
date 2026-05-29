@@ -2,7 +2,6 @@
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
 java = "openjdk-21"
-# Removed 'android-sdk = "1.0"' to stop the broken vfox plugin installation crash
 uv = "0.11.14"
 
 [env]
@@ -18,7 +17,6 @@ description = "Install all dependencies"
 run = [
   "corepack enable pnpm",
   "corepack use pnpm@11.1.2",
-  # Installs the cmdline tools manually using native fallback scripting safely
   "python -c \"import urllib.request, zipfile, os; url='https://dl.google.com/android/repository/commandlinetools-win-6200805_latest.zip' if os.name == 'nt' else 'https://dl.google.com/android/repository/commandlinetools-linux-6200805_latest.zip'; dest=os.path.expandvars(r'{{env.ANDROID_HOME}}/cmdline-tools.zip'); os.makedirs(os.path.dirname(dest), exist_ok=True); urllib.request.urlretrieve(url, dest) if not os.path.exists(dest) else None\"",
   "cargo check",
   "pnpm install",

@@ -175,7 +175,7 @@ export default function Docs() {
 
                 <p className="text-zinc-700 dark:text-zinc-300">
                   This section is targeted towards developers who are or will be
-                  contributing to this project.
+                  contributing to this project. (Development on Windows is not supported, because of enshittification)
                 </p>
               </div>
 
@@ -370,6 +370,12 @@ export default function Docs() {
                       <span className="mt-1 text-zinc-400">⬜</span>
 
                       <span>Add other production features</span>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 text-zinc-400">⬜</span>
+
+                      <span>Support WSL</span>
                     </li>
                   </ul>
                 </div>

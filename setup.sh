@@ -24,15 +24,15 @@ if [ ! -f .env ]; then
   cp .env.example .env
 fi
 
-# Note: Removed the '$' from $"Kindly..." as it's a bash-ism that causes syntax warnings in standard sh
 read -n 1 -r -s -p "Kindly verify the entries in '.env' file in the project directory, then press any key to continue." key
 echo ""
 
 case "$DISTRO" in
 nixos)
   echo "❌ Error: Running on NixOS, which is not currently supported. EXITING."
-  exit 1 # Exit with an error code instead of 0 since it didn't complete setup
+  exit 1
   ;;
+
 *)
   echo "🐧 Running on Linux"
   if cmd_exists mise; then

@@ -42,3 +42,6 @@ __pycache__/
 
 # IDEs
 *.idea/
+
+# Android
+apps/android/local.properties

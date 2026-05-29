@@ -31,13 +31,8 @@ run = [
 [tasks."setup:local-props"]
 description = "Generate local.properties safely across OS"
 dir = "apps/android"
-run = """
-uv run python -c "
-import os
-with open('local.properties', 'w') as f:
-    f.write('sdk.dir=' + r'{{env.ANDROID_HOME}}'.replace('\\\\', '/'))
-"
-"""
+run = "echo 'sdk.dir={{env.ANDROID_HOME}}' > local.properties"
+
 # Development
 [tasks."dev:api"]
 description = "Run Rust API Dev Server"

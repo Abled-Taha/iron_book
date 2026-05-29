@@ -310,10 +310,6 @@ export default function Docs() {
                     <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
                       setup.sh
                     </code>
-                    or on Windows,{" "}
-                    <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
-                      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process; .\setup.ps1
-                    </code>
                   </li>
                 </ol>
               </div>
@@ -338,16 +334,6 @@ export default function Docs() {
                   </h4>
 
                   <ul className="space-y-4 text-zinc-700 dark:text-zinc-300">
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>
-                        <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
-                          setup.ps1
-                        </code>
-                      </span>
-                    </li>
-
                     <li className="flex items-start gap-3">
                       <span className="mt-1 text-zinc-400">⬜</span>
 

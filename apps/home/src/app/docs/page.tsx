@@ -299,7 +299,14 @@ export default function Docs() {
                       href="https://mise.jdx.dev"
                       className="font-medium text-blue-600 hover:underline"
                     >
-                      Mise
+                      Mise,
+                    </a>
+                    {" "}
+                    <a
+                      href="https://docs.docker.com/desktop/setup/install/linux/"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      Docker, DockerCLI, & Docker Compose
                     </a>
                   </li>
 

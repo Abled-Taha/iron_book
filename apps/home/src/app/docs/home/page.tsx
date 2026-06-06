@@ -49,7 +49,7 @@ export default function DocsHome() {
                 <h3 className="text-2xl font-bold">Direct From Repo</h3>
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>
-                    <a href="https://mise.jdx.dev">Mise</a> muse be installed
+                    <a href="https://mise.jdx.dev">Mise</a> & <a href="https://docs.docker.com/desktop/setup/install/linux/">Docker Suite</a> must be installed
                   </li>
 
                   <li>

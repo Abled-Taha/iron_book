@@ -25,13 +25,25 @@ run = [
   "cargo check",
   "pnpm install",
   "uv sync --project apps/web",
-  "mise run setup:local-props"
+  "mise run setup:local-props",
 ]
 
 [tasks."setup:local-props"]
 description = "Generate local.properties safely across OS"
 dir = "apps/android"
 run = "echo 'sdk.dir={{env.ANDROID_HOME}}' > local.properties"
+
+[tasks."misc:django-free-port"]
+description = "Kill any process clinging onto port 8000"
+run = """
+if lsof -t -i:8000 > /dev/null; then
+  echo "Found a zombie process on port 8000. Terminating..."
+  kill -9 $(lsof -t -i:8000)
+  echo "Port 8000 is now free!"
+else
+  echo "Port 8000 is already clear."
+fi
+"""
 
 # Development
 [tasks."dev:api"]
@@ -45,21 +57,19 @@ run = "pnpm --filter ./apps/home dev"
 [tasks."dev:web"]
 dir = "apps/web"
 description = "Run Django Dev Server"
+depends = ["misc:django-free-port"]
 run = "python manage.py tailwind dev"
 
 # Production
 [tasks."prod:home"]
 description = "Run NextJS Prod Server"
-run = [
-  "pnpm --filter ./apps/home build",
-  "pnpm --filter ./apps/home start"
-]
+run = ["pnpm --filter ./apps/home build", "pnpm --filter ./apps/home start"]
 
 # Environment
 [tasks."web:activate"]
 dir = "apps/web"
 description = "Activate environmental Python Interpreter"
-run = "uv run python --version" 
+run = "uv run python --version"
 
 [tasks."code"]
 description = "Launch VS Code with injected monorepo environment"

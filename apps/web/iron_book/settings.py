@@ -68,12 +68,12 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = "iron_book.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# DATABASES = {
+#    "default": {
+#        "ENGINE": "django.db.backends.sqlite3",
+#        "NAME": BASE_DIR / "db.sqlite3",
+#    }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -106,4 +106,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Tailwind
 TAILWIND_APP_NAME = "theme"
 TAILWIND_USE_STANDALONE_BINARY = True
-

@@ -20,8 +20,8 @@ cmd_exists() {
 DISTRO=$(get_linux_distro)
 
 # 1. Safely handle the .env creation so it doesn't overwrite an existing file
-if [ ! -f .env ]; then
-  cp .env.example .env
+if [ ! -f ./apps/web/.env ]; then
+  cp ./apps/web/.env.example ./apps/web/.env
 fi
 
 read -n 1 -r -s -p "Kindly verify the entries in '.env' file in the project directory, then press any key to continue." key

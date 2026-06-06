@@ -34,7 +34,8 @@ export default function DocsHome() {
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>
                     File which can be used to deploy is
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`home-docker-compose.yaml`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`docker-compose.yaml`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`docker compose up -d ironbook_db`</pre>
                   </li>
 
                   <li>

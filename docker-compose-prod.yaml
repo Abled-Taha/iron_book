@@ -1,0 +1,27 @@
+services:
+  ironbook_db:
+    image: postgres:18
+    container_name: ironbook_db
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      DB_PORT: ${DB_PORT}
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ironbook
+    volumes:
+      - ironbook_data:/var/lib/postgresql/data
+  ironbook_home:
+    build:
+      context: .
+      dockerfile: apps/home/Dockerfile
+    container_name: ironbook_home
+    ports:
+      - "${HOST_PORT}:3000"
+    environment:
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      HOST_PORT: ${HOST_PORT}
+    restart: unless-stopped
+
+volumes:
+  ironbook_data:

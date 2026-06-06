@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: ironbook
     volumes:
-      - ironbook_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
   ironbook_home:
     build:
       context: .
@@ -24,4 +24,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  ironbook_data:
+  pg_data:

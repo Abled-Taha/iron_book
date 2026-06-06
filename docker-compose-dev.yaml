@@ -1,6 +1,6 @@
 services:
   ironbook_db:
-    image: postgres:18
+    image: postgres:17
     container_name: ironbook_db
     ports:
       - "5432:5432"
@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: ironbook
     volumes:
-      - ironbook_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
   ironbook_home:
     build:
       context: .
@@ -20,4 +20,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  ironbook_data:
+  pg_data:

@@ -23,6 +23,9 @@ DISTRO=$(get_linux_distro)
 if [ ! -f ./apps/web/.env ]; then
   cp ./apps/web/.env.example ./apps/web/.env
 fi
+if [ ! -f ./apps/api/.env ]; then
+  cp ./apps/api/.env.example ./apps/api/.env
+fi
 
 read -n 1 -r -s -p "Kindly verify the entries in '.env' file in the project directory, then press any key to continue." key
 echo ""
@@ -39,6 +42,12 @@ nixos)
     echo "✔ 'mise' is available. Proceeding..."
   else
     echo "❌ Error: 'mise' is not installed. Please install it to continue." >&2
+    exit 1
+  fi
+  if cmd_exists docker compose; then
+    echo "✔ 'docker' & 'compose' is available. Proceeding..."
+  else
+    echo "❌ Error: 'docker' or 'compose' is not installed. Please install it to continue." >&2
     exit 1
   fi
 

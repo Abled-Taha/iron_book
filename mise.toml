@@ -4,6 +4,8 @@ node = "24"
 java = "openjdk-21"
 android-sdk = "1.0"
 uv = "0.11.14"
+"cargo:cargo-watch" = "8.5.3"
+"cargo:cargo-binstall" = "1.20.1"
 
 [env]
 MISE_DATA_DIR = "{{config_root}}/.mise"
@@ -48,7 +50,7 @@ fi
 # Development
 [tasks."dev:api"]
 description = "Run Rust API Dev Server"
-run = "cargo run --bin api"
+run = "cargo run --bin ironbook_api"
 
 [tasks."dev:home"]
 description = "Run NextJS Dev Server"
@@ -90,3 +92,11 @@ run = "gradlew installDebug"
 description = "Clean the Gradle build cache"
 dir = "apps/android"
 run = "gradlew clean"
+
+[tasks."db:up"]
+description = "Starts the ironbook_db service from docker-compose-dev.yaml"
+run = "docker compose -f docker-compose-dev.yaml up ironbook_db"
+
+[tasks."db:down"]
+description = "Stops the ironbook_db service from docker-compose-dev.yaml"
+run = "docker compose -f docker-compose-dev.yaml down ironbook_db"

@@ -1,10 +1,15 @@
-use axum::{Router, routing::get};
-
+mod handlers;
 mod structs;
 mod views;
 
+use crate::handlers::db::connect;
+use axum::{Router, routing::get};
+
 #[tokio::main]
 pub async fn main() {
+    // Connect to db
+    connect().await;
+
     // Routes
     let app = Router::new()
         .route("/", get(views::system::root))

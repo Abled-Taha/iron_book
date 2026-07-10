@@ -27,7 +27,9 @@ if [ ! -f ./apps/api/.env ]; then
   cp ./apps/api/.env.example ./apps/api/.env
 fi
 
-read -n 1 -r -s -p "Kindly verify the entries in '.env' file in the project directory, then press any key to continue." key
+read -n 1 -r -s -p "Kindly verify the entries in ./apps/web/.env, then press any key to continue." key
+echo ""
+read -n 1 -r -s -p "Kindly verify the entries in ./apps/api/.env, then press any key to continue." key
 echo ""
 
 case "$DISTRO" in

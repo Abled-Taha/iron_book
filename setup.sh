@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source ./scripts/utility.sh
+
 get_linux_distro() {
   if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -11,10 +13,6 @@ get_linux_distro() {
       echo "unknown"
     fi
   fi
-}
-
-cmd_exists() {
-  command -v -- "$1" >/dev/null 2>&1
 }
 
 DISTRO=$(get_linux_distro)
@@ -40,18 +38,8 @@ nixos)
 
 *)
   echo "🐧 Running on Linux"
-  if cmd_exists mise; then
-    echo "✔ 'mise' is available. Proceeding..."
-  else
-    echo "❌ Error: 'mise' is not installed. Please install it to continue." >&2
-    exit 1
-  fi
-  if cmd_exists docker compose; then
-    echo "✔ 'docker' & 'compose' is available. Proceeding..."
-  else
-    echo "❌ Error: 'docker' or 'compose' is not installed. Please install it to continue." >&2
-    exit 1
-  fi
+  cmd_exists mise || exit 1
+  cmd_exists docker compose || exit 1
 
   echo "📦 Installing toolchains via mise..."
   export MISE_DATA_DIR="$(pwd)/.mise"

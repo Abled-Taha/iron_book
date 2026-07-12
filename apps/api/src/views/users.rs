@@ -1,6 +1,11 @@
 use axum::extract::{Path, Query};
+use serde::Deserialize;
 
-use crate::structs::SearchFilter;
+#[derive(Deserialize)]
+pub struct SearchFilter {
+    pub email: Option<String>,
+    pub username: Option<String>,
+}
 
 pub async fn get_by_id(Path(id): Path<u64>) -> String {
     //Should have some actual logic

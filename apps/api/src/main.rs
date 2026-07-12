@@ -1,5 +1,4 @@
 mod handlers;
-mod structs;
 mod views;
 
 use axum::{Router, routing::get};

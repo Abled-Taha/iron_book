@@ -1,6 +1,11 @@
 use crate::handlers::config;
-use crate::structs::Db;
+use sqlx::PgPool;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
+
+#[derive(Clone)]
+pub struct Db {
+    pub pool: PgPool,
+}
 
 pub async fn connect() -> Db {
     let db_user = config::get("POSTGRES_USER").expect("POSTGRES_USER env var not set.");

@@ -3,6 +3,7 @@
 apps/web/.venv/
 __pycache__/
 *.pyc
+*codebase.txt*
 
 # typescript
 *.tsbuildinfo

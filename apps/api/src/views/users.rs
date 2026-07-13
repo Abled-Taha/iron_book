@@ -1,25 +1,39 @@
-use axum::extract::{Path, Query};
-use serde::Deserialize;
+use crate::services::users;
+use crate::state::AppState;
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
+};
 
-#[derive(Deserialize)]
-pub struct SearchFilter {
-    pub email: Option<String>,
-    pub username: Option<String>,
+pub async fn get_by_id(State(state): State<AppState>, Path(id): Path<u64>) -> impl IntoResponse {
+    match users::get_by_id(&state, id).await {
+        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
+
+        Err(err) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(serde_json::json!({
+                "error": err.to_string()
+            })),
+        )
+            .into_response(),
+    }
 }
 
-pub async fn get_by_id(Path(id): Path<u64>) -> String {
-    //Should have some actual logic
-    format!("Fetching user with ID: {}", id) // This is a text response
-}
+pub async fn search(
+    State(state): State<AppState>,
+    Query(filter): Query<users::SearchFilter>,
+) -> impl IntoResponse {
+    match users::search(&state, filter).await {
+        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
 
-pub async fn search(Query(filter): Query<SearchFilter>) -> String {
-    if let Some(email) = filter.email {
-        //Should have some actual logic
-        return format!("Searching for user with email: {}", email); // This is a text response
+        Err(err) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(serde_json::json!({
+                "error": err.to_string()
+            })),
+        )
+            .into_response(),
     }
-    if let Some(username) = filter.username {
-        //Should have some actual logic
-        return format!("Searching for user with username: {}", username); // This is a text response
-    }
-    "No search criteria provided".to_string() // This is a text response
 }

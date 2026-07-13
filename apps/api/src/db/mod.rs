@@ -1,13 +1,13 @@
-use crate::handlers::config;
+use crate::config;
+use anyhow::Result;
 use sqlx::PgPool;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 
-#[derive(Clone)]
-pub struct Db {
-    pub pool: PgPool,
-}
+// pub mod auth;
+// pub mod system;
+pub mod users;
 
-pub async fn connect() -> Db {
+pub async fn connect() -> Result<PgPool> {
     let db_user = config::get("POSTGRES_USER").expect("POSTGRES_USER env var not set.");
     let db_password = config::get("POSTGRES_PASSWORD").expect("POSTGRES_PASSWORD env var not set.");
     let db_name = config::get("POSTGRES_DATABASE").expect("POSTGRES_DATABASE env var not set.");
@@ -30,5 +30,7 @@ pub async fn connect() -> Db {
         .await
         .expect("Failed to connect to the database");
 
-    Db { pool }
+    sqlx::migrate!("./migrations").run(&pool).await?;
+
+    Ok(pool)
 }

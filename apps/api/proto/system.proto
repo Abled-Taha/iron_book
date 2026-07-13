@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package system;
+
+service SystemService {
+  rpc Greet(GreetRequest) returns (GreetResponse);
+  rpc HealthReport(HealthReportRequest) returns (HealthReportResponse);
+}
+
+message GreetRequest {}
+
+message GreetResponse {
+  string message = 1;
+  string status = 2;
+}
+
+message HealthReportRequest {}
+
+message HealthReportResponse {
+  string overall = 1;
+}

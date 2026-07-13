@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package users;
+
+service UsersService {
+  rpc GetById(GetByIdRequest) returns (GetByIdResponse);
+  rpc Search(SearchRequest) returns (SearchResponse);
+}
+
+message GetByIdRequest {
+  uint64 id = 1;
+}
+
+message GetByIdResponse {
+  uint64 id = 1;
+  string username = 2;
+}
+
+message SearchRequest {
+  optional string email = 1;
+  optional string username = 2;
+}
+
+message SearchResponse {
+  uint64 id = 1;
+  string username = 2;
+}

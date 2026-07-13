@@ -1,22 +1,34 @@
-use axum::Json;
-use serde::Serialize;
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 
-#[derive(Serialize)]
-pub struct Greeting {
-    pub message: String,
-    pub status: String,
+use crate::services::system;
+use crate::state::AppState;
+
+pub async fn greet(State(state): State<AppState>) -> impl IntoResponse {
+    match system::greet(&state).await {
+        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
+
+        Err(err) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(serde_json::json!({
+                "error": err.to_string()
+            })),
+        )
+            .into_response(),
+    }
 }
 
-pub async fn root() -> Json<Greeting> {
-    let response = Greeting {
-        message: String::from("Hello, World!"),
-        status: String::from("success"),
-    };
+pub async fn health_report(State(state): State<AppState>) -> impl IntoResponse {
+    match system::health_report(&state).await {
+        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
 
-    Json(response)
-}
-
-pub async fn health() -> &'static str {
-    // Later will be returning a health report
-    "All OK!"
+        Err(err) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(serde_json::json!(
+                {
+                    "error": err.to_string()
+                }
+            )),
+        )
+            .into_response(),
+    }
 }

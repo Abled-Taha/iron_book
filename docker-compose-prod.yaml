@@ -1,6 +1,6 @@
 services:
   ironbook_db:
-    image: postgres:18
+    image: postgres:17
     container_name: ironbook_db
     ports:
       - "${DB_PORT}:5432"

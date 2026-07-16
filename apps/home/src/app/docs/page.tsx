@@ -139,10 +139,7 @@ export default function Docs() {
             </section>
 
             {/* About */}
-            <section
-              id="about"
-              className="space-y-6 scroll-mt-24"
-            >
+            <section id="about" className="space-y-6 scroll-mt-24">
               <h2 className="text-3xl font-bold">About</h2>
 
               <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
@@ -166,16 +163,14 @@ export default function Docs() {
             </section>
 
             {/* Development */}
-            <section
-              id="development"
-              className="space-y-12 scroll-mt-24"
-            >
+            <section id="development" className="space-y-12 scroll-mt-24">
               <div className="space-y-3">
                 <h2 className="text-3xl font-bold">Development</h2>
 
                 <p className="text-zinc-700 dark:text-zinc-300">
                   This section is targeted towards developers who are or will be
-                  contributing to this project. (Development on Windows is not supported, because of enshittification)
+                  contributing to this project. (Development on Windows is not
+                  supported, because of enshittification)
                 </p>
               </div>
 
@@ -199,9 +194,7 @@ export default function Docs() {
                 className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
               >
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-semibold">
-                    Project Structure
-                  </h3>
+                  <h3 className="text-2xl font-semibold">Project Structure</h3>
 
                   <p className="text-zinc-700 dark:text-zinc-300">
                     This project is divided into multiple parts as follows.
@@ -217,21 +210,19 @@ export default function Docs() {
                         <th className="px-4 py-3 font-semibold">
                           Development Status
                         </th>
-                        <th className="px-4 py-3 font-semibold">
-                          Extra Notes
-                        </th>
+                        <th className="px-4 py-3 font-semibold">Extra Notes</th>
                       </tr>
                     </thead>
 
                     <tbody className="text-zinc-700 dark:text-zinc-300">
                       {[
-                        ["API", "Rust", "Planned"],
+                        ["API", "Rust", "Working"],
                         ["Web App", "Python", "Planned"],
                         ["Android App", "Kotlin", "Planned"],
                         ["Linux/Windows App", "Not Decided Yet", "Planned"],
-                        ["Database", "PostgreSQL", "Planned"],
+                        ["Database", "PostgreSQL", "Working"],
                         ["Cache", "Redis", "Planned"],
-                        ["Project Website", "NextJS", "Working"],
+                        ["Project Website", "NextJS", "Live"],
                       ].map(([part, tech, status]) => (
                         <tr
                           key={part}
@@ -260,7 +251,7 @@ export default function Docs() {
                 <div className="overflow-x-auto rounded-xl bg-zinc-950 p-6">
                   <pre className="min-w-max text-sm leading-6 text-zinc-100">
                     {`
-                    . 
+                    .
                     ├── apps
                     │   ├── android
                     │   ├── api
@@ -300,8 +291,7 @@ export default function Docs() {
                       className="font-medium text-blue-600 hover:underline"
                     >
                       Mise,
-                    </a>
-                    {" "}
+                    </a>{" "}
                     <a
                       href="https://docs.docker.com/desktop/setup/install/linux/"
                       className="font-medium text-blue-600 hover:underline"
@@ -356,7 +346,9 @@ export default function Docs() {
                     <li className="flex items-start gap-3">
                       <span className="mt-1 text-zinc-400">⬜</span>
 
-                      <span>Django does not serve static files in production</span>
+                      <span>
+                        Django does not serve static files in production
+                      </span>
                     </li>
 
                     <li className="flex items-start gap-3">
@@ -380,9 +372,7 @@ export default function Docs() {
                       ✅ Completed Tasks
                     </span>
 
-                    <span className="transition group-open:rotate-180">
-                      ▼
-                    </span>
+                    <span className="transition group-open:rotate-180">▼</span>
                   </summary>
 
                   <div className="border-t border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
@@ -391,8 +381,8 @@ export default function Docs() {
                         <span className="mt-1 text-emerald-500">✔</span>
 
                         <span>
-                          Replace this README with the Project Website and use it as the
-                          main documentation.
+                          Replace this README with the Project Website and use
+                          it as the main documentation.
                         </span>
                       </li>
                     </ul>
@@ -402,10 +392,7 @@ export default function Docs() {
             </section>
 
             {/* Users */}
-            <section
-              id="users"
-              className="space-y-12 scroll-mt-24"
-            >
+            <section id="users" className="space-y-12 scroll-mt-24">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold">Users</h2>
 
@@ -415,7 +402,10 @@ export default function Docs() {
               </div>
 
               {/* Features */}
-              <div id="features" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div
+                id="features"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
                 <h3 className="text-2xl font-semibold">Features</h3>
 
                 <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
@@ -424,7 +414,10 @@ export default function Docs() {
               </div>
 
               {/* Complaints */}
-              <div id="complaints" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div
+                id="complaints"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
                 <h3 className="text-2xl font-semibold">Complaints</h3>
 
                 <p className="text-zinc-700 dark:text-zinc-300">
@@ -440,11 +433,21 @@ export default function Docs() {
               </div>
 
               {/* Self Deployment */}
-              <div id="self-deployment" className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <div
+                id="self-deployment"
+                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
                 <h3 className="text-2xl font-semibold">Self Deployment</h3>
 
                 <ul className="list-disc pl-6 text-zinc-700 dark:text-zinc-300">
-                  <li><a href="/docs/home" className="font-medium text-blue-600 hover:underline">Home / Docs Site</a></li>
+                  <li>
+                    <a
+                      href="/docs/home"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      Home / Docs Site
+                    </a>
+                  </li>
                 </ul>
               </div>
             </section>

@@ -25,8 +25,9 @@ impl AuthService for AuthGrpcService {
             password_hash: req.password_hash,
             salt: req.salt,
         };
+        let api_token = req.api_token;
 
-        let resp = auth::register(&self.state, data)
+        let resp = auth::register(&self.state, api_token, data)
             .await
             .map_err(|e| Status::internal(e.to_string()))?;
 

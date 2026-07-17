@@ -1,4 +1,4 @@
-use crate::db::auth;
+use crate::db::{auth, common};
 use crate::state::AppState;
 use anyhow::{Result, anyhow};
 use rand::distr::{Alphanumeric, SampleString};
@@ -17,7 +17,14 @@ pub struct RegisterRequest {
     pub salt: String,
 }
 
-pub async fn register(state: &AppState, data: RegisterRequest) -> Result<AuthToken> {
+pub async fn register(
+    state: &AppState,
+    api_token: String,
+    data: RegisterRequest,
+) -> Result<AuthToken> {
+    if common::verify_api_token(state, &api_token).await?.is_none() {
+        return Err(anyhow!("Api token doesn't exist"));
+    }
     if auth::get_user_id_by_username(state, &data.username)
         .await?
         .is_some()

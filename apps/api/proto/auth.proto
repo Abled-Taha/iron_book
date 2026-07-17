@@ -12,6 +12,7 @@ message RegisterRequest {
   string username = 2;
   string password_hash = 3;
   string salt = 4;
+  string api_token = 5;
 }
 
 message RegisterResponse {

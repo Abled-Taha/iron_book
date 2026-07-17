@@ -16,9 +16,17 @@ pub struct AuthGrpcService {
 impl AuthService for AuthGrpcService {
     async fn register(
         &self,
-        _request: Request<RegisterRequest>,
+        request: Request<RegisterRequest>,
     ) -> Result<Response<RegisterResponse>, Status> {
-        let resp = auth::register(&self.state)
+        let req = request.into_inner();
+        let data = auth::RegisterRequest {
+            email: req.email,
+            username: req.username,
+            password_hash: req.password_hash,
+            salt: req.salt,
+        };
+
+        let resp = auth::register(&self.state, data)
             .await
             .map_err(|e| Status::internal(e.to_string()))?;
 

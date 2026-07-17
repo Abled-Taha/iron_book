@@ -3,8 +3,18 @@ use crate::state::AppState;
 
 use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 
-pub async fn register(State(state): State<AppState>) -> impl IntoResponse {
-    match auth::register(&state).await {
+pub async fn register(
+    State(state): State<AppState>,
+    Json(payload): Json<auth::RegisterRequest>,
+) -> impl IntoResponse {
+    let data = auth::RegisterRequest {
+        email: payload.email,
+        username: payload.username,
+        password_hash: payload.password_hash,
+        salt: payload.salt,
+    };
+
+    match auth::register(&state, data).await {
         Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
 
         Err(err) => (

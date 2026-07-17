@@ -3,7 +3,7 @@ use anyhow::Result;
 use sqlx::PgPool;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 
-// pub mod auth;
+pub mod auth;
 // pub mod system;
 pub mod users;
 

@@ -1,5 +1,8 @@
 use anyhow::Result;
-use axum::{Router, routing::get};
+use axum::{
+    Router,
+    routing::{get, post},
+};
 use ironbook_api::grpc::auth::AuthGrpcService;
 use ironbook_api::grpc::system::SystemGrpcService;
 use ironbook_api::grpc::users::UsersGrpcService;
@@ -20,10 +23,14 @@ pub async fn main() -> Result<()> {
     let app = Router::new()
         .route("/", get(views::system::greet))
         .route("/health", get(views::system::health_report))
+        .route(
+            "/generate_api_token",
+            post(views::system::generate_api_token),
+        )
         .route("/users/{id}", get(views::users::get_by_id))
         .route("/users/search", get(views::users::search))
-        .route("/auth/register", get(views::auth::register))
-        .route("/auth/login", get(views::auth::login))
+        .route("/auth/register", post(views::auth::register))
+        .route("/auth/login", post(views::auth::login))
         .with_state(state.clone());
 
     let http_server = async {

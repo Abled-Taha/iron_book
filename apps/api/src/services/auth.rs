@@ -1,6 +1,6 @@
 use crate::db::auth;
 use crate::state::AppState;
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
 
@@ -18,12 +18,18 @@ pub struct RegisterRequest {
 }
 
 pub async fn register(state: &AppState, data: RegisterRequest) -> Result<AuthToken> {
-    // need to do some manual checks rather than throwing everything at the db
+    if auth::get_user_id_by_username(state, &data.username)
+        .await?
+        .is_some()
+    {
+        return Err(anyhow!(""));
+    }
+
     let token = Alphanumeric.sample_string(&mut rand::rng(), 32);
     match auth::register(&state, data, &token).await {
         Ok(_user_id) => Ok(AuthToken { token: token }),
 
-        Err(err) => Err(err),
+        Err(err) => Err(err.into()),
     }
 }
 

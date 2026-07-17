@@ -47,3 +47,39 @@ pub async fn register(
 
     Ok(user_id)
 }
+
+pub async fn get_user_id_by_username(
+    state: &AppState,
+    username: &str,
+) -> Result<Option<i64>, sqlx::Error> {
+    let user_id = sqlx::query_scalar!(
+        r#"
+        SELECT id
+        FROM users
+        WHERE username = $1
+        "#,
+        username
+    )
+    .fetch_optional(&state.db)
+    .await?;
+
+    Ok(user_id)
+}
+
+pub async fn get_user_id_by_email(
+    state: &AppState,
+    email: &str,
+) -> Result<Option<i64>, sqlx::Error> {
+    let user_id = sqlx::query_scalar!(
+        r#"
+        SELECT id
+        FROM users
+        WHERE email = $1
+        "#,
+        email
+    )
+    .fetch_optional(&state.db)
+    .await?;
+
+    Ok(user_id)
+}

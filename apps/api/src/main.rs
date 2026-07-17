@@ -30,7 +30,7 @@ pub async fn main() -> Result<()> {
         .route("/users/{id}", get(views::users::get_by_id))
         .route("/users/search", get(views::users::search))
         .route("/auth/register", post(views::auth::register))
-        .route("/auth/login", get(views::auth::login))
+        .route("/auth/login", post(views::auth::login))
         .with_state(state.clone());
 
     let http_server = async {

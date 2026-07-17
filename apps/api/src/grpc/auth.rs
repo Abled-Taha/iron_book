@@ -23,7 +23,6 @@ impl AuthService for AuthGrpcService {
             email: req.email,
             username: req.username,
             password_hash: req.password_hash,
-            salt: req.salt,
         };
         let api_token = req.api_token;
 
@@ -36,9 +35,15 @@ impl AuthService for AuthGrpcService {
 
     async fn login(
         &self,
-        _request: Request<LoginRequest>,
+        request: Request<LoginRequest>,
     ) -> Result<Response<LoginResponse>, Status> {
-        let resp = auth::login(&self.state)
+        let req = request.into_inner();
+        let data = auth::LoginRequest {
+            email: req.email,
+            password_hash: req.password_hash,
+        };
+
+        let resp = auth::login(&self.state, req.api_token, data)
             .await
             .map_err(|e| Status::internal(e.to_string()))?;
 

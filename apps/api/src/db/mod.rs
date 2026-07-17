@@ -4,8 +4,8 @@ use sqlx::PgPool;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 
 pub mod auth;
-// pub mod system;
 pub mod common;
+pub mod system;
 pub mod users;
 
 pub async fn connect() -> Result<PgPool> {

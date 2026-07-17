@@ -22,7 +22,7 @@ pub async fn register(
     api_token: String,
     data: RegisterRequest,
 ) -> Result<AuthToken> {
-    if common::verify_api_token(state, &api_token).await?.is_none() {
+    if !common::verify_api_token(state, &api_token).await? {
         return Err(anyhow!("Api token doesn't exist"));
     }
     if auth::get_user_id_by_username(state, &data.username)

@@ -1,8 +1,8 @@
 use tonic::{Request, Response, Status};
 
 use crate::proto::system::{
-    GreetRequest, GreetResponse, HealthReportRequest, HealthReportResponse,
-    system_service_server::SystemService,
+    ApiTokenRequest, ApiTokenResponse, GreetRequest, GreetResponse, HealthReportRequest,
+    HealthReportResponse, system_service_server::SystemService,
 };
 
 use crate::services::system;
@@ -38,6 +38,25 @@ impl SystemService for SystemGrpcService {
 
         Ok(Response::new(HealthReportResponse {
             overall: health_report.overall,
+        }))
+    }
+
+    async fn generate_api_token(
+        &self,
+        request: Request<ApiTokenRequest>,
+    ) -> Result<Response<ApiTokenResponse>, Status> {
+        let req = request.into_inner();
+        let data = system::ApiTokenRequest {
+            name: req.name,
+            owner_email: req.owner_email,
+        };
+
+        let api_token = system::generate_api_token(&self.state, req.api_token, data)
+            .await
+            .map_err(|e| Status::internal(e.to_string()))?;
+
+        Ok(Response::new(ApiTokenResponse {
+            token: api_token.token,
         }))
     }
 }

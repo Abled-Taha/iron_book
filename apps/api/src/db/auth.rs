@@ -58,7 +58,7 @@ pub async fn get_user_id_by_username(
         FROM users
         WHERE username = $1
         "#,
-        username
+        username.trim()
     )
     .fetch_optional(&state.db)
     .await?;
@@ -76,7 +76,7 @@ pub async fn get_user_id_by_email(
         FROM users
         WHERE email = $1
         "#,
-        email
+        email.trim()
     )
     .fetch_optional(&state.db)
     .await?;

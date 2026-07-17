@@ -5,6 +5,7 @@ package system;
 service SystemService {
   rpc Greet(GreetRequest) returns (GreetResponse);
   rpc HealthReport(HealthReportRequest) returns (HealthReportResponse);
+  rpc GenerateApiToken(ApiTokenRequest) returns (ApiTokenResponse);
 }
 
 message GreetRequest {}
@@ -18,4 +19,14 @@ message HealthReportRequest {}
 
 message HealthReportResponse {
   string overall = 1;
+}
+
+message ApiTokenRequest {
+  string name = 1;
+  string owner_email = 2;
+  optional string api_token = 3;
+}
+
+message ApiTokenResponse {
+  string token = 1;
 }

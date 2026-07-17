@@ -22,7 +22,13 @@ pub async fn register(state: &AppState, data: RegisterRequest) -> Result<AuthTok
         .await?
         .is_some()
     {
-        return Err(anyhow!(""));
+        return Err(anyhow!("Username already exists"));
+    }
+    if auth::get_user_id_by_email(state, &data.email)
+        .await?
+        .is_some()
+    {
+        return Err(anyhow!("Email already exists"));
     }
 
     let token = Alphanumeric.sample_string(&mut rand::rng(), 32);

@@ -15,7 +15,7 @@ prost = "0.14"
 tonic-prost = "0.14"
 
 # Async and Runtime
-tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
 
 # Database
 sqlx = { version = "0.8", features = [

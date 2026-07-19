@@ -1,4 +1,5 @@
 use crate::db::{common, system};
+use crate::log;
 use crate::state::AppState;
 use anyhow::{Result, anyhow};
 use rand::distr::{Alphanumeric, SampleString};
@@ -26,7 +27,14 @@ pub struct ApiTokenResponse {
     pub token: String,
 }
 
-pub async fn greet(_state: &AppState) -> Result<GreetResponse> {
+pub async fn greet(state: &AppState) -> Result<GreetResponse> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "Request on /".to_string(),
+        },
+        &state,
+    )?;
     Ok(GreetResponse {
         message: String::from("Hello, World!"),
         status: String::from("success"),

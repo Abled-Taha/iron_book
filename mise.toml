@@ -51,7 +51,7 @@ fi
 # Development
 [tasks."dev:api"]
 description = "Run Rust API Dev Server"
-run = "cargo watch -c -x check -x 'run --bin ironbook_api'"
+run = "cargo watch -c -x check -x 'run --bin ironbook_api' --ignore 'logs/*'"
 
 [tasks."dev:home"]
 description = "Run NextJS Dev Server"

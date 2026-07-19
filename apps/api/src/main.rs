@@ -3,7 +3,6 @@ use axum::{
     Router,
     routing::{get, post},
 };
-use ironbook_api::grpc::auth::AuthGrpcService;
 use ironbook_api::grpc::system::SystemGrpcService;
 use ironbook_api::grpc::users::UsersGrpcService;
 use ironbook_api::proto::auth::auth_service_server::AuthServiceServer;
@@ -11,13 +10,27 @@ use ironbook_api::proto::system::system_service_server::SystemServiceServer;
 use ironbook_api::proto::users::users_service_server::UsersServiceServer;
 use ironbook_api::views;
 use ironbook_api::{db, proto, state::AppState};
+use ironbook_api::{grpc::auth::AuthGrpcService, log};
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
+    // Initialize the timestamped log file descriptor
+    let log_file = log::get_log_file()?;
+
     // Connect to db
     let db = db::connect().await?;
 
-    let state = AppState { db };
+    // Bind both into state
+    let state = AppState { db, log: log_file };
+
+    // Quick test to ensure everything works smoothly
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "System Initialized.".to_string(),
+        },
+        &state,
+    )?;
 
     // HTTP routes
     let app = Router::new()

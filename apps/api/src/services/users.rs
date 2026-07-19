@@ -16,14 +16,14 @@ pub struct UserResponse {
     pub username: String,
 }
 
-pub async fn get_by_id(state: &AppState, id: u64) -> Result<UserResponse> {
+pub async fn get_by_id(_state: &AppState, id: u64) -> Result<UserResponse> {
     Ok(UserResponse {
         id,
         username: id.to_string(),
     })
 }
 
-pub async fn search(state: &AppState, filter: SearchFilter) -> Result<UserResponse> {
+pub async fn search(_state: &AppState, filter: SearchFilter) -> Result<UserResponse> {
     if let Some(email) = filter.email {
         Ok(UserResponse {
             id: 1,

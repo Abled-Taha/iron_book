@@ -3,7 +3,7 @@ rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 node = "24"
 java = "openjdk-21"
 android-sdk = "1.0"
-uv = "0.11.14"
+"github:astral-sh/uv" = "0.11.14"
 "cargo:cargo-watch" = "8.5.3"
 "cargo:cargo-binstall" = "1.20.1"
 "cargo:sqlx-cli" = { version = "0.9.0", features = ["postgres", "rustls"] }
@@ -12,7 +12,7 @@ uv = "0.11.14"
 MISE_DATA_DIR = "{{config_root}}/.mise"
 MISE_STATE_DIR = "{{config_root}}/.mise/state"
 MISE_CACHE_DIR = "{{config_root}}/.mise/cache"
-_path = "./.cargo/bin"
+_.path = ["./.cargo/bin",]
 MISE_COREPACK = "1"
 ANDROID_HOME = "{{config_root}}/.android_sdk"
 JAVA_HOME = "{{config_root}}/.mise/installs/java/openjdk-21"

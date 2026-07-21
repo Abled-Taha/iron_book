@@ -24,6 +24,7 @@ __pycache__/
 # production
 *build
 *target
+*staticfiles
 
 # next.js
 *.next/

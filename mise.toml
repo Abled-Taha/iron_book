@@ -61,7 +61,7 @@ run = "pnpm --filter ./apps/home dev"
 dir = "apps/web"
 description = "Run Django Dev Server"
 depends = ["misc:django-free-port"]
-run = "python manage.py tailwind dev"
+run = "trap 'exit 0' INT TERM; python manage.py tailwind dev"
 
 # Production
 [tasks."prod:home"]

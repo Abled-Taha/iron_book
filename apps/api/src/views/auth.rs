@@ -1,3 +1,4 @@
+use crate::errors::AppError;
 use crate::services::auth;
 use crate::state::AppState;
 
@@ -12,68 +13,28 @@ pub async fn register(
     State(state): State<AppState>,
     headers: HeaderMap,
     Json(payload): Json<auth::RegisterRequest>,
-) -> impl IntoResponse {
-    let api_token_opt = headers
+) -> Result<impl IntoResponse, AppError> {
+    let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())
-        .map(|s| s.to_string());
-    let api_token = match api_token_opt {
-        Some(token) => token,
-        None => {
-            return (
-                StatusCode::UNAUTHORIZED,
-                Json(serde_json::json!({
-                    "error":"Missing or invalid Authorization header"
-                })),
-            )
-                .into_response();
-        }
-    };
+        .map(|s| s.to_string())
+        .ok_or(AppError::InvalidApiToken)?;
 
-    match auth::register(&state, api_token, payload).await {
-        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
-
-        Err(err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(serde_json::json!({
-                "error": err.to_string()
-            })),
-        )
-            .into_response(),
-    }
+    let resp = auth::register(&state, api_token, payload).await?;
+    Ok((StatusCode::OK, Json(resp)))
 }
 
 pub async fn login(
     State(state): State<AppState>,
     headers: HeaderMap,
     Json(payload): Json<auth::LoginRequest>,
-) -> impl IntoResponse {
-    let api_token_opt = headers
+) -> Result<impl IntoResponse, AppError> {
+    let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())
-        .map(|s| s.to_string());
-    let api_token = match api_token_opt {
-        Some(token) => token,
-        None => {
-            return (
-                StatusCode::UNAUTHORIZED,
-                Json(serde_json::json!({
-                    "error":"Missing or invalid Authorization header"
-                })),
-            )
-                .into_response();
-        }
-    };
+        .map(|s| s.to_string())
+        .ok_or(AppError::InvalidApiToken)?;
 
-    match auth::login(&state, api_token, payload).await {
-        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
-
-        Err(err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(serde_json::json!({
-                "error": err.to_string()
-            })),
-        )
-            .into_response(),
-    }
+    let resp = auth::login(&state, api_token, payload).await?;
+    Ok((StatusCode::OK, Json(resp)))
 }

@@ -1,7 +1,7 @@
 use crate::db::{common, system};
+use crate::errors::AppError;
 use crate::log;
 use crate::state::AppState;
-use anyhow::{Result, anyhow};
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
 
@@ -27,28 +27,32 @@ pub struct ApiTokenResponse {
     pub token: String,
 }
 
-pub async fn greet(state: &AppState) -> Result<GreetResponse> {
+pub async fn greet(state: &AppState) -> Result<GreetResponse, AppError> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
             log: "Serving \"/\"".to_string(),
         },
-        &state,
-    )?;
+        state,
+    )
+    .map_err(AppError::Internal)?;
+
     Ok(GreetResponse {
         message: String::from("Hello, World!"),
         status: String::from("success"),
     })
 }
 
-pub async fn health_report(state: &AppState) -> Result<HealthReportResponse> {
+pub async fn health_report(state: &AppState) -> Result<HealthReportResponse, AppError> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
             log: "Serving \"health\"".to_string(),
         },
-        &state,
-    )?;
+        state,
+    )
+    .map_err(AppError::Internal)?;
+
     Ok(HealthReportResponse {
         overall: String::from("All OK!"),
     })
@@ -58,51 +62,45 @@ pub async fn generate_api_token(
     state: &AppState,
     api_token_opt: Option<String>,
     data: ApiTokenRequest,
-) -> Result<ApiTokenResponse> {
-    async fn generate_api_token(state: &AppState, data: ApiTokenRequest) -> Result<String> {
-        if data.name.trim() == "" {
-            return Err(anyhow!("Invalid name"));
+) -> Result<ApiTokenResponse, AppError> {
+    async fn generate_api_token_inner(
+        state: &AppState,
+        data: ApiTokenRequest,
+    ) -> Result<String, AppError> {
+        if data.name.trim().is_empty() {
+            return Err(AppError::InvalidName);
         }
-        if data.owner_email.trim() == "" {
-            return Err(anyhow!("Invalid owner_email"));
+        if data.owner_email.trim().is_empty() {
+            return Err(AppError::InvalidOwnerEmail);
         }
         if system::get_api_token_by_name(state, &data.name)
             .await?
             .is_some()
         {
-            return Err(anyhow!("Api token name already exists"));
+            return Err(AppError::ApiTokenNameAlreadyExists);
         }
         if system::get_api_token_by_owner_email(state, &data.owner_email)
             .await?
             .is_some()
         {
-            return Err(anyhow!("Api token owner_email already exists"));
+            return Err(AppError::ApiTokenOwnerEmailAlreadyExists);
         }
 
         let token = Alphanumeric.sample_string(&mut rand::rng(), 32);
-        match system::store_api_token(state, data, &token).await {
-            Ok(_bool) => Ok(token),
-            Err(err) => Err(err),
-        }
+        system::store_api_token(state, data, &token).await?;
+        Ok(token)
     }
 
-    let api_token = match api_token_opt {
-        Some(token) => token,
-        None => String::from(""),
-    };
+    let api_token = api_token_opt.unwrap_or_default();
 
     if system::is_first_start(state).await? {
-        match generate_api_token(state, data).await {
-            Ok(token) => return Ok(ApiTokenResponse { token }),
-            Err(err) => return Err(err),
-        };
+        let token = generate_api_token_inner(state, data).await?;
+        Ok(ApiTokenResponse { token })
     } else {
         if !common::verify_api_token(state, &api_token).await? {
-            return Err(anyhow!("Api token doesn't exist"));
+            return Err(AppError::InvalidApiToken);
         }
-        match generate_api_token(state, data).await {
-            Ok(token) => return Ok(ApiTokenResponse { token }),
-            Err(err) => return Err(err),
-        };
+        let token = generate_api_token_inner(state, data).await?;
+        Ok(ApiTokenResponse { token })
     }
 }

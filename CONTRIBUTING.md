@@ -80,3 +80,56 @@ cargo clippy -- -D warnings
 
 # Run test suite
 cargo test
+```
+
+#### Docs Site (Next.js)
+```bash
+# Install dependencies
+pnpm install
+
+# Run linter and type-checking
+pnpm lint
+pnpm build
+```
+
+#### Mobile App (Kotlin)
+```bash
+# Build debug APK
+./gradlew assembleDebug
+
+# Run unit tests
+./gradlew test
+```
+
+### 4. Working with Database & SQLx
+If your pull request alters PostgreSQL database schemas or adds/modifies SQL queries using `sqlx`:
+
+1. Create a new migration file:
+```bash
+sqlx migrate add <migration_name>
+```
+
+2. Apply migrations to your local dev database:
+```bash
+sqlx migrate run
+```
+
+3. **Update SQLx Offline Data:** Because CI pipelines compile Rust without a live database connection, compile-time query checks rely on `sqlx-data.json`. Before opening a PR, update the offline data cache:
+```bash
+cargo sqlx prepare
+```
+*Commit the generated/updated `sqlx-data.json` along with your schema changes.*
+
+### 5. Submitting a Pull Request
+1. Push your branch to GitHub:
+```bash
+git push origin feat/your-feature-name
+```
+
+2. Open a Pull Request against the `main` branch.
+3. Fill out the **PR Template** in full:
+4. Wait for CI checks to complete and address any reviewer feedback promptly.
+
+## Coding & Commit Standards
+- **Commit Messages:** Keep commit messages concise, imperative, and clear:
+- **Clean Code:** Write self-documenting code with inline comments where logic is complex or non-obvious. Avoid committing commented-out code or unused debug statements (`println!`, `console.log`).

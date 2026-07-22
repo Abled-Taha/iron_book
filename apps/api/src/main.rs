@@ -15,7 +15,7 @@ use ironbook_api::{
     state::AppState,
     views,
 };
-use tokio::sync::watch;
+use tokio::sync::broadcast;
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
@@ -26,7 +26,10 @@ pub async fn main() -> Result<()> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
-            log: "System initialized successfully.".to_string(),
+            log: "System initialized successfully.\n
+                HTTP: http://localhost:8000/\n
+                gRPC: localhost:50051"
+                .to_string(),
         },
         &state,
     )?;
@@ -45,11 +48,12 @@ pub async fn main() -> Result<()> {
         .route("/auth/login", post(views::auth::login))
         .with_state(state.clone());
 
-    // 1. Setup a single broadcast/watch channel for the shutdown signal
-    let (tx, mut rx_http) = watch::channel(());
+    // 1. Setup a broadcast channel for fan-out shutdown signals
+    let (tx, _) = broadcast::channel::<()>(1);
+    let mut rx_http = tx.subscribe();
     let mut rx_grpc = tx.subscribe();
 
-    // 2. Spawn a single listener task that catches Ctrl+C / SIGTERM exactly once
+    // 2. Spawn a single listener task that catches Ctrl+C / SIGTERM
     let signal_state = state.clone();
     tokio::spawn(async move {
         let ctrl_c = async {
@@ -65,7 +69,7 @@ pub async fn main() -> Result<()> {
                 .expect("failed to install signal handler")
                 .recv()
                 .await;
-            "SIGTERM (Docker stop)"
+            "SIGTERM"
         };
 
         #[cfg(not(unix))]
@@ -88,12 +92,12 @@ pub async fn main() -> Result<()> {
         let _ = tx.send(());
     });
 
-    // Futures that resolve when the channel receives the shutdown notification
+    // Futures that resolve ONLY when a message is explicitly broadcast
     let http_shutdown = async move {
-        let _ = rx_http.changed().await;
+        let _ = rx_http.recv().await;
     };
     let grpc_shutdown = async move {
-        let _ = rx_grpc.changed().await;
+        let _ = rx_grpc.recv().await;
     };
 
     let http_server = async {
@@ -150,7 +154,5 @@ pub async fn main() -> Result<()> {
         &state,
     )?;
 
-    // Force an explicit exit code to satisfy mise.
-    // Use 0 for clean success, or 1 if you want to explicitly report an error state.
     std::process::exit(0);
 }

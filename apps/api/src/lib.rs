@@ -1,5 +1,6 @@
 pub mod config;
 pub mod db;
+pub mod errors;
 pub mod grpc;
 pub mod log;
 pub mod proto;

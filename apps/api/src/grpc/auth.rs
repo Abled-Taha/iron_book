@@ -24,11 +24,10 @@ impl AuthService for AuthGrpcService {
             username: req.username,
             password_hash: req.password_hash,
         };
-        let api_token = req.api_token;
 
-        let resp = auth::register(&self.state, api_token, data)
+        let resp = auth::register(&self.state, req.api_token, data)
             .await
-            .map_err(|e| Status::internal(e.to_string()))?;
+            .map_err(|e| e.to_grpc_status())?;
 
         Ok(Response::new(RegisterResponse { token: resp.token }))
     }
@@ -45,7 +44,7 @@ impl AuthService for AuthGrpcService {
 
         let resp = auth::login(&self.state, req.api_token, data)
             .await
-            .map_err(|e| Status::internal(e.to_string()))?;
+            .map_err(|e| e.to_grpc_status())?;
 
         Ok(Response::new(LoginResponse { token: resp.token }))
     }

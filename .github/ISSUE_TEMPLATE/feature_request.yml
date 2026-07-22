@@ -35,7 +35,8 @@ body:
       description: Which part of the project does this primarily affect?
       options:
         - Core / API (Rust / Axum)
-        - Web App (Next.js)
+        - Docs (Next.js)
+        - Web App (Python / Django)
         - Mobile App (Kotlin)
         - Database / Migrations (PostgreSQL / SQLx)
         - Infrastructure / CI/CD

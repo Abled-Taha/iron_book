@@ -1,0 +1,43 @@
+name: Feature Request
+description: Suggest an idea, architectural enhancement, or new capability.
+title: "[FEAT]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement / Context
+      description: Is your feature request related to a problem or a gap in current functionality?
+      placeholder: I'm frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe what you want to happen or how you envision the feature working.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: target-component
+    attributes:
+      label: Target Component
+      description: Which part of the project does this primarily affect?
+      options:
+        - Core / API (Rust / Axum)
+        - Web App (Next.js)
+        - Mobile App (Kotlin)
+        - Database / Migrations (PostgreSQL / SQLx)
+        - Infrastructure / CI/CD
+    validations:
+      required: true

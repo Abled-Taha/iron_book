@@ -1,0 +1,60 @@
+name: Bug Report
+description: Create a report to help us fix a bug or unexpected behavior.
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please fill out the sections below to help us diagnose it quickly.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Explain how to reproduce the issue step-by-step.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment & Component Details
+      description: Specify relevant details (e.g., OS, Component, Rust/Node/Kotlin versions, DB setup).
+      placeholder: |
+        - Component: Backend (Axum) / Frontend (Next.js) / Mobile (Kotlin)
+        - OS: Arch Linux / Android 14 / macOS
+        - Version / Commit SHA: main @ a1b2c3d
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs or Stack Traces
+      description: Paste any relevant terminal logs, stack traces, or console output here.
+      render: shell
+    validations:
+      required: false

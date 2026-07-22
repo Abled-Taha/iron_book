@@ -51,7 +51,7 @@ fi
 # Development
 [tasks."dev:api"]
 description = "Run Rust API Dev Server"
-run = "trap 'exit 0' INT TERM; cargo watch -c -x check -x 'run --bin ironbook_api' --ignore 'logs/*'"
+run = "trap 'exit 0' INT TERM; cargo watch -c -w apps/api/src -w apps/api/Cargo.toml -i '*.md' -i '*.json' -i 'logs/*' -i 'target/*' -x 'run --bin ironbook_api'"
 
 [tasks."dev:home"]
 description = "Run NextJS Dev Server"

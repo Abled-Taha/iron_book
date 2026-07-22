@@ -31,7 +31,7 @@ pub async fn greet(state: &AppState) -> Result<GreetResponse> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
-            log: "Request on /".to_string(),
+            log: "Serving \"/\"".to_string(),
         },
         &state,
     )?;
@@ -41,7 +41,14 @@ pub async fn greet(state: &AppState) -> Result<GreetResponse> {
     })
 }
 
-pub async fn health_report(_state: &AppState) -> Result<HealthReportResponse> {
+pub async fn health_report(state: &AppState) -> Result<HealthReportResponse> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "Serving \"health\"".to_string(),
+        },
+        &state,
+    )?;
     Ok(HealthReportResponse {
         overall: String::from("All OK!"),
     })

@@ -5,10 +5,18 @@ use axum::{
     response::IntoResponse,
 };
 
-use crate::services::system;
 use crate::state::AppState;
+use crate::{log, services::system};
 
 pub async fn greet(State(state): State<AppState>) -> impl IntoResponse {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "HTTP request on \"/\"".to_string(),
+        },
+        &state,
+    )
+    .expect("Logging Failed");
     match system::greet(&state).await {
         Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
 
@@ -23,6 +31,14 @@ pub async fn greet(State(state): State<AppState>) -> impl IntoResponse {
 }
 
 pub async fn health_report(State(state): State<AppState>) -> impl IntoResponse {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "HTTP request on \"/health\"".to_string(),
+        },
+        &state,
+    )
+    .expect("Logging Failed");
     match system::health_report(&state).await {
         Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
 

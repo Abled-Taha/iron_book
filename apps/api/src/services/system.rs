@@ -31,7 +31,7 @@ pub async fn greet(state: &AppState) -> Result<GreetResponse, AppError> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
-            log: "Serving \"/\"".to_string(),
+            log: "Serving \"greet\"".to_string(),
         },
         state,
     )

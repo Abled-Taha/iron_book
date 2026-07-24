@@ -1,5 +1,6 @@
 use crate::db::{auth, common};
 use crate::errors::AppError;
+use crate::log;
 use crate::state::AppState;
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
@@ -27,16 +28,23 @@ pub async fn register(
     api_token: String,
     data: RegisterRequest,
 ) -> Result<AuthToken, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "Serving \"register\"".to_string(),
+        },
+        state,
+    )?;
     if !common::verify_api_token(state, &api_token).await? {
         return Err(AppError::InvalidApiToken);
     }
-    if auth::get_user_id_by_username(state, &data.username)
+    if common::get_user_id_by_username(state, &data.username)
         .await?
         .is_some()
     {
         return Err(AppError::UsernameAlreadyExists);
     }
-    if auth::get_user_id_by_email(state, &data.email)
+    if common::get_user_id_by_email(state, &data.email)
         .await?
         .is_some()
     {
@@ -54,15 +62,22 @@ pub async fn login(
     api_token: String,
     data: LoginRequest,
 ) -> Result<AuthToken, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "Serving \"login\"".to_string(),
+        },
+        state,
+    )?;
     if !common::verify_api_token(state, &api_token).await? {
         return Err(AppError::InvalidApiToken);
     }
-    let user_id_opt = auth::get_user_id_by_email(state, &data.email).await?;
+    let user_id_opt = common::get_user_id_by_email(state, &data.email).await?;
     let user_id = match user_id_opt {
         Some(id) => id,
         None => return Err(AppError::InvalidCredentials),
     };
-    let password_hash_opt = auth::get_password_hash_by_user_id(state, &user_id).await?;
+    let password_hash_opt = common::get_password_hash_by_user_id(state, &user_id).await?;
     let password_hash = match password_hash_opt {
         Some(value) => value,
         None => return Err(AppError::InvalidCredentials),

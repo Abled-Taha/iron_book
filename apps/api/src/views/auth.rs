@@ -1,4 +1,5 @@
 use crate::errors::AppError;
+use crate::log;
 use crate::services::auth;
 use crate::state::AppState;
 
@@ -14,6 +15,15 @@ pub async fn register(
     headers: HeaderMap,
     Json(payload): Json<auth::RegisterRequest>,
 ) -> Result<impl IntoResponse, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "HTTP request on \"/register\"".to_string(),
+        },
+        &state,
+    )
+    .map_err(AppError::Internal)?;
+
     let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())
@@ -29,6 +39,15 @@ pub async fn login(
     headers: HeaderMap,
     Json(payload): Json<auth::LoginRequest>,
 ) -> Result<impl IntoResponse, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: "HTTP request on \"/login\"".to_string(),
+        },
+        &state,
+    )
+    .map_err(AppError::Internal)?;
+
     let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())

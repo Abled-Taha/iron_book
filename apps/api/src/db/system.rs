@@ -1,11 +1,11 @@
-use anyhow::Result;
 use sqlx::query_scalar;
 use sqlx::{Postgres, Transaction};
 
+use crate::errors::AppError;
 use crate::services::system;
 use crate::state::AppState;
 
-pub async fn is_first_start(state: &AppState) -> Result<bool> {
+pub async fn is_first_start(state: &AppState) -> Result<bool, AppError> {
     let count = query_scalar!(
         r#"
         SELECT COUNT(*) FROM clients
@@ -20,7 +20,7 @@ pub async fn is_first_start(state: &AppState) -> Result<bool> {
 pub async fn get_api_token_by_name(
     state: &AppState,
     name: &str,
-) -> Result<Option<String>, sqlx::Error> {
+) -> Result<Option<String>, AppError> {
     let api_token = sqlx::query_scalar!(
         r#"
         SELECT api_token
@@ -38,7 +38,7 @@ pub async fn get_api_token_by_name(
 pub async fn get_api_token_by_owner_email(
     state: &AppState,
     owner_email: &str,
-) -> Result<Option<String>, sqlx::Error> {
+) -> Result<Option<String>, AppError> {
     let api_token = sqlx::query_scalar!(
         r#"
         SELECT api_token
@@ -57,10 +57,10 @@ pub async fn store_api_token(
     state: &AppState,
     data: system::ApiTokenRequest,
     api_token: &String,
-) -> Result<bool> {
+) -> Result<bool, AppError> {
     let mut tx: Transaction<'_, Postgres> = state.db.begin().await?;
 
-    // Insert the session into the database
+    // Insert the client into the database
     sqlx::query!(
         r#"
         INSERT INTO clients (name, owner_email, api_token)

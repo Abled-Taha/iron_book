@@ -42,7 +42,7 @@ pub async fn main() -> Result<()> {
             "/generate_api_token",
             post(views::system::generate_api_token),
         )
-        .route("/users/{id}", get(views::users::get_by_id))
+        .route("/users/{id}", get(views::users::get_user_by_id))
         .route("/users/search", get(views::users::search))
         .route("/auth/register", post(views::auth::register))
         .route("/auth/login", post(views::auth::login))

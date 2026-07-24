@@ -1,3 +1,5 @@
+use crate::errors::AppError;
+use crate::log;
 use crate::services::users;
 use crate::state::AppState;
 use axum::{
@@ -7,33 +9,36 @@ use axum::{
     response::IntoResponse,
 };
 
-pub async fn get_by_id(State(state): State<AppState>, Path(id): Path<u64>) -> impl IntoResponse {
-    match users::get_by_id(&state, id).await {
-        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
+pub async fn get_user_by_id(
+    State(state): State<AppState>,
+    Path(id): Path<u64>,
+) -> Result<impl IntoResponse, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: format!("HTTP request on \"/users/({id})\""),
+        },
+        &state,
+    )
+    .map_err(AppError::Internal)?;
 
-        Err(err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(serde_json::json!({
-                "error": err.to_string()
-            })),
-        )
-            .into_response(),
-    }
+    let user = users::get_user_by_id(&state, id).await?;
+    Ok((StatusCode::OK, Json(user)))
 }
 
 pub async fn search(
     State(state): State<AppState>,
     Query(filter): Query<users::SearchFilter>,
-) -> impl IntoResponse {
-    match users::search(&state, filter).await {
-        Ok(resp) => (StatusCode::OK, Json(resp)).into_response(),
+) -> Result<impl IntoResponse, AppError> {
+    log::write(
+        log::LogInfo {
+            severity: "INFO".to_string(),
+            log: format!("HTTP request on \"/users/search/\""),
+        },
+        &state,
+    )
+    .map_err(AppError::Internal)?;
 
-        Err(err) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(serde_json::json!({
-                "error": err.to_string()
-            })),
-        )
-            .into_response(),
-    }
+    let resp = users::search(&state, filter).await?;
+    Ok((StatusCode::OK, Json(resp)))
 }

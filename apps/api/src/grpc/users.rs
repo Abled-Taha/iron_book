@@ -20,7 +20,7 @@ impl UsersService for UsersGrpcService {
     ) -> Result<Response<GetByIdResponse>, Status> {
         let req = request.into_inner();
 
-        let resp = users::get_by_id(&self.state, req.id)
+        let resp = users::get_user_by_id(&self.state, req.id)
             .await
             .map_err(|e| Status::internal(e.to_string()))?;
 

@@ -39,12 +39,12 @@ run = "echo 'sdk.dir={{env.ANDROID_HOME}}' > local.properties"
 [tasks."misc:django-free-port"]
 description = "Kill any process clinging onto port 8000"
 run = """
-if lsof -t -i:8000 > /dev/null; then
-  echo "Found a zombie process on port 8000. Terminating..."
-  kill -9 $(lsof -t -i:8000)
-  echo "Port 8000 is now free!"
+if lsof -t -i:8080 > /dev/null; then
+  echo "Found a zombie process on port 8080. Terminating..."
+  kill -9 $(lsof -t -i:8080)
+  echo "Port 8080 is now free!"
 else
-  echo "Port 8000 is already clear."
+  echo "Port 8080 is already clear."
 fi
 """
 

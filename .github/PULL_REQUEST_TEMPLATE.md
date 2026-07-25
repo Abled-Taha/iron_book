@@ -37,7 +37,8 @@ Explain how these changes were tested. Include commands used to verify locally.
 ### Local Execution
 - [ ] **Rust Backend**: Executed `cargo check` / `cargo test` clean with no warnings
 - [ ] **SQLx**: Migrations run cleanly, and `cargo sqlx prepare` updated (if query macros changed)
-- [ ] **Web App**: Executed `pnpm build` / `npm run build` without type errors
+- [ ] **Web App**: Executed `mise run dev:web`
+- [ ] **Docs**: Executed `pnpm build` / `npm run build` without type errors
 - [ ] **Mobile**: App builds and runs on emulator/device
 - [ ] **Linting / Formatting**: Passed project formatting checks (`cargo fmt`, `clippy`, `eslint`, etc.)
 

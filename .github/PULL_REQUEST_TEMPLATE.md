@@ -22,7 +22,8 @@ Fixes #(issue)
 Select all components modified in this pull request:
 
 - [ ] 🦀 **Backend** (`Axum` / `Rust`)
-- [ ] 🌐 **Web Frontend** (`Next.js` / `TypeScript`)
+- [ ] 🖥️ **Web Frontend** (`Django` / `Python`)
+- [ ] 🌐 **Docs** (`Next.JS` / `TypeScript`)
 - [ ] 📱 **Mobile** (`Kotlin` / `Android`)
 - [ ] 🗄️ **Database** (`PostgreSQL` / `SQLx` migrations)
 - [ ] ⚙️ **Infra / Root Config**

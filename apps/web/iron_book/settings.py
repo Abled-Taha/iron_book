@@ -14,6 +14,9 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+from django.core.management.commands.runserver import Command as runserver
+runserver.default_port = "8080"
+
 # Application definition
 
 INSTALLED_APPS = [

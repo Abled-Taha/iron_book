@@ -55,7 +55,7 @@ run = "trap 'exit 0' INT TERM; cargo watch -c -w apps/api/src -w apps/api/Cargo.
 
 [tasks."dev:home"]
 description = "Run NextJS Dev Server"
-run = "pnpm --filter ./apps/home dev"
+run = "trap 'exit 0' INT TERM; pnpm --filter ./apps/home dev"
 
 [tasks."dev:web"]
 dir = "apps/web"

@@ -11,5 +11,6 @@ dependencies = [
     "django-tailwind[cookiecutter,honcho,reload]==4.4.2",
     "djangorestframework==3.16.1",
     "honcho==2.0.0",
+    "pre-commit==4.6.1",
     "whitenoise==6.12.0",
 ]

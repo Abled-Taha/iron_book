@@ -29,6 +29,7 @@ run = [
   "pnpm install",
   "uv sync --project apps/web",
   "mise run setup:local-props",
+  "pre-commit install",
 ]
 
 [tasks."setup:local-props"]

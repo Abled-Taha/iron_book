@@ -24,6 +24,9 @@ fi
 if [ ! -f ./apps/api/.env ]; then
   cp ./apps/api/.env.example ./apps/api/.env
 fi
+if [ ! -f ./.env ]; then
+  cp ./.env.example ./.env
+fi
 
 read -n 1 -r -s -p "Kindly verify the entries in ./apps/web/.env, then press any key to continue." key
 echo ""

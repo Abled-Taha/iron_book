@@ -55,6 +55,7 @@ nixos)
     echo "❌ Error: Project setup task failed."
     exit 1
   }
+  pre-commit install
 
   echo '🎉 All setup complete!'
   exit 0

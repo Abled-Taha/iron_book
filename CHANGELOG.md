@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Added a Change log.
 - Added Git Hooks for checking pre commits.
+- Added Complete WSL2 support for devs on Windows. (But why though?)
 
 ### Changed
 

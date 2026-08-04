@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 ### Fixed
+- [Issue `#19`](https://github.com/Abled-Taha/iron_book/issues/19): Expanded the root README with development, architecture, setup, user, issue-reporting, and repository-link sections.

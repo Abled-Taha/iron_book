@@ -6,8 +6,8 @@ services:
       - "${DB_PORT}:5432"
     environment:
       DB_PORT: ${DB_PORT}
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ironbook
     volumes:
       - pg_data:/var/lib/postgresql/data

@@ -6,13 +6,13 @@ use crate::errors::AppError;
 use crate::log;
 use crate::state::AppState;
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct SearchFilter {
     pub email: Option<String>,
     pub username: Option<String>,
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct UserResponse {
     pub id: u64,
     pub username: String,
@@ -26,15 +26,12 @@ pub async fn get_user_by_id(state: &AppState, id: u64) -> Result<UserResponse, A
         },
         state,
     )?;
-    let username_opt = common::get_username_by_id(&state, &id).await?;
+    let username_opt = common::get_username_by_id(state, &id).await?;
     let username = match username_opt {
         Some(value) => value,
         None => return Err(AppError::InvalidCredentials),
     };
-    Ok(UserResponse {
-        id,
-        username: username,
-    })
+    Ok(UserResponse { id, username })
 }
 
 pub async fn search(state: &AppState, filter: SearchFilter) -> Result<UserResponse, AppError> {

@@ -5,24 +5,24 @@ use crate::state::AppState;
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct GreetResponse {
     pub message: String,
     pub status: String,
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct HealthReportResponse {
     pub overall: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct ApiTokenRequest {
     pub name: String,
     pub owner_email: String,
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct ApiTokenResponse {
     pub token: String,
 }

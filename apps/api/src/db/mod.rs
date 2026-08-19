@@ -1,4 +1,4 @@
-use crate::config;
+use crate::{MIGRATOR, config};
 use anyhow::Result;
 use sqlx::PgPool;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
@@ -31,7 +31,7 @@ pub async fn connect() -> Result<PgPool> {
         .await
         .expect("Failed to connect to the database");
 
-    sqlx::migrate!("./migrations").run(&pool).await?;
+    MIGRATOR.run(&pool).await?;
 
     Ok(pool)
 }

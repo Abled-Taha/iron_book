@@ -65,6 +65,20 @@ description = "Run Django Dev Server"
 depends = ["misc:django-free-port"]
 run = "trap 'exit 0' INT TERM; yes yes | python manage.py collectstatic; python manage.py tailwind dev"
 
+# Tests
+[tasks."test"]
+run = ""
+
+[tasks."test:api"]
+dir = "apps/api"
+description = "Run Tests for Rust API"
+run = "cargo test"
+
+[tasks."test:api-full"]
+dir = "apps/api"
+description = "Run Tests, including Database related for Rust API"
+run = "cargo test --features integration-tests"
+
 # Production
 [tasks."prod:home"]
 description = "Run NextJS Prod Server"

@@ -21,6 +21,7 @@ JAVA_HOME = "{{config_root}}/.mise/installs/java/openjdk-21"
 
 [tasks."setup"]
 description = "Install all dependencies"
+depends = ["db:up"]
 run = [
   "corepack enable pnpm",
   "corepack use pnpm@11.1.2",
@@ -97,7 +98,7 @@ run = "gradlew clean"
 
 [tasks."db:up"]
 description = "Starts the ironbook_db service from docker-compose-dev.yaml"
-run = "docker compose -f docker-compose-dev.yaml up ironbook_db"
+run = "docker compose -f docker-compose-dev.yaml up ironbook_db -d"
 
 [tasks."db:down"]
 description = "Stops the ironbook_db service from docker-compose-dev.yaml"

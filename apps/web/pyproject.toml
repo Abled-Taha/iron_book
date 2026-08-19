@@ -13,4 +13,5 @@ dependencies = [
     "honcho==2.0.0",
     "pre-commit==4.6.1",
     "whitenoise==6.12.0",
+    "sqlparse>=0.6.0",
 ]

@@ -33,7 +33,7 @@ pub async fn search(
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),
-            log: format!("HTTP request on \"/users/search/\""),
+            log: "HTTP request on \"/users/search/\"".to_string(),
         },
         &state,
     )

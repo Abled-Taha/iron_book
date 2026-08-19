@@ -31,7 +31,6 @@ pub fn get_log_file() -> Result<Arc<Mutex<File>>> {
     // Open file descriptor with persistent appending permissions
     let file = OpenOptions::new()
         .create(true)
-        .write(true)
         .append(true)
         .open(path)
         .context("Failed to open or initialize systemic log file target")?;

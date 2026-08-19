@@ -71,10 +71,7 @@ impl AppError {
             AppError::DatabaseError(_) | AppError::Internal(_) => tonic::Code::Internal,
         };
 
-        Status::new(
-            grpc_code,
-            format!("[code: {}] {}", self.code(), self.to_string()),
-        )
+        Status::new(grpc_code, format!("[code: {}] {}", self.code(), self))
     }
 
     pub fn http_status(&self) -> StatusCode {

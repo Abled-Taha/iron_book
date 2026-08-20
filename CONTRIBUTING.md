@@ -35,7 +35,7 @@ Please keep discussions, issue threads, and pull request reviews respectful, con
 * **Web Frontend (`/apps/web`):** Built with Python and Django.
 * **Docs Site (`/apps/home`):** Next.js with TypeScript.
 * **Mobile (`/apps/mobile`):** Native Android application built with Kotlin.
-* **Desktop (`/apps/...`):** Not decided yet.
+* **Desktop (`/apps/desktop`):** Built with C++ and QML.
 * **Database:** PostgreSQL managed via SQLx migrations.
 
 ---
@@ -52,7 +52,7 @@ Before contributing code, ensure you have the necessary runtime dependencies ins
 ## Development Workflow
 
 ### 1. Find or Create an Issue
-Before diving into code, check the [Issue Tracker](https://github.com/Abled-Taha/iron_book/issues). 
+Before diving into code, check the [Issue Tracker](https://github.com/Abled-Taha/iron_book/issues).
 * For existing open issues, leave a quick comment to let others know you are working on it.
 * For new features or non-trivial fixes, please **open an issue first** to discuss the proposed changes.
 

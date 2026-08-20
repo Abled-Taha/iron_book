@@ -8,7 +8,6 @@ MISE_COREPACK = "1"
 description = "Setup NextJS Documentation Site"
 run = [
   "corepack enable pnpm",
-  "corepack use pnpm@11.1.2",
   "pnpm install",
 ]
 

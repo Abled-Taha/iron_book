@@ -1,50 +1,7 @@
-# env
+/.android_sdk
+/.gradle
+/.mise
+/node_modules
+/target
 *.env
-apps/web/.venv/
-__pycache__/
-*.pyc
-*codebase.txt*
-
-# typescript
-*.tsbuildinfo
-*next-env.d.ts
-
-# vercel
-*.vercel
-
-# debug
-*.pnpm-debug.log*
-*logs
-
-# misc
-*.DS_Store
-*.pem
-*sqlite3
-
-# production
-*build
-*target
-*staticfiles
-
-# next.js
-*.next/
-*out/
-
-# testing
-*/coverage
-
-# dependencies
-*node_modules
-*.pnp
-*.pnp.*
-.android_sdk/
-.gradle/
-
-# mise
-.mise
-
-# IDEs
-*.idea/
-
-# Android
-apps/android/local.properties
+*codebase.txt

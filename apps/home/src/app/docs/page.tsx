@@ -219,8 +219,8 @@ export default function Docs() {
                         ["API", "Rust", "Working"],
                         ["Web App", "Python", "Planned"],
                         ["Android App", "Kotlin", "Planned"],
-                        ["Linux/Windows App", "Not Decided Yet", "Planned"],
-                        ["Database", "PostgreSQL", "Working"],
+                        ["Linux/Windows App", "C++", "Planned"],
+                        ["Database", "PostgreSQL", "Live"],
                         ["Cache", "Redis", "Planned"],
                         ["Project Website", "NextJS", "Live"],
                       ].map(([part, tech, status]) => (

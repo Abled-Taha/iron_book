@@ -1,0 +1,43 @@
+[tools]
+rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
+"cargo:cargo-watch" = "8.5.3"
+"cargo:sqlx-cli" = { version = "0.9.0", features = ["postgres", "rustls"] }
+protobuf = "35.1"
+
+[env]
+_.path = ["./.cargo/bin",]
+
+[tasks."setup"]
+description = "Setup API"
+depends = ["db:up"]
+run = "cargo check"
+
+[tasks."dev"]
+description = "Run Rust API Dev Server"
+run = "trap 'exit 0' INT TERM; cargo watch -c -w src -w Cargo.toml -i '*.md' -i 'logs/*' -i 'target/*' -x 'run --bin ironbook_api'"
+
+[tasks."test"]
+description = "Run Tests for Rust API"
+run = "cargo test"
+
+[tasks."test-full"]
+description = "Run Tests, including Database related for Rust API"
+run = "cargo test --features integration-tests"
+
+[tasks."db:up"]
+description = "Starts the ironbook_db service from docker-compose-dev.yaml"
+dir = "../.."
+run = "docker compose -f docker-compose-dev.yaml up ironbook_db -d"
+
+[tasks."db:down"]
+description = "Stops the ironbook_db service from docker-compose-dev.yaml"
+dir = "../.."
+run = "docker compose -f docker-compose-dev.yaml down ironbook_db"
+
+[tasks."db:migrate"]
+description = "Apply pending database migrations"
+run = "cargo sqlx migrate run"
+
+[tasks."db:reset"]
+description = "Reset database and apply migrations"
+run = "cargo sqlx database reset"

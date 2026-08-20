@@ -1,8 +1,10 @@
 packages:
-  - 'apps/*'
+  - '.'
+
 allowBuilds:
   sharp: true
   unrs-resolver: true
+
 overrides:
   "brace-expansion@1": ">=1.1.16"
   "brace-expansion@5": ">=5.0.8"

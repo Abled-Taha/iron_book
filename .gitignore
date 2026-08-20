@@ -1,7 +1,3 @@
-/.android_sdk
-/.gradle
-/.mise
-/node_modules
-/target
-*.env
 *codebase.txt
+.env
+.mise

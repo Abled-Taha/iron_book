@@ -1,8 +1,6 @@
 ## Description
 
-Briefly describe the changes introduced by this PR and the problem it solves.
-
-Fixes #(issue)
+Fixes #
 
 ---
 
@@ -22,9 +20,10 @@ Fixes #(issue)
 Select all components modified in this pull request:
 
 - [ ] 🦀 **Backend** (`Axum` / `Rust`)
-- [ ] 🖥️ **Web Frontend** (`Django` / `Python`)
+- [ ] 📄 **Web Frontend** (`Django` / `Python`)
 - [ ] 🌐 **Docs** (`Next.JS` / `TypeScript`)
-- [ ] 📱 **Mobile** (`Kotlin` / `Android`)
+- [ ] 📱 **Mobile** (`Android` / `Kotlin`)
+- [ ] 🖥️ **Desktop** (`QML` / `C++`)
 - [ ] 🗄️ **Database** (`PostgreSQL` / `SQLx` migrations)
 - [ ] ⚙️ **Infra / Root Config**
 
@@ -34,13 +33,13 @@ Select all components modified in this pull request:
 
 Explain how these changes were tested. Include commands used to verify locally.
 
-### Local Execution
-- [ ] **Rust Backend**: Executed `cargo check` / `cargo test` clean with no warnings
+### Local Execution (Only required for what you worked on)
+- [ ] **Rust Backend**: Executed `mise run //apps/api:dev` clean with no warnings
 - [ ] **SQLx**: Migrations run cleanly, and `cargo sqlx prepare` updated (if query macros changed)
-- [ ] **Web App**: Executed `mise run dev:web`
-- [ ] **Docs**: Executed `pnpm build` / `npm run build` without type errors
+- [ ] **Web App**: Executed `mise run //apps/web:dev` clean with no warnings
+- [ ] **Docs**: Executed `mise run //apps/home:dev`clean with no warnings
 - [ ] **Mobile**: App builds and runs on emulator/device
-- [ ] **Linting / Formatting**: Passed project formatting checks (`cargo fmt`, `clippy`, `eslint`, etc.)
+- [ ] **Desktop** App builds and runs on desktop
 
 ---
 
@@ -48,7 +47,7 @@ Explain how these changes were tested. Include commands used to verify locally.
 
 | Before | After |
 | :--- | :--- |
-| *Paste screenshot or JSON response* | *Paste screenshot or JSON response* |
+| *Screenshot/JSON* | *Screenshot/JSON* |
 
 ---
 
@@ -57,4 +56,4 @@ Explain how these changes were tested. Include commands used to verify locally.
 - [ ] My code follows the code style guidelines of this project
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have updated relevant documentation / OpenAPI specifications
+- [ ] I have updated relevant documentation

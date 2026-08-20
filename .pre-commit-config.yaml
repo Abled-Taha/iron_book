@@ -20,12 +20,12 @@ repos:
     hooks:
       - id: cargo-fmt
         name: cargo fmt
-        entry: cargo fmt -- --check
+        entry: cargo fmt --manifest-path apps/api/Cargo.toml -- --check
         language: system
         types: [rust]
       - id: cargo-clippy
         name: cargo clippy
-        entry: cargo clippy -- -D warnings
+        entry: cargo clippy --manifest-path apps/api/Cargo.toml -- -D warnings
         language: system
         types: [rust]
         pass_filenames: false

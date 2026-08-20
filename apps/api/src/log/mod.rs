@@ -17,8 +17,6 @@ pub struct LogInfo {
 pub fn get_log_file() -> Result<Arc<Mutex<File>>> {
     // Target the workspace root directory safely
     let mut path = PathBuf::from(".");
-    path.push("apps");
-    path.push("api");
     path.push("logs");
 
     // Ensure the "logs" directory physically exists inside the root folder

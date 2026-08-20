@@ -1,0 +1,17 @@
+[tools]
+node = "24"
+
+[env]
+MISE_COREPACK = "1"
+
+[tasks."setup"]
+description = "Setup NextJS Documentation Site"
+run = [
+  "corepack enable pnpm",
+  "corepack use pnpm@11.1.2",
+  "pnpm install",
+]
+
+[tasks."dev"]
+description = "Run NextJS Dev Server"
+run = "trap 'exit 0' INT TERM; pnpm --filter . dev"

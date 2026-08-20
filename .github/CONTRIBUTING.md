@@ -74,20 +74,16 @@ Ensure all components you modified pass local compilation, type checks, and form
 # Check syntax & types without full build
 cargo check
 
-# Enforce formatting and linting
-cargo fmt --check
-cargo clippy -- -D warnings
-
 # Run test suite
-cargo test
+mise run //apps/api:test-full
+
+# Enforce formatting and linting
+# WILL BE DONE AUTOMATICALLY BEFORE COMITTING
 ```
 
 #### Docs Site (Next.js)
 ```bash
-# Install dependencies
-pnpm install
-
-# Run linter and type-checking
+# Run linter and type-checking (Needs to be automated in future with pre-commit hooks)
 pnpm lint
 pnpm build
 ```

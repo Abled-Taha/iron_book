@@ -21,3 +21,6 @@ run = [
   "mise //apps/web:setup",
   "mise //apps/android:setup",
 ]
+
+[tools]
+pre-commit = "4.6.2"

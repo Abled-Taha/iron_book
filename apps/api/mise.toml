@@ -36,10 +36,8 @@ run = "docker compose -f docker-compose-dev.yaml down ironbook_db"
 
 [tasks."db:migrate"]
 description = "Apply pending database migrations"
-dir = "apps/api"
 run = "cargo sqlx migrate run"
 
 [tasks."db:reset"]
 description = "Reset database and apply migrations"
-dir = "apps/api"
 run = "cargo sqlx database reset"

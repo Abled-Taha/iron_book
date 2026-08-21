@@ -219,7 +219,7 @@ export default function Docs() {
                         ["API", "Rust", "Working"],
                         ["Web App", "Python", "Planned"],
                         ["Android App", "Kotlin", "Planned"],
-                        ["Linux/Windows App", "C++", "Planned"],
+                        ["Linux/Windows App", "C#", "Planned"],
                         ["Database", "PostgreSQL", "Live"],
                         ["Cache", "Redis", "Planned"],
                         ["Project Website", "NextJS", "Live"],

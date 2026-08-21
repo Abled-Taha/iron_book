@@ -23,7 +23,7 @@ Select all components modified in this pull request:
 - [ ] 📄 **Web Frontend** (`Django` / `Python`)
 - [ ] 🌐 **Docs** (`Next.JS` / `TypeScript`)
 - [ ] 📱 **Mobile** (`Android` / `Kotlin`)
-- [ ] 🖥️ **Desktop** (`QML` / `C++`)
+- [ ] 🖥️ **Desktop** (`Avalonia` / `C#`)
 - [ ] 🗄️ **Database** (`PostgreSQL` / `SQLx` migrations)
 - [ ] ⚙️ **Infra / Root Config**
 

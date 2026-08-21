@@ -25,7 +25,7 @@ This project is divided into multiple parts as following:
 | API               | Rust            |      Working       |      -      |
 | Web App           | Python          |      Planned       |      -      |
 | Android App       | Kotlin          |      Planned       |      -      |
-| Linux/Windows App | C++             |      Planned       |      -      |
+| Linux/Windows App | C#              |      Planned       |      -      |
 | Database          | PostgreSQL      |      Live          |      -      |
 | Cache             | Redis           |      Planned       |      -      |
 | Project Website   | NextJS          |      Live          |      -      |

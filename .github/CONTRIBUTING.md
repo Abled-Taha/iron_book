@@ -35,7 +35,7 @@ Please keep discussions, issue threads, and pull request reviews respectful, con
 * **Web Frontend (`/apps/web`):** Built with Python and Django.
 * **Docs Site (`/apps/home`):** Next.js with TypeScript.
 * **Mobile (`/apps/mobile`):** Native Android application built with Kotlin.
-* **Desktop (`/apps/desktop`):** Built with C++ and QML.
+* **Desktop (`/apps/desktop`):** Built with C# and Avalonia.
 * **Database:** PostgreSQL managed via SQLx migrations.
 
 ---

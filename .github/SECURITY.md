@@ -19,7 +19,7 @@ Only the latest active release or the current state of the `main` branch is acti
 
 **Please do NOT open a public GitHub issue, pull request, or discussion for security vulnerabilities.**
 
-If you discover a security vulnerability within `iron_book` (including the Axum backend API, Next.js docs site, Django frontend, C++ desktop app, Kotlin mobile app, or PostgreSQL/SQLx data handlers):
+If you discover a security vulnerability within `iron_book` (including the Axum backend API, Next.js docs site, Django frontend, C# desktop app, Kotlin mobile app, or PostgreSQL/SQLx data handlers):
 
 1. **Private Disclosure:** Go to the repository's **Security** tab on GitHub and click **"Report a vulnerability"** to submit a Private Vulnerability Report. Alternatively, reach out directly via private channel or email specified in the repository profile (abledtaha@gmail.com).
 2. **Details to Include:**

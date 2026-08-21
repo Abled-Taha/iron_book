@@ -38,7 +38,7 @@ body:
         - Docs (Next.js)
         - Web App (Python / Django)
         - Mobile App (Kotlin)
-        - Desktop App (C++)
+        - Desktop App (C#)
         - Database / Migrations (PostgreSQL / SQLx)
         - Infrastructure / CI/CD
     validations:

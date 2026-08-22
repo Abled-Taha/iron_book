@@ -1,0 +1,10 @@
+[tools]
+dotnet="10.0"
+
+[tasks."setup"]
+description = "Setup C# desktop client"
+run = "dotnet build"
+
+[tasks."dev"]
+description = "Run C# desktop client with hot reload"
+run = "dotnet watch run"

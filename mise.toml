@@ -4,7 +4,8 @@ config_roots = [
     "apps/api",
     "apps/web",
     "apps/home",
-    "apps/android"
+    "apps/android",
+    "apps/desktop"
 ]
 
 [env]
@@ -20,6 +21,7 @@ run = [
   "mise //apps/api:setup",
   "mise //apps/web:setup",
   "mise //apps/android:setup",
+  "mise //apps/desktop:setup",
 ]
 
 [tools]

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#21]: Added unit and integration tests for the Rust API.
 - [#44]: Added a basic desktop app.
 - [#29]: Added automatic signed releases of binaries.
+- [#47]: Added downloads on Docs Site and README.
 
 ### Changed
 - [#30]: Changed license from MIT to GPL.

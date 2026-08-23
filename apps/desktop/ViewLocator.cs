@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using desktop.ViewModels;
+using ironbook.ViewModels;
 
-namespace desktop;
+namespace ironbook;
 
 /// <summary>
 /// Given a view model, returns the corresponding view if possible.

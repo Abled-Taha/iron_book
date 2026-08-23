@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace desktop;
+namespace ironbook;
 
 sealed class Program
 {

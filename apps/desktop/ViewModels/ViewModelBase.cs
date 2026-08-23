@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace desktop.ViewModels;
+namespace ironbook.ViewModels;
 
 public abstract class ViewModelBase : ObservableObject
 {

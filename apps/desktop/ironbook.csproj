@@ -4,6 +4,11 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <AssemblyName>ironbook</AssemblyName>
+    <RootNamespace>ironbook</RootNamespace>
+
+    <Version>0.1.0-alpha</Version>
   </PropertyGroup>
 
   <ItemGroup>

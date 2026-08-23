@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using desktop.ViewModels;
-using desktop.Views;
+using ironbook.ViewModels;
+using ironbook.Views;
 
-namespace desktop;
+namespace ironbook;
 
 public partial class App : Application
 {
@@ -15,9 +15,9 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime ironbook)
         {
-            desktop.MainWindow = new MainWindow
+            ironbook.MainWindow = new MainWindow
             {
                 DataContext = new MainViewModel(),
             };

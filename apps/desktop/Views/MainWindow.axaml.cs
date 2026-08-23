@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace desktop.Views;
+namespace ironbook.Views;
 
 public partial class MainWindow : Window
 {

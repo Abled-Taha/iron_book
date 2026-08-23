@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#06]: Added complete WSL2 support for devs on Windows.
 - [#21]: Added unit and integration tests for the Rust API.
 - [#44]: Added a basic desktop app.
+- [#29]: Added automatic signed releases of binaries.
 
 ### Changed
 - [#30]: Changed license from MIT to GPL.

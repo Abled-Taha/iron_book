@@ -40,7 +40,7 @@ jobs:
         run: chmod +x apps/android/gradlew
 
       - name: Build Android APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease -Dorg.gradle.java.home="$JAVA_HOME"
         working-directory: apps/android
 
       - name: Prepare Dynamic APK Name

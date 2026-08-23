@@ -17,12 +17,12 @@ run = [
 # Android Tasks
 [tasks."build"]
 description = "Compile the Android App"
-run = "gradlew assembleDebug"
+run = "./gradlew assembleDebug"
 
 [tasks."install"]
 description = "Install the debug APK on a connected device/emulator"
-run = "gradlew installDebug"
+run = "./gradlew installDebug"
 
 [tasks."clean"]
 description = "Clean the Gradle build cache"
-run = "gradlew clean"
+run = "./gradlew clean"

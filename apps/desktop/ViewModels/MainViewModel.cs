@@ -5,5 +5,5 @@ namespace desktop.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    public partial string Greeting { get; set; } = "Welcome!";
+    public partial string Greeting { get; set; } = "Welcome to IronBook!";
 }

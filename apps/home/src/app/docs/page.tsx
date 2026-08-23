@@ -239,43 +239,6 @@ export default function Docs() {
                 </div>
               </div>
 
-              {/* Directory Structure */}
-              <div
-                id="directory-structure"
-                className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <h3 className="text-2xl font-semibold">
-                  Project Directory Structure
-                </h3>
-
-                <div className="overflow-x-auto rounded-xl bg-zinc-950 p-6">
-                  <pre className="min-w-max text-sm leading-6 text-zinc-100">
-                    {`
-                    .
-                    ├── apps
-                    │   ├── android
-                    │   ├── api
-                    │   ├── home
-                    │   └── web
-                    ├── Cargo.lock
-                    ├── Cargo.toml
-                    ├── docker-compose.yaml
-                    ├── Dockerfile
-                    ├── .env.example
-                    ├── .gitignore
-                    ├── iron_book.sh
-                    ├── LICENSE
-                    ├── mise.toml
-                    ├── package.json
-                    ├── pnpm-lock.yaml
-                    ├── pnpm-workspace.yaml
-                    ├── README.md
-                    ├── setup.sh
-                    └── .vscode`}
-                  </pre>
-                </div>
-              </div>
-
               {/* Setup */}
               <div
                 id="setup"
@@ -309,85 +272,6 @@ export default function Docs() {
                     </code>
                   </li>
                 </ol>
-              </div>
-
-              {/* Todo */}
-              <div
-                id="todo"
-                className="space-y-6 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-semibold">Todo</h3>
-
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    Current development tasks and completed milestones.
-                  </p>
-                </div>
-
-                {/* Pending Tasks */}
-                <div className="space-y-4">
-                  <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-                    Pending
-                  </h4>
-
-                  <ul className="space-y-4 text-zinc-700 dark:text-zinc-300">
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>Nix Flakes</span>
-                    </li>
-
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>Docker</span>
-                    </li>
-
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>
-                        Django does not serve static files in production
-                      </span>
-                    </li>
-
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>Add other production features</span>
-                    </li>
-
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 text-zinc-400">⬜</span>
-
-                      <span>Support WSL</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Completed Tasks Dropdown */}
-                <details className="group overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
-                  <summary className="flex cursor-pointer list-none items-center justify-between bg-zinc-100 px-5 py-4 font-medium transition hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700">
-                    <span className="flex items-center gap-2">
-                      ✅ Completed Tasks
-                    </span>
-
-                    <span className="transition group-open:rotate-180">▼</span>
-                  </summary>
-
-                  <div className="border-t border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-                    <ul className="space-y-4 text-zinc-700 dark:text-zinc-300">
-                      <li className="flex items-start gap-3">
-                        <span className="mt-1 text-emerald-500">✔</span>
-
-                        <span>
-                          Replace this README with the Project Website and use
-                          it as the main documentation.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
               </div>
             </section>
 

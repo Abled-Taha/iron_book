@@ -93,7 +93,7 @@ export default function Downloads() {
                 <div className="space-y-4 text-zinc-700 dark:text-zinc-300">
                   <p>Download and run the latest installer.</p>
                   <div className="flex gap-4">
-                    <button className={buttonStyle} onClick={() => window.location.href = "https://github.com/Abled-taha/iron_book/blob/main/scripts/Output/IronBook-Setup.exe"}>
+                    <button className={buttonStyle} onClick={() => window.location.href = "https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe"}>
                       Latest Installer
                     </button>
                   </div>

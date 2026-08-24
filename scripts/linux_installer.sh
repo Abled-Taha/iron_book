@@ -32,7 +32,7 @@ done
 
 # 1. Prompt release channel
 printf "Select release type ([s]table / [p]re-release): "
-read -r RELEASE_CHOICE
+read -r RELEASE_CHOICE < /dev/tty
 
 case "$RELEASE_CHOICE" in
   [pP]*)

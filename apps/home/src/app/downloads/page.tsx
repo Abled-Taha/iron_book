@@ -79,7 +79,7 @@ export default function Downloads() {
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>Run this curl command.</li>
                   <p className="font-mono text-sm bg-zinc-100 dark:bg-zinc-800 p-2 rounded">
-                    curl https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
+                    curl -sSL https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
                   </p>
                 </ul>
               </div>
@@ -91,13 +91,10 @@ export default function Downloads() {
 
               <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                 <div className="space-y-4 text-zinc-700 dark:text-zinc-300">
-                  <p>Download and run the installer for the latest release.</p>
+                  <p>Download and run the latest installer.</p>
                   <div className="flex gap-4">
-                    <button className={buttonStyle} onClick={() => downloadLatestRelease('.exe')}>
-                      Stable Release (.exe)
-                    </button>
-                    <button className={buttonStyle} onClick={() => downloadLatestPreRelease('.exe')}>
-                      Pre-Release (.exe)
+                    <button className={buttonStyle} onClick={() => window.location.href = "https://github.com/Abled-taha/iron_book/blob/main/scripts/Output/IronBook-Setup.exe"}>
+                      Latest Installer
                     </button>
                   </div>
                 </div>

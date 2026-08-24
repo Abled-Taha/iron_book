@@ -43,9 +43,9 @@ This section is targeted towards the users of this project.
 ### Installation
 - Linux:
   ```bash
-  curl https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
+  curl -sSL https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
   ```
-- Windows: Download and install the latest [Stable Release] or visit the [Documentation].
+- Windows: Download and install the latest [Installer] or visit the [Documentation].
 - Android: Download and install the latest [Stable Release] or visit the [Documentation].
 
 ### Features
@@ -63,3 +63,4 @@ Open an issue on [GitHub]
 [GitHub]: https://github.com/Abled-Taha/iron_book
 [Documentation]: https://docs.ironbook.app.abledtaha.online
 [Stable Release]: https://github.com/Abled-Taha/iron_book/releases/latest
+[Installer]: https://github.com/Abled-taha/iron_book/blob/main/scripts/Output/IronBook-Setup.exe

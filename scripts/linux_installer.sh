@@ -31,8 +31,20 @@ for cmd in curl jq gpg unzip; do
 done
 
 # 1. Prompt release channel
-printf "Select release type ([s]table / [p]re-release): "
-read -r RELEASE_CHOICE < /dev/tty
+if [ -t 0 ]; then
+  # Standard interactive execution
+  printf "Select release type ([s]table / [p]re-release): "
+  read -r RELEASE_CHOICE
+elif [ -c /dev/tty ]; then
+  # Piped execution (curl ... | sh): Redirect FD 3 from /dev/tty
+  exec 3< /dev/tty
+  printf "Select release type ([s]table / [p]re-release): " >&2
+  read -r RELEASE_CHOICE <&3
+  exec 3<&-
+else
+  echo "Error: Terminal is non-interactive and no TTY is available." >&2
+  exit 1
+fi
 
 case "$RELEASE_CHOICE" in
   [pP]*)

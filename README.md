@@ -1,7 +1,7 @@
 # Project Iron Book
 A Digital Financial Ledger
 
-## This README.md is for formal purposes and is updated less frequently than the [Documentation](https://docs.ironbook.app.abledtaha.online) site.
+## This README.md is for formal purposes and is updated less frequently than the [Documentation] site.
 
 This repo is my biggest achievement to date because of its 3 main features, as follows:
 1. It has 7 different parts to it, all integrated and managed into one polyglot monorepo.
@@ -40,6 +40,14 @@ This project is divided into multiple parts as following:
 
 This section is targeted towards the users of this project.
 
+### Installation
+- Linux:
+  ```bash
+  curl https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
+  ```
+- Windows: Download and install the latest [Stable Release] or visit the [Documentation].
+- Android: Download and install the latest [Stable Release] or visit the [Documentation].
+
 ### Features
 
 1. 7 different parts integrated and managed into one polyglot monorepo
@@ -48,8 +56,10 @@ This section is targeted towards the users of this project.
 
 ### Complaints
 
-Open an issue on [GitHub][GitHub]
+Open an issue on [GitHub]
 
 ---
 
 [GitHub]: https://github.com/Abled-Taha/iron_book
+[Documentation]: https://docs.ironbook.app.abledtaha.online
+[Stable Release]: https://github.com/Abled-Taha/iron_book/releases/latest

@@ -1,0 +1,89 @@
+name: Build & Publish All Releases
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # --- SETUP ENVIRONMENTS ---
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+          cache-dependency-path: 'apps/android/**/*.gradle*'
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Import GPG Key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      # --- BUILD ANDROID APK ---
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x apps/android/gradlew
+
+      - name: Build Android APK
+        run: ./gradlew assembleRelease
+        working-directory: apps/android
+
+      - name: Prepare Dynamic APK Name
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          cp apps/android/app/build/outputs/apk/release/app-release-unsigned.apk "ironbook-${TAG_NAME}.apk"
+
+      # --- BUILD AVALONIA DESKTOP ---
+      - name: Publish Desktop (Linux x64)
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          dotnet publish -c Release -r linux-x64 --self-contained true -o output/linux
+          cd output/linux && zip -r "../../../../ironbook-${TAG_NAME}-linux-x64.zip" .
+        working-directory: apps/desktop
+
+      - name: Publish Desktop (Windows x64)
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          dotnet publish -c Release -r win-x64 --self-contained true -o output/win
+          cd output/win && zip -r "../../../../ironbook-${TAG_NAME}-win-x64.zip" .
+        working-directory: apps/desktop
+
+      # --- SIGN ALL BINARIES WITH GPG ---
+      - name: Generate GPG Detached Signatures
+        run: |
+          for file in ironbook-*.apk ironbook-*.zip; do
+            gpg --batch --yes --detach-sign --armor "$file"
+          done
+
+      # --- EXTRACT LATEST CHANGELOG SECTION ---
+      - name: Extract Latest Release Notes
+        run: |
+          sed -n '/^## /,$p' .github/docs/CHANGELOG.md | sed -n '1p;2,/^## /p' | sed '$d' > latest_changelog.md
+
+      # --- UPLOAD ALL RELEASE ASSETS AND SIGNATURES ---
+      - name: Upload All Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ironbook-*.apk
+            ironbook-*.apk.asc
+            ironbook-*-linux-x64.zip
+            ironbook-*-linux-x64.zip.asc
+            ironbook-*-win-x64.zip
+            ironbook-*-win-x64.zip.asc
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          body_path: latest_changelog.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

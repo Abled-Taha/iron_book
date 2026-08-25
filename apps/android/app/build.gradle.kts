@@ -1,0 +1,83 @@
+import java.util.Properties
+
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
+
+// Load secrets from .env file in the root project directory
+val envProperties = Properties()
+val envFile = rootProject.file(".env")
+
+if (envFile.exists()) {
+    envFile.forEachLine { line ->
+        if (line.isNotBlank() && !line.startsWith("#") && line.contains("=")) {
+            val (key, value) = line.split("=", limit = 2)
+            val cleanValue = value.trim().removeSurrounding("\"").removeSurrounding("'")
+            envProperties.setProperty(key.trim(), cleanValue)
+        }
+    }
+}
+
+android {
+    namespace = "com.abledtaha.ironbook"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.abledtaha.ironbook"
+        minSdk = 26
+        targetSdk = 34
+        versionCode = 1
+        versionName = "0.1.0-alpha"
+    }
+
+    signingConfigs {
+        create("release") {
+            val storePath = envProperties.getProperty("KEYSTORE_PATH")
+                ?: System.getenv("KEYSTORE_PATH")
+                ?: ""
+
+            storeFile = rootProject.file(storePath)
+            storePassword = envProperties.getProperty("KEYSTORE_PASSWORD")
+                ?: System.getenv("KEYSTORE_PASSWORD")
+                ?: ""
+            keyAlias = envProperties.getProperty("KEY_ALIAS")
+                ?: System.getenv("KEY_ALIAS")
+                ?: ""
+            keyPassword = envProperties.getProperty("KEY_PASSWORD")
+                ?: System.getenv("KEY_PASSWORD")
+                ?: ""
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    kotlinOptions {
+        jvmTarget = "21"
+    }
+}
+
+dependencies {
+    // Core AndroidX libraries needed for basic modern app components
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
+    // UI Layout essentials
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+}

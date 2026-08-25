@@ -22,10 +22,10 @@ This project is divided into multiple parts as following:
 
 | Sub-Part          | Tech            | Development Status | Extra Notes |
 | ----------------- | --------------- | :----------------: | :---------: |
-| API               | Rust            |      Working       |      -      |
-| Web App           | Python          |      Planned       |      -      |
-| Android App       | Kotlin          |      Planned       |      -      |
-| Linux/Windows App | C#              |      Planned       |      -      |
+| API               | Rust            |      Live          |      -      |
+| Web App           | Python          |      Live          |      -      |
+| Android App       | Kotlin          |      Live          |      -      |
+| Linux/Windows App | C#              |      Live          |      -      |
 | Database          | PostgreSQL      |      Live          |      -      |
 | Cache             | Redis           |      Planned       |      -      |
 | Project Website   | NextJS          |      Live          |      -      |

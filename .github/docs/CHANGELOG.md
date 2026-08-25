@@ -7,10 +7,13 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 
 ### Added
 - [#26]: Added installers for Linux & Windows.
+- [#51]: Added password hashing.
+- [#57]: Added app signing with keystore.
 
 ### Changed
 
 ### Fixed
+- [#59]: Fixed "App not installed as appears to be invalid" error.
 
 
 

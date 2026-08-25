@@ -1,6 +1,24 @@
+import java.util.Properties
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+}
+
+// Load secrets from .env after the plugins block
+def envProperties = new Properties()
+def envFile = rootProject.file('.env')
+
+if (envFile.exists()) {
+    envFile.eachLine { line ->
+        if (line && !line.startsWith('#') && line.contains('=')) {
+            def keyVal = line.split('=', 2)
+            // Strip surrounding quotes if present in .env
+            def key = keyVal[0].trim()
+            def value = keyVal[1].trim().replaceAll(/^["']|["']$/, '')
+            envProperties.setProperty(key, value)
+        }
+    }
 }
 
 android {
@@ -15,6 +33,26 @@ android {
         versionName "0.1.0-alpha"
     }
 
+    signingConfigs {
+        release {
+            def storePath = envProperties.getProperty('KEYSTORE_PATH') ?: System.getenv('KEYSTORE_PATH') ?: ''
+
+            storeFile rootProject.file(storePath)
+            storePassword envProperties.getProperty('KEYSTORE_PASSWORD') ?: System.getenv('KEYSTORE_PASSWORD') ?: ''
+            keyAlias envProperties.getProperty('KEY_ALIAS') ?: System.getenv('KEY_ALIAS') ?: ''
+            keyPassword envProperties.getProperty('KEY_PASSWORD') ?: System.getenv('KEY_PASSWORD') ?: ''
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
@@ -25,11 +63,8 @@ android {
 }
 
 dependencies {
-    // Core AndroidX libraries needed for basic modern app components
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-
-    // UI Layout essentials
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

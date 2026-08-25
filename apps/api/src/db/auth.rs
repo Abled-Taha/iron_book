@@ -22,7 +22,7 @@ pub async fn register(
         "#,
         data.username,
         data.email,
-        data.password_hash,
+        data.password,
     )
     .fetch_one(&mut *tx)
     .await?;

@@ -9,6 +9,10 @@
 
 mod common;
 
+use argon2::{
+    Argon2,
+    password_hash::{PasswordHasher, SaltString, rand_core::OsRng},
+};
 use chrono::{Duration, Utc};
 use common::{cleanup_log, init_db, test_state};
 use ironbook_api::{db, errors::AppError, services};
@@ -111,7 +115,7 @@ async fn auth_register_creates_user_and_session(pool: PgPool) {
         services::auth::RegisterRequest {
             email: "new@example.com".into(),
             username: "new-user".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
         &"abcdefghijklmnopqrstuvwxyz123456".to_string(),
     )
@@ -160,7 +164,7 @@ async fn auth_login_creates_a_new_session_and_returns_its_token(pool: PgPool) {
         &state,
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
         &"zyxwvutsrqponmlkjihgfedcba654321".to_string(),
     )
@@ -307,7 +311,7 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
     let request = || services::auth::RegisterRequest {
         email: "new@example.com".into(),
         username: "new-user".into(),
-        password_hash: "hash".into(),
+        password: "hash".into(),
     };
 
     let invalid = services::auth::register(&state, "bad-token".into(), request())
@@ -333,7 +337,7 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
         services::auth::RegisterRequest {
             email: "other@example.com".into(),
             username: "new-user".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
     )
     .await
@@ -349,7 +353,7 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
         services::auth::RegisterRequest {
             email: "new@example.com".into(),
             username: "other-user".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
     )
     .await
@@ -380,7 +384,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
         "bad-token".into(),
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
     )
     .await
@@ -392,17 +396,21 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
         "abcdefghijklmnopqrstuvwxyz123456".into(),
         services::auth::LoginRequest {
             email: "missing@example.com".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
     )
     .await
     .unwrap_err();
     assert!(matches!(missing_user, AppError::InvalidCredentials));
 
+    let salt = SaltString::generate(&mut OsRng);
+    let argon2 = Argon2::default();
+    let valid_password_hash = argon2.hash_password(b"hash", &salt).unwrap().to_string();
+
     sqlx::query("INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)")
         .bind("alice")
         .bind("alice@example.com")
-        .bind("hash")
+        .bind(valid_password_hash)
         .execute(&pool)
         .await
         .unwrap();
@@ -412,7 +420,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
         "abcdefghijklmnopqrstuvwxyz123456".into(),
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
-            password_hash: "wrong".into(),
+            password: "wrong".into(),
         },
     )
     .await
@@ -424,7 +432,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
         "abcdefghijklmnopqrstuvwxyz123456".into(),
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         },
     )
     .await

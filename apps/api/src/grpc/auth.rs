@@ -22,7 +22,7 @@ impl AuthService for AuthGrpcService {
         let data = auth::RegisterRequest {
             email: req.email,
             username: req.username,
-            password_hash: req.password_hash,
+            password: req.password,
         };
 
         let resp = auth::register(&self.state, req.api_token, data)
@@ -39,7 +39,7 @@ impl AuthService for AuthGrpcService {
         let req = request.into_inner();
         let data = auth::LoginRequest {
             email: req.email,
-            password_hash: req.password_hash,
+            password: req.password,
         };
 
         let resp = auth::login(&self.state, req.api_token, data)

@@ -2,24 +2,23 @@ use ironbook_api::services::{auth, system, users};
 
 #[test]
 fn register_request_deserializes() {
-    let request: auth::RegisterRequest = serde_json::from_str(
-        r#"{"email":"test@example.com","username":"test","password_hash":"hash"}"#,
-    )
-    .expect("deserialize register request");
+    let request: auth::RegisterRequest =
+        serde_json::from_str(r#"{"email":"test@example.com","username":"test","password":"hash"}"#)
+            .expect("deserialize register request");
 
     assert_eq!(request.email, "test@example.com");
     assert_eq!(request.username, "test");
-    assert_eq!(request.password_hash, "hash");
+    assert_eq!(request.password, "hash");
 }
 
 #[test]
 fn login_request_deserializes() {
     let request: auth::LoginRequest =
-        serde_json::from_str(r#"{"email":"test@example.com","password_hash":"hash"}"#)
+        serde_json::from_str(r#"{"email":"test@example.com","password":"hash"}"#)
             .expect("deserialize login request");
 
     assert_eq!(request.email, "test@example.com");
-    assert_eq!(request.password_hash, "hash");
+    assert_eq!(request.password, "hash");
 }
 
 #[test]

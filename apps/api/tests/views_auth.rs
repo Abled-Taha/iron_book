@@ -18,7 +18,7 @@ async fn register_rejects_missing_authorization_header_before_database_access() 
         Json(RegisterRequest {
             email: "test@example.com".into(),
             username: "test".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         }),
     )
     .await;
@@ -36,7 +36,7 @@ async fn login_rejects_missing_authorization_header_before_database_access() {
         HeaderMap::new(),
         Json(LoginRequest {
             email: "test@example.com".into(),
-            password_hash: "hash".into(),
+            password: "hash".into(),
         }),
     )
     .await;

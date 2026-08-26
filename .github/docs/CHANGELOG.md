@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 ### Fixed
 - [#59]: Fixed "App not installed as appears to be invalid" error.
 - [#52]: Increased the security for session tokens.
+- [#61]: Moved protobuf files in root directory.
+- [#52]: Fixed many security vulnerabilites on session tokens.
 
 
 

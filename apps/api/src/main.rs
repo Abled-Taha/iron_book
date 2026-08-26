@@ -1,10 +1,11 @@
 use anyhow::Result;
 use axum::{
     Router,
+    http::{self, HeaderValue},
     routing::{get, post},
 };
 use ironbook_api::{
-    db,
+    config, db,
     grpc::{auth::AuthGrpcService, system::SystemGrpcService, users::UsersGrpcService},
     log, proto,
     proto::{
@@ -16,6 +17,7 @@ use ironbook_api::{
     views,
 };
 use tokio::sync::broadcast;
+use tower_http::cors::CorsLayer;
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
@@ -34,6 +36,29 @@ pub async fn main() -> Result<()> {
         &state,
     )?;
 
+    // HTTP Allowed Origins
+    let allow_all = config::get("ALLOW_ALL_ORIGINS")
+        .map(|v: String| v.trim().to_lowercase() == "true")
+        .unwrap_or(false);
+
+    let cors = if allow_all {
+        CorsLayer::new()
+            .allow_origin(tower_http::cors::Any)
+            .allow_methods([http::Method::GET, http::Method::POST])
+    } else {
+        let origins_str: String =
+            config::get("ALLOWED_ORIGINS").expect("ALLOWED_ORIGINS var not set in env");
+
+        let origins: Vec<HeaderValue> = origins_str
+            .split(',')
+            .map(|s| s.trim().parse().expect("Invalid header value"))
+            .collect();
+
+        CorsLayer::new()
+            .allow_origin(origins)
+            .allow_methods([http::Method::GET, http::Method::POST])
+    };
+
     // HTTP routes
     let app = Router::new()
         .route("/", get(views::system::greet))
@@ -46,6 +71,7 @@ pub async fn main() -> Result<()> {
         .route("/users/search", get(views::users::search))
         .route("/auth/register", post(views::auth::register))
         .route("/auth/login", post(views::auth::login))
+        .layer(cors)
         .with_state(state.clone());
 
     // 1. Setup a broadcast channel for fan-out shutdown signals

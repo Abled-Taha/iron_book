@@ -20,11 +20,11 @@
 
 @layer base {
   /* This targets the raw HTML that Django / Allauth generates */
-  input[type="text"], 
-  input[type="email"], 
-  input[type="password"], 
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
   input[type="number"],
-  select, 
+  select,
   textarea {
     @apply w-full rounded-lg border-gray-300 bg-white px-4 py-2 text-gray-900 shadow-sm transition;
     @apply focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-hidden;

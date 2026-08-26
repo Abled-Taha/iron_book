@@ -3,12 +3,12 @@ use crate::errors::AppError;
 use crate::log;
 use crate::state::AppState;
 use argon2::{
-    Argon2,
+    Argon2, PasswordHash, PasswordVerifier,
     password_hash::{PasswordHasher, SaltString, rand_core::OsRng},
 };
-use argon2::{PasswordHash, PasswordVerifier};
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 #[derive(Debug, Serialize)]
 pub struct AuthToken {
@@ -70,7 +70,11 @@ pub async fn register(
     };
 
     let token = Alphanumeric.sample_string(&mut rand::rng(), 32);
-    auth::register(state, data2, &token).await?;
+    let token_hashed: String = Sha256::digest(token.as_bytes())
+        .iter()
+        .map(|b| format!("{:02x}", b))
+        .collect();
+    auth::register(state, data2, &token_hashed).await?;
 
     Ok(AuthToken { token })
 }
@@ -117,7 +121,11 @@ pub async fn login(
     }
 
     let token = Alphanumeric.sample_string(&mut rand::rng(), 32);
-    auth::login(state, data, &token).await?;
+    let token_hashed: String = Sha256::digest(token.as_bytes())
+        .iter()
+        .map(|b| format!("{:02x}", b))
+        .collect();
+    auth::login(state, data, &token_hashed).await?;
 
     Ok(AuthToken { token })
 }

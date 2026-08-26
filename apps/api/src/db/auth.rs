@@ -9,7 +9,7 @@ use sqlx::{Postgres, Transaction};
 pub async fn register(
     state: &AppState,
     data: auth::RegisterRequest,
-    token: &String,
+    token_hash: &String,
 ) -> Result<u64, AppError> {
     let mut tx: Transaction<'_, Postgres> = state.db.begin().await?;
 
@@ -45,11 +45,11 @@ pub async fn register(
     // Insert the session into the database
     sqlx::query!(
         r#"
-        INSERT INTO sessions (user_id, token, expires_at)
+        INSERT INTO sessions (user_id, token_hash, expires_at)
         VALUES ($1, $2, $3)
         "#,
         user_id_i64,
-        token,
+        token_hash,
         expires_at
     )
     .execute(&mut *tx)
@@ -64,7 +64,7 @@ pub async fn register(
 pub async fn login(
     state: &AppState,
     data: auth::LoginRequest,
-    token: &String,
+    token_hash: &String,
 ) -> Result<String, AppError> {
     let expires_at = Utc::now() + Duration::days(365);
 
@@ -86,12 +86,12 @@ pub async fn login(
     // Insert the token into sessions table and return it
     let token_return: String = sqlx::query_scalar!(
         r#"
-        INSERT INTO sessions (user_id, token, expires_at)
+        INSERT INTO sessions (user_id, token_hash, expires_at)
         VALUES ($1, $2, $3)
-        RETURNING token
+        RETURNING token_hash
         "#,
         user_id_i64,
-        token,
+        token_hash,
         expires_at,
     )
     .fetch_one(&state.db)

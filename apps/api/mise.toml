@@ -38,6 +38,10 @@ run = "docker compose -f docker-compose-dev.yaml down ironbook_db"
 description = "Apply pending database migrations"
 run = "cargo sqlx migrate run"
 
+[tasks."db:prepare"]
+description = "Prepares the .sqlx files for offline development"
+run = "cargo sqlx prepare"
+
 [tasks."db:reset"]
 description = "Reset database and apply migrations"
 run = "cargo sqlx database reset"

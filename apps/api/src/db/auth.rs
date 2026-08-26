@@ -45,12 +45,13 @@ pub async fn register(
     // Insert the session into the database
     sqlx::query!(
         r#"
-        INSERT INTO sessions (user_id, token_hash, expires_at)
-        VALUES ($1, $2, $3)
+        INSERT INTO sessions (user_id, token_hash, expires_at, active)
+        VALUES ($1, $2, $3, $4)
         "#,
         user_id_i64,
         token_hash,
-        expires_at
+        expires_at,
+        true,
     )
     .execute(&mut *tx)
     .await?;
@@ -86,13 +87,14 @@ pub async fn login(
     // Insert the token into sessions table and return it
     let token_return: String = sqlx::query_scalar!(
         r#"
-        INSERT INTO sessions (user_id, token_hash, expires_at)
-        VALUES ($1, $2, $3)
+        INSERT INTO sessions (user_id, token_hash, expires_at, active)
+        VALUES ($1, $2, $3, $4)
         RETURNING token_hash
         "#,
         user_id_i64,
         token_hash,
         expires_at,
+        true,
     )
     .fetch_one(&state.db)
     .await?;

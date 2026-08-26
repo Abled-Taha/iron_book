@@ -29,3 +29,9 @@ repos:
         language: system
         types: [rust]
         pass_filenames: false
+      - id: sqlx-prepare
+        name: sqlx prepare
+        entry: mise run //apps/api:db:prepare
+        language: system
+        types: [rust]
+        pass_filenames: false

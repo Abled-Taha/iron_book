@@ -14,3 +14,7 @@ run = [
 [tasks."dev"]
 description = "Run NextJS Dev Server"
 run = "trap 'exit 0' INT TERM; pnpm --filter . dev"
+
+[tasks."test"]
+description = "Run tests for NextJS"
+run = "pnpm exec vitest run --passWithNoTests"

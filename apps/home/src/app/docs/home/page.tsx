@@ -23,25 +23,32 @@ export default function DocsHome() {
             </section>
 
             {/* Setup Instructions */}
-            <section
-              id="setup-instructions"
-              className="space-y-6 scroll-mt-24"
-            >
+            <section id="setup-instructions" className="space-y-6 scroll-mt-24">
               <h2 className="text-3xl font-bold">Setup Instructions</h2>
 
               <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-                <h3 className="text-2xl font-bold">Docker Setup (Recommended)</h3>
+                <h3 className="text-2xl font-bold">
+                  Docker Setup (Recommended)
+                </h3>
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>
                     File which can be used to deploy is
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`docker-compose.yaml`</pre>
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`docker compose up -d ironbook_home`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `docker-compose.yaml`
+                    </pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `docker compose up -d ironbook_home`
+                    </pre>
                   </li>
 
                   <li>
                     Required environment variables are
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`HOST_PORT`</pre>
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`NEXT_PUBLIC_SITE_URL`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `HOST_PORT`
+                    </pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `NEXT_PUBLIC_SITE_URL`
+                    </pre>
                   </li>
                 </ul>
               </div>
@@ -50,21 +57,32 @@ export default function DocsHome() {
                 <h3 className="text-2xl font-bold">Direct From Repo</h3>
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>
-                    <a href="https://mise.jdx.dev">Mise</a> & <a href="https://docs.docker.com/desktop/setup/install/linux/">Docker Suite</a> must be installed
+                    <a href="https://mise.jdx.dev">Mise</a> &{" "}
+                    <a href="https://docs.docker.com/desktop/setup/install/linux/">
+                      Docker Suite
+                    </a>{" "}
+                    must be installed
                   </li>
 
                   <li>
-                    Clone <a href="https://github.com/Abled-Taha/iron_book">Git Repo</a>
+                    Clone{" "}
+                    <a href="https://github.com/Abled-Taha/iron_book">
+                      Git Repo
+                    </a>
                   </li>
 
                   <li>
                     To setup, run (in project directory)
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`mise trust; ./setup.sh`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `mise trust; ./setup.sh`
+                    </pre>
                   </li>
 
                   <li>
                     To start the server, run (in project directory)
-                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">`mise run prod:home`</pre>
+                    <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
+                      `mise run prod:home`
+                    </pre>
                   </li>
                 </ul>
               </div>

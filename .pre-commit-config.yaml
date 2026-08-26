@@ -23,15 +23,55 @@ repos:
         entry: cargo fmt --manifest-path apps/api/Cargo.toml -- --check
         language: system
         types: [rust]
+
       - id: cargo-clippy
         name: cargo clippy
         entry: cargo clippy --manifest-path apps/api/Cargo.toml -- -D warnings #-W clippy::pedantic
         language: system
         types: [rust]
         pass_filenames: false
+
       - id: sqlx-prepare
         name: sqlx prepare
         entry: bash -c 'mise run //apps/api:db:prepare && git diff --exit-code'
         language: system
         types: [rust]
+        pass_filenames: false
+
+      - id: api-tests
+        name: api tests
+        entry: mise run //apps/api:test-full
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+  # Local NextJS checks
+  - repo: local
+    hooks:
+      - id: next-prettier
+        name: next prettier check
+        entry: bash -c 'cd apps/home && pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write && git diff --exit-code'
+        language: system
+        types_or: [javascript, jsx, ts, tsx, css, json]
+        pass_filenames: false
+
+      - id: next-eslint
+        name: next lint
+        entry: bash -c 'cd apps/home && pnpm run lint'
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+        pass_filenames: false
+
+      - id: next-type-check
+        name: next type check
+        entry: bash -c 'cd apps/home && pnpm exec tsc --noEmit'
+        language: system
+        types_or: [ts, tsx]
+        pass_filenames: false
+
+      - id: home-tests
+        name: home tests
+        entry: mise run //apps/home:test
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
         pass_filenames: false

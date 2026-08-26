@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
 async function downloadLatestPreRelease(extension: string) {
   try {
     // Get ALL releases (returns an array sorted by date, including pre-releases)
-    const res = await fetch('https://api.github.com/repos/Abled-Taha/iron_book/releases');
+    const res = await fetch(
+      "https://api.github.com/repos/Abled-Taha/iron_book/releases",
+    );
     const releases = await res.json();
 
     if (!Array.isArray(releases) || releases.length === 0) {
-      alert('No releases found.');
+      alert("No releases found.");
       return;
     }
 
@@ -15,7 +17,9 @@ async function downloadLatestPreRelease(extension: string) {
     const latestBuild = releases[0];
 
     // Find the file (e.g., .apk, .exe, etc.)
-    const asset = latestBuild.assets?.find((a: { name: string }) => a.name.endsWith(extension));
+    const asset = latestBuild.assets?.find((a: { name: string }) =>
+      a.name.endsWith(extension),
+    );
 
     if (asset) {
       window.location.href = asset.browser_download_url;
@@ -23,19 +27,23 @@ async function downloadLatestPreRelease(extension: string) {
       alert(`Pre-release file with extension "${extension}" not found.`);
     }
   } catch (error) {
-    console.error('Download failed:', error);
-    alert('Failed to fetch release information.');
+    console.error("Download failed:", error);
+    alert("Failed to fetch release information.");
   }
 }
 
 async function downloadLatestRelease(extension: string) {
   try {
     // Query GitHub's API for the latest release metadata
-    const response = await fetch('https://api.github.com/repos/Abled-Taha/iron_book/releases/latest');
+    const response = await fetch(
+      "https://api.github.com/repos/Abled-Taha/iron_book/releases/latest",
+    );
     const release = await response.json();
 
     // Find the asset matching the desired file format (.apk, .exe, etc.)
-    const asset = release.assets?.find((a: { name: string }) => a.name.endsWith(extension));
+    const asset = release.assets?.find((a: { name: string }) =>
+      a.name.endsWith(extension),
+    );
 
     if (asset) {
       window.location.href = asset.browser_download_url;
@@ -43,14 +51,14 @@ async function downloadLatestRelease(extension: string) {
       alert(`Release file with extension "${extension}" not found.`);
     }
   } catch (error) {
-    console.error('Download failed:', error);
-    alert('Failed to fetch release information.');
+    console.error("Download failed:", error);
+    alert("Failed to fetch release information.");
   }
 }
 
 export default function Downloads() {
   const buttonStyle =
-    'rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300';
+    "rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300";
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-100">
@@ -65,9 +73,13 @@ export default function Downloads() {
               </div>
 
               <div className="space-y-3">
-                <h1 className="text-5xl font-black tracking-tight">Project Iron Book</h1>
+                <h1 className="text-5xl font-black tracking-tight">
+                  Project Iron Book
+                </h1>
 
-                <h2 className="text-xl text-zinc-600 dark:text-zinc-400">A Digital Financial Ledger</h2>
+                <h2 className="text-xl text-zinc-600 dark:text-zinc-400">
+                  A Digital Financial Ledger
+                </h2>
               </div>
             </section>
 
@@ -79,7 +91,9 @@ export default function Downloads() {
                 <ul className="list-disc space-y-4 pl-6 leading-7 text-zinc-700 dark:text-zinc-300">
                   <li>Run this curl command.</li>
                   <p className="font-mono text-sm bg-zinc-100 dark:bg-zinc-800 p-2 rounded">
-                    curl -sSL https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
+                    curl -sSL
+                    https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh
+                    | sh
                   </p>
                 </ul>
               </div>
@@ -93,7 +107,13 @@ export default function Downloads() {
                 <div className="space-y-4 text-zinc-700 dark:text-zinc-300">
                   <p>Download and run the latest installer.</p>
                   <div className="flex gap-4">
-                    <button className={buttonStyle} onClick={() => window.location.href = "https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe"}>
+                    <button
+                      className={buttonStyle}
+                      onClick={() =>
+                        (window.location.href =
+                          "https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe")
+                      }
+                    >
                       Latest Installer
                     </button>
                   </div>
@@ -109,10 +129,16 @@ export default function Downloads() {
                 <div className="space-y-4 text-zinc-700 dark:text-zinc-300">
                   <p>Download and install the APK for the latest release.</p>
                   <div className="flex gap-4">
-                    <button className={buttonStyle} onClick={() => downloadLatestRelease('.apk')}>
+                    <button
+                      className={buttonStyle}
+                      onClick={() => downloadLatestRelease(".apk")}
+                    >
                       Stable Release (.apk)
                     </button>
-                    <button className={buttonStyle} onClick={() => downloadLatestPreRelease('.apk')}>
+                    <button
+                      className={buttonStyle}
+                      onClick={() => downloadLatestPreRelease(".apk")}
+                    >
                       Pre-Release (.apk)
                     </button>
                   </div>

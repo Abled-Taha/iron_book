@@ -39,6 +39,11 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x apps/android/gradlew
 
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.SIGNING_KEY }}
+        run: echo $ENCODED_STRING | base64 --decode > apps/ironbook.keystore
+
       - name: Build Android APK
         run: ./gradlew assembleRelease -Dorg.gradle.java.home="$JAVA_HOME"
         working-directory: apps/android

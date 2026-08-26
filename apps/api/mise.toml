@@ -9,7 +9,7 @@ _.path = ["./.cargo/bin",]
 
 [tasks."setup"]
 description = "Setup API"
-depends = ["db:up"]
+depends = "db:up"
 run = "cargo check"
 
 [tasks."dev"]
@@ -22,6 +22,7 @@ run = "cargo test"
 
 [tasks."test-full"]
 description = "Run Tests, including Database related for Rust API"
+depends = "db:up"
 run = "cargo test --features integration-tests"
 
 [tasks."db:up"]
@@ -34,14 +35,24 @@ description = "Stops the ironbook_db service from docker-compose-dev.yaml"
 dir = "../.."
 run = "docker compose -f docker-compose-dev.yaml down ironbook_db"
 
+[tasks."db:restart"]
+description = "Restarts the ironbook_db service from docker-compose-dev.yaml"
+run = [
+    "mise run db:down",
+    "mise run db:up",
+]
+
 [tasks."db:migrate"]
 description = "Apply pending database migrations"
+depends = "db:up"
 run = "cargo sqlx migrate run"
 
 [tasks."db:prepare"]
 description = "Prepares the .sqlx files for offline development"
+depends = "db:up"
 run = "cargo sqlx prepare"
 
 [tasks."db:reset"]
 description = "Reset database and apply migrations"
+depends = "db:restart"
 run = "cargo sqlx database reset"

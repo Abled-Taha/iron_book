@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 
 ### Fixed
 - [#59]: Fixed "App not installed as appears to be invalid" error.
+- [#52]: Increased the security for session tokens.
 
 
 

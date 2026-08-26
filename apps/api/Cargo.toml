@@ -35,6 +35,7 @@ serde_json = "1.0.150"
 rand = "0.10.2"
 chrono = "0.4.45"
 argon2 = { version = "0.5.3", features = ["password-hash"]}
+sha2 = "0.11.0"
 
 [build-dependencies]
 # Required to compile protobuf files to Rust files

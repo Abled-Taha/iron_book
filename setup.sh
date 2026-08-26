@@ -17,7 +17,11 @@ get_linux_distro() {
 
 DISTRO=$(get_linux_distro)
 
-# 1. Safely handle the .env creation so it doesn't overwrite an existing file
+# Symlink 'proto' directory to apps/api
+mkdir -p apps/api/proto
+ln -s $PWD/proto/* $PWD/apps/api/proto/
+
+# Safely handle the .env creation so it doesn't overwrite an existing file
 if [ ! -f ./apps/android/.env ]; then
   cp ./apps/android/.env.example ./apps/android/.env
 fi

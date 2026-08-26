@@ -31,7 +31,7 @@ repos:
         pass_filenames: false
       - id: sqlx-prepare
         name: sqlx prepare
-        entry: mise run //apps/api:db:prepare
+        entry: mise run //apps/api:db:prepare && git diff --exit-code
         language: system
         types: [rust]
         pass_filenames: false

@@ -20,7 +20,7 @@ script = """
 """
 
 [shell_alias]
-cd = "cd {{config_root}}"
+root = "cd {{config_root}}"
 
 [tasks."setup"]
 description = "Install all dependencies"

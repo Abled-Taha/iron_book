@@ -18,6 +18,13 @@ repos:
   # Local cargo checks for Rust
   - repo: local
     hooks:
+      - id: api-tests
+        name: api tests
+        entry: mise run //apps/api:test-full
+        language: system
+        types: [rust]
+        pass_filenames: false
+
       - id: cargo-fmt
         name: cargo fmt
         entry: cargo fmt --manifest-path apps/api/Cargo.toml -- --check
@@ -33,14 +40,7 @@ repos:
 
       - id: sqlx-prepare
         name: sqlx prepare
-        entry: bash -c 'mise run //apps/api:db:prepare && git diff --exit-code'
-        language: system
-        types: [rust]
-        pass_filenames: false
-
-      - id: api-tests
-        name: api tests
-        entry: mise run //apps/api:test-full
+        entry: bash -c 'mise run //apps/api:db:prepare && git diff --quiet apps/api/.sqlx'
         language: system
         types: [rust]
         pass_filenames: false
@@ -50,7 +50,7 @@ repos:
     hooks:
       - id: next-prettier
         name: next prettier check
-        entry: bash -c 'cd apps/home && pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write && git diff --exit-code'
+        entry: bash -c 'cd apps/home && pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write'
         language: system
         types_or: [javascript, jsx, ts, tsx, css, json]
         pass_filenames: false

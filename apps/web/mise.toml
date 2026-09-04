@@ -24,3 +24,7 @@ else
   echo "Port 8080 is already clear."
 fi
 """
+
+[tasks."test"]
+description = "Run Django Tests"
+run = "uv run pytest"

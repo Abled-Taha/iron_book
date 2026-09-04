@@ -1,7 +1,7 @@
 import os
-import environ
-
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,6 +15,7 @@ DEBUG = env.bool("DEBUG", False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 from django.core.management.commands.runserver import Command as runserver
+
 runserver.default_port = "8080"
 
 # Application definition

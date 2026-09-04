@@ -75,3 +75,44 @@ repos:
         language: system
         types_or: [javascript, jsx, ts, tsx]
         pass_filenames: false
+
+  # Local Django checks
+  - repo: local
+    hooks:
+      - id: django-ruff-format
+        name: django ruff format
+        entry: bash -c 'cd apps/web && uv run ruff format . && git diff --quiet .'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: django-ruff-lint
+        name: django ruff lint
+        entry: bash -c 'cd apps/web && uv run ruff check --fix && git diff --quiet .'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+        # 2. Django Model Migration Check (Fails if models changed without running makemigrations)
+      - id: django-check-migrations
+        name: django check missing migrations
+        entry: bash -c 'cd apps/web && uv run python manage.py makemigrations --check --dry-run'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+        # 3. Static Type Check
+      - id: django-type-check
+        name: django pyright check
+        entry: bash -c 'cd apps/web && uv run pyright'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+        # 4. Django Test Suite
+      - id: django-tests
+        name: django tests
+        entry: mise run //apps/web:test
+        language: system
+        types: [python]
+        pass_filenames: false

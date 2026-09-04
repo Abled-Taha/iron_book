@@ -14,6 +14,14 @@ MISE_STATE_DIR = "{{env.MISE_DATA_DIR}}/state"
 MISE_CACHE_DIR = "{{env.MISE_DATA_DIR}}/cache"
 MISE_INSTALLS_DIR = "{{env.MISE_DATA_DIR}}/installs"
 
+[hooks.enter]
+script = """
+    echo 'Happy Development'
+"""
+
+[shell_alias]
+cd = "cd {{config_root}}"
+
 [tasks."setup"]
 description = "Install all dependencies"
 run = [

@@ -124,11 +124,12 @@ async fn auth_register_creates_user_and_session(pool: PgPool) {
 
     assert_eq!(user_id, 1);
 
-    let session_token: String = sqlx::query_scalar("SELECT token FROM sessions WHERE user_id = $1")
-        .bind(user_id as i64)
-        .fetch_one(&pool)
-        .await
-        .unwrap();
+    let session_token: String =
+        sqlx::query_scalar("SELECT token_hash FROM sessions WHERE user_id = $1")
+            .bind(user_id as i64)
+            .fetch_one(&pool)
+            .await
+            .unwrap();
     assert_eq!(session_token, "abcdefghijklmnopqrstuvwxyz123456");
 
     let expires_at: chrono::DateTime<Utc> =

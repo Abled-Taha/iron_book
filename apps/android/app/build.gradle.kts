@@ -34,10 +34,10 @@ android {
     signingConfigs {
         create("release") {
             val storePath = envProperties.getProperty("KEYSTORE_PATH")
-                ?: System.getenv("KEYSTORE_PATH")
-                ?: ""
-
-            storeFile = rootProject.file(storePath)
+            ?: System.getenv("KEYSTORE_PATH")
+            if (!storePath.isNullOrEmpty()) {
+                storeFile = rootProject.file(storePath)
+            }
             storePassword = envProperties.getProperty("KEYSTORE_PASSWORD")
                 ?: System.getenv("KEYSTORE_PASSWORD")
                 ?: ""

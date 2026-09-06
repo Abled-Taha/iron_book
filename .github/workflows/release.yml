@@ -42,11 +42,11 @@ jobs:
       - name: Decode Keystore
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_KEY }}
-        run: echo -n "$ENCODED_STRING" | base64 --decode > apps/ironbook.keystore
+        run: echo -n "$ENCODED_STRING" | base64 --decode > apps/android/ironbook.keystore
 
       - name: Build Android APK
         env:
-          KEYSTORE_PATH: "apps/ironbook.keystore"
+          KEYSTORE_PATH: "ironbook.keystore"
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}

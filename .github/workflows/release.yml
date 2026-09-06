@@ -56,7 +56,7 @@ jobs:
       - name: Prepare Dynamic APK Name
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
-          cp apps/android/app/build/outputs/apk/release/app-release-unsigned.apk "ironbook-${TAG_NAME}.apk"
+          cp apps/android/app/build/outputs/apk/release/app-release.apk "ironbook-${TAG_NAME}.apk"
 
       # --- BUILD AVALONIA DESKTOP ---
       - name: Publish Desktop (Linux x64)

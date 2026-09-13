@@ -61,6 +61,6 @@ Open an issue on [GitHub]
 ---
 
 [GitHub]: https://github.com/Abled-Taha/iron_book
-[Documentation]: https://docs.ironbook.app.abledtaha.online
+[Documentation]: https://abled-taha.github.io/ironbook
 [Stable Release]: https://github.com/Abled-Taha/iron_book/releases/latest
 [Installer]: https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe

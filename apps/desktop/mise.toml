@@ -8,3 +8,11 @@ run = "dotnet build"
 [tasks."dev"]
 description = "Run C# desktop client with hot reload"
 run = "dotnet watch run"
+
+[tasks."build"]
+description = "Builds desktop client"
+run = "dotnet build"
+
+[tasks."test"]
+description = "Run tests for desktop client"
+run = "dotnet test"

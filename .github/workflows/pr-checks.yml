@@ -1,0 +1,28 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pre-commit:
+    name: Run Pre-Commit Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up mise environment
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - name: Run project setup script
+        run: |
+          chmod +x ./setup.sh
+          ./setup.sh
+
+      - name: Run pre-commit checks
+        run: mise exec -- pre-commit run --all-files

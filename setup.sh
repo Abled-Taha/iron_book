@@ -20,9 +20,9 @@ DISTRO=$(get_linux_distro)
 # Symlink 'proto' directory to apps/api
 mkdir -p apps/api/proto
 if [ -d "./proto" ]; then
-  for file in ./proto/*; do
+  for file in "$PWD/proto"/*; do
     [ -e "$file" ] || continue
-    ln -sf "\(PWD/\)file" "\(PWD/apps/api/proto/\)(basename "$file")"
+    ln -sf "\(file" "\)PWD/apps/api/proto/\((basename "\)file")"
   done
 fi
 

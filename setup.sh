@@ -17,15 +17,6 @@ get_linux_distro() {
 
 DISTRO=$(get_linux_distro)
 
-# Symlink 'proto' directory to apps/api
-mkdir -p apps/api/proto
-if [ -d "./proto" ]; then
-  for file in "$PWD/proto"/*; do
-    [ -e "$file" ] || continue
-    ln -sf "\(file" "\)PWD/apps/api/proto/\((basename "\)file")"
-  done
-fi
-
 # Safely handle the .env creation so it doesn't overwrite an existing file
 copy_env_if_exists() {
   target_dir="$1"

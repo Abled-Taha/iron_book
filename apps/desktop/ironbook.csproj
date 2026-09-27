@@ -9,6 +9,7 @@
     <RootNamespace>ironbook</RootNamespace>
 
     <Version>0.1.0-alpha</Version>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

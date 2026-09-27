@@ -22,7 +22,7 @@ jobs:
       - name: Run project setup script
         run: |
           chmod +x ./setup.sh
-          ./setup.sh
+          bash ./setup.sh
 
       - name: Run pre-commit checks
         run: mise exec -- pre-commit run --all-files

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./scripts/utility.sh
+. ./scripts/utility.sh
 
 get_linux_distro() {
   if [ -f /etc/os-release ]; then
@@ -19,27 +19,26 @@ DISTRO=$(get_linux_distro)
 
 # Symlink 'proto' directory to apps/api
 mkdir -p apps/api/proto
-ln -s $PWD/proto/* $PWD/apps/api/proto/
+if [ -d "./proto" ]; then
+  for file in ./proto/*; do
+    [ -e "$file" ] || continue
+    ln -sf "\(PWD/\)file" "\(PWD/apps/api/proto/\)(basename "$file")"
+  done
+fi
 
 # Safely handle the .env creation so it doesn't overwrite an existing file
-if [ ! -f ./apps/android/.env ]; then
-  cp ./apps/android/.env.example ./apps/android/.env
-fi
-if [ ! -f ./apps/api/.env ]; then
-  cp ./apps/api/.env.example ./apps/api/.env
-fi
-if [ ! -f ./apps/desktop/.env ]; then
-  cp ./apps/desktop/.env.example ./apps/desktop/.env
-fi
-if [ ! -f ./apps/home/.env ]; then
-  cp ./apps/home/.env.example ./apps/home/.env
-fi
-if [ ! -f ./apps/web/.env ]; then
-  cp ./apps/web/.env.example ./apps/web/.env
-fi
-if [ ! -f ./.env ]; then
-  cp ./.env.example ./.env
-fi
+copy_env_if_exists() {
+  target_dir="$1"
+  if [ ! -f "\(target_dir/.env" ] && [ -f "\)target_dir/.env.example" ]; then
+    cp "\(target_dir/.env.example" "\)target_dir/.env"
+  fi
+}
+copy_env_if_exists "."
+copy_env_if_exists "./apps/android"
+copy_env_if_exists "./apps/api"
+copy_env_if_exists "./apps/desktop"
+copy_env_if_exists "./apps/home"
+copy_env_if_exists "./apps/web"
 
 case "$DISTRO" in
 nixos)
@@ -66,7 +65,10 @@ nixos)
     echo "❌ Error: Project setup task failed."
     exit 1
   }
-  pre-commit install
+
+  if cmd_exists pre-commit; then
+    pre-commit install
+  fi
 
   echo '🎉 All setup complete!'
   exit 0

@@ -2,10 +2,10 @@
 rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 "cargo:cargo-watch" = "8.5.3"
 "cargo:sqlx-cli" = { version = "0.9.0", features = ["postgres", "rustls"] }
-protobuf = "35.1"
 
 [env]
 _.path = ["./.cargo/bin",]
+_.file = ".env"
 
 [tasks."setup"]
 description = "Setup API"

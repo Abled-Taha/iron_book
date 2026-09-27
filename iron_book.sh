@@ -90,7 +90,7 @@ cmd_get_codebase() {
         cat "$file" >> "$output_file"
     done
 
-    echo "✔ Codebase successfully compiled to $output_file without monorepo noise."
+    echo "✔ Codebase successfully compiled to $output_file."
 }
 
 # --- Main Command Router ---

@@ -34,3 +34,4 @@ run = [
 
 [tools]
 pre-commit = "4.6.2"
+protobuf = "35.1"

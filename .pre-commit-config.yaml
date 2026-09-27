@@ -133,3 +133,27 @@ repos:
         language: system
         types_or: [c#]
         pass_filenames: false
+
+  # Local Kotlin / Android checks
+  - repo: local
+    hooks:
+      - id: ktlint
+        name: android ktlint check
+        entry: bash -c 'cd apps/android && ./gradlew ktlintFormat --daemon && git diff --quiet .'
+        language: system
+        types_or: [kotlin]
+        pass_filenames: false
+
+      - id: android-lint
+        name: android lint check
+        entry: bash -c 'cd apps/android && ./gradlew lintDebug --daemon'
+        language: system
+        types_or: [kotlin, xml]
+        pass_filenames: false
+
+      - id: android-tests
+        name: android unit tests
+        entry: mise run //apps/android:test
+        language: system
+        types_or: [kotlin, xml]
+        pass_filenames: false

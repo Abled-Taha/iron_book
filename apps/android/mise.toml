@@ -26,3 +26,7 @@ run = "./gradlew installDebug"
 [tasks."clean"]
 description = "Clean the Gradle build cache"
 run = "./gradlew clean"
+
+[tasks."test"]
+description = "Run Android local unit tests"
+run = "./gradlew testDebugUnitTest --daemon --quiet"

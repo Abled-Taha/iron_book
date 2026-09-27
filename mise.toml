@@ -16,7 +16,7 @@ MISE_INSTALLS_DIR = "{{env.MISE_DATA_DIR}}/installs"
 
 [hooks.enter]
 script = """
-    echo 'Happy Development'
+    echo 'Project IronBook'
 """
 
 [shell_alias]

@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 // Load secrets from .env file in the root project directory
@@ -33,8 +34,9 @@ android {
 
     signingConfigs {
         create("release") {
-            val storePath = envProperties.getProperty("KEYSTORE_PATH")
-            ?: System.getenv("KEYSTORE_PATH")
+            val storePath =
+                envProperties.getProperty("KEYSTORE_PATH")
+                    ?: System.getenv("KEYSTORE_PATH")
             if (!storePath.isNullOrEmpty()) {
                 storeFile = rootProject.file(storePath)
             }
@@ -57,7 +59,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

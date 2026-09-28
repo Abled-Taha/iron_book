@@ -18,12 +18,11 @@ get_linux_distro() {
 DISTRO=$(get_linux_distro)
 
 # Safely handle the .env creation so it doesn't overwrite an existing file
-copy_env_if_exists() {
-  target_dir="$1"
-  if [ ! -f "\(target_dir/.env" ] && [ -f "\)target_dir/.env.example" ]; then
-    cp "\(target_dir/.env.example" "\)target_dir/.env"
-  fi
-}
+
+if [ ! -f "$target_dir/.env" ] && [ -f "$target_dir/.env.example" ]; then
+    cp "$target_dir/.env.example" "$target_dir/.env"
+fi
+
 copy_env_if_exists "."
 copy_env_if_exists "./apps/android"
 copy_env_if_exists "./apps/api"

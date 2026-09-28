@@ -1,6 +1,9 @@
 [tools]
 dotnet="10.0"
 
+[env]
+_.file = ".env"
+
 [tasks."setup"]
 description = "Setup C# desktop client"
 run = "dotnet build"

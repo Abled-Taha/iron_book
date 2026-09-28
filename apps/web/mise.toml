@@ -3,15 +3,16 @@
 
 [env]
 _.python.venv = "{{config_root}}/.venv"
+_.file = ".env"
 
 [tasks."setup"]
 description = "Setup Django Web Client"
-run = "uv sync"
+run = "uv sync && uv run python manage.py collectstatic --no-input"
 
 [tasks."dev"]
 description = "Run Django Dev Server"
 depends = ["misc:django-free-port"]
-run = "trap 'exit 0' INT TERM; yes yes | python manage.py collectstatic; python manage.py tailwind dev"
+run = "trap 'exit 0' INT TERM; yes yes | python manage.py collectstatic --no-input; python manage.py tailwind dev"
 
 [tasks."misc:django-free-port"]
 description = "Kill any process clinging onto port 8080"

@@ -5,6 +5,7 @@ android-sdk = "1.0"
 [env]
 ANDROID_HOME = "{{config_root}}/.android_sdk"
 JAVA_HOME = "{{env.MISE_INSTALLS_DIR}}/java/openjdk-21"
+_.file = ".env"
 
 [tasks."setup"]
 description = "Setup Android App"

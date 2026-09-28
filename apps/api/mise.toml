@@ -9,7 +9,7 @@ _.file = ".env"
 
 [tasks."setup"]
 description = "Setup API"
-depends = "db:up"
+depends = "db:migrate"
 run = "cargo check"
 
 [tasks."dev"]

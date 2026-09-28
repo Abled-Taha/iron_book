@@ -50,21 +50,21 @@ repos:
     hooks:
       - id: next-prettier
         name: next prettier check
-        entry: bash -c 'cd apps/home && pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write'
+        entry: bash -c 'mise exec -C apps/home -- pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write'
         language: system
         types_or: [javascript, jsx, ts, tsx, css, json]
         pass_filenames: false
 
       - id: next-eslint
         name: next lint
-        entry: bash -c 'cd apps/home && pnpm run lint'
+        entry: bash -c 'mise exec -C apps/home -- pnpm run lint'
         language: system
         types_or: [javascript, jsx, ts, tsx]
         pass_filenames: false
 
       - id: next-type-check
         name: next type check
-        entry: bash -c 'cd apps/home && pnpm exec tsc --noEmit'
+        entry: bash -c 'mise exec -C apps/home -- pnpm exec tsc --noEmit'
         language: system
         types_or: [ts, tsx]
         pass_filenames: false
@@ -81,14 +81,14 @@ repos:
     hooks:
       - id: django-ruff-format
         name: django ruff format
-        entry: bash -c 'cd apps/web && uv run ruff format . && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/web -- uv run ruff format . && git diff --quiet .'
         language: system
         types: [python]
         pass_filenames: false
 
       - id: django-ruff-lint
         name: django ruff lint
-        entry: bash -c 'cd apps/web && uv run ruff check --fix && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/web -- uv run ruff check --fix && git diff --quiet .'
         language: system
         types: [python]
         pass_filenames: false
@@ -96,7 +96,7 @@ repos:
         # 2. Django Model Migration Check (Fails if models changed without running makemigrations)
       - id: django-check-migrations
         name: django check missing migrations
-        entry: bash -c 'cd apps/web && uv run python manage.py makemigrations --check --dry-run'
+        entry: bash -c 'mise exec -C apps/web -- uv run python manage.py makemigrations --check --dry-run'
         language: system
         types: [python]
         pass_filenames: false
@@ -104,7 +104,7 @@ repos:
         # 3. Static Type Check
       - id: django-type-check
         name: django pyright check
-        entry: bash -c 'cd apps/web && uv run pyright'
+        entry: bash -c 'mise exec -C apps/web -- uv run pyright'
         language: system
         types: [python]
         pass_filenames: false
@@ -139,14 +139,14 @@ repos:
     hooks:
       - id: ktlint
         name: android ktlint check
-        entry: bash -c 'cd apps/android && ./gradlew ktlintFormat --daemon && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/android -- ./gradlew ktlintFormat --daemon && git diff --quiet .'
         language: system
         types_or: [kotlin]
         pass_filenames: false
 
       - id: android-lint
         name: android lint check
-        entry: bash -c 'cd apps/android && ./gradlew lintDebug --daemon'
+        entry: bash -c 'mise exec -C apps/android -- ./gradlew lintDebug --daemon'
         language: system
         types_or: [kotlin, xml]
         pass_filenames: false

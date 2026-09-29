@@ -72,6 +72,6 @@ jobs:
             home/*.zip.asc
             installer/*.exe
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
-          body_path: latest_changelog.md
+          body_path: output/latest_changelog.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

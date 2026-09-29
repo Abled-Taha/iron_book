@@ -30,6 +30,7 @@ jobs:
 
       # --- IMPORT SECRETS ---
       - name: Import GPG Key
+        id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -43,12 +44,13 @@ jobs:
       # --- BUILD ---
       - name: Build Release
         env:
+          RELEASE_GPG_KEY: ${{ steps.import_gpg.outputs.fingerprint }}
           KEYSTORE_PATH: "ironbook.keystore"
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          ./iron_book build "${GITHUB_REF_NAME#v}"
+          ./iron_book.sh build "${GITHUB_REF_NAME#v}"
 
       # --- PUBLISH ---
       - name: Upload All Release Assets

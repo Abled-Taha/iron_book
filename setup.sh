@@ -53,29 +53,69 @@ install_system_packages() {
         arch|cachyos|manjaro)
             echo "📦 Installing system dependencies with pacman..."
 
-            sudo pacman -S --needed --noconfirm \
-                mingw-w64-gcc \
-                docker \
-                docker-compose \
-                curl \
-                git
+            local packages=()
+
+            if ! cmd_exists x86_64-w64-mingw32-gcc; then
+                packages+=(mingw-w64-gcc)
+            fi
+
+            if ! cmd_exists docker; then
+                packages+=(docker)
+            fi
+
+            if ! docker compose version >/dev/null 2>&1; then
+                packages+=(docker-compose)
+            fi
+
+            if ! cmd_exists curl; then
+                packages+=(curl)
+            fi
+
+            if ! cmd_exists git; then
+                packages+=(git)
+            fi
+
+            if [[ "${#packages[@]}" -gt 0 ]]; then
+                sudo pacman -S --needed --noconfirm "${packages[@]}"
+            fi
             ;;
 
         ubuntu|linuxmint|pop)
             echo "📦 Installing system dependencies with apt..."
 
-            # Use Ubuntu's native Docker packages.
-            #
-            # Do NOT install Docker's containerd.io package here. Ubuntu's
-            # containerd package conflicts with containerd.io on Ubuntu 24.04.
             sudo apt-get update
 
-            sudo apt-get install -y \
-                gcc-mingw-w64-x86-64 \
-                docker.io \
-                docker-compose-v2 \
-                curl \
-                git
+            # Install only packages that are actually missing.
+            #
+            # IMPORTANT:
+            # Do not install docker.io if Docker is already installed.
+            # Ubuntu's containerd package conflicts with Docker's containerd.io,
+            # which is commonly already installed on GitHub Actions runners.
+            local packages=()
+
+            if ! cmd_exists x86_64-w64-mingw32-gcc; then
+                packages+=(gcc-mingw-w64-x86-64)
+            fi
+
+            if ! cmd_exists docker; then
+                packages+=(docker.io)
+            fi
+
+            if ! docker compose version >/dev/null 2>&1; then
+                packages+=(docker-compose-v2)
+            fi
+
+            if ! cmd_exists curl; then
+                packages+=(curl)
+            fi
+
+            if ! cmd_exists git; then
+                packages+=(git)
+            fi
+
+            if [[ "${#packages[@]}" -gt 0 ]]; then
+                sudo apt-get install -y "${packages[@]}"
+            fi
             ;;
 
         debian)
@@ -83,34 +123,91 @@ install_system_packages() {
 
             sudo apt-get update
 
-            sudo apt-get install -y \
-                gcc-mingw-w64-x86-64 \
-                docker.io \
-                docker-compose-v2 \
-                curl \
-                git
+            local packages=()
+
+            if ! cmd_exists x86_64-w64-mingw32-gcc; then
+                packages+=(gcc-mingw-w64-x86-64)
+            fi
+
+            if ! cmd_exists docker; then
+                packages+=(docker.io)
+            fi
+
+            if ! docker compose version >/dev/null 2>&1; then
+                packages+=(docker-compose-v2)
+            fi
+
+            if ! cmd_exists curl; then
+                packages+=(curl)
+            fi
+
+            if ! cmd_exists git; then
+                packages+=(git)
+            fi
+
+            if [[ "${#packages[@]}" -gt 0 ]]; then
+                sudo apt-get install -y "${packages[@]}"
+            fi
             ;;
 
         fedora)
             echo "📦 Installing system dependencies with dnf..."
 
-            sudo dnf install -y \
-                mingw64-gcc \
-                docker \
-                docker-compose \
-                curl \
-                git
+            local packages=()
+
+            if ! cmd_exists x86_64-w64-mingw32-gcc; then
+                packages+=(mingw64-gcc)
+            fi
+
+            if ! cmd_exists docker; then
+                packages+=(docker)
+            fi
+
+            if ! docker compose version >/dev/null 2>&1; then
+                packages+=(docker-compose)
+            fi
+
+            if ! cmd_exists curl; then
+                packages+=(curl)
+            fi
+
+            if ! cmd_exists git; then
+                packages+=(git)
+            fi
+
+            if [[ "${#packages[@]}" -gt 0 ]]; then
+                sudo dnf install -y "${packages[@]}"
+            fi
             ;;
 
         opensuse-tumbleweed|opensuse-leap)
             echo "📦 Installing system dependencies with zypper..."
 
-            sudo zypper install -y \
-                mingw64-cross-gcc \
-                docker \
-                docker-compose \
-                curl \
-                git
+            local packages=()
+
+            if ! cmd_exists x86_64-w64-mingw32-gcc; then
+                packages+=(mingw64-cross-gcc)
+            fi
+
+            if ! cmd_exists docker; then
+                packages+=(docker)
+            fi
+
+            if ! docker compose version >/dev/null 2>&1; then
+                packages+=(docker-compose)
+            fi
+
+            if ! cmd_exists curl; then
+                packages+=(curl)
+            fi
+
+            if ! cmd_exists git; then
+                packages+=(git)
+            fi
+
+            if [[ "${#packages[@]}" -gt 0 ]]; then
+                sudo zypper install -y "${packages[@]}"
+            fi
             ;;
 
         nixos)
@@ -132,21 +229,35 @@ install_system_packages() {
     esac
 }
 
-check_docker_compose() {
-    cmd_exists docker &&
-        docker compose version >/dev/null 2>&1
-}
-
-system_dependencies_missing() {
-    ! cmd_exists x86_64-w64-mingw32-gcc ||
-    ! cmd_exists docker ||
-    ! check_docker_compose ||
-    ! cmd_exists curl ||
-    ! cmd_exists git
-}
-
 check_system_commands() {
-    if system_dependencies_missing; then
+    local missing=0
+
+    if ! cmd_exists x86_64-w64-mingw32-gcc; then
+        echo "❌ Required command not found: x86_64-w64-mingw32-gcc"
+        missing=1
+    fi
+
+    if ! cmd_exists docker; then
+        echo "❌ Required command not found: docker"
+        missing=1
+    fi
+
+    if ! docker compose version >/dev/null 2>&1; then
+        echo "❌ Docker Compose is not available."
+        missing=1
+    fi
+
+    if ! cmd_exists curl; then
+        echo "❌ Required command not found: curl"
+        missing=1
+    fi
+
+    if ! cmd_exists git; then
+        echo "❌ Required command not found: git"
+        missing=1
+    fi
+
+    if [[ "$missing" -eq 1 ]]; then
         echo "⚠ Some system dependencies are missing."
         install_system_packages
     else
@@ -216,7 +327,7 @@ ensure_docker_service() {
 }
 
 ensure_docker_compose() {
-    if check_docker_compose; then
+    if docker compose version >/dev/null 2>&1; then
         echo "✔ Docker Compose is available."
         return
     fi

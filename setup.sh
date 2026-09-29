@@ -61,7 +61,24 @@ install_system_packages() {
                 git
             ;;
 
-        ubuntu|debian|linuxmint|pop)
+        ubuntu|linuxmint|pop)
+            echo "📦 Installing system dependencies with apt..."
+
+            # Use Ubuntu's native Docker packages.
+            #
+            # Do NOT install Docker's containerd.io package here. Ubuntu's
+            # containerd package conflicts with containerd.io on Ubuntu 24.04.
+            sudo apt-get update
+
+            sudo apt-get install -y \
+                gcc-mingw-w64-x86-64 \
+                docker.io \
+                docker-compose-v2 \
+                curl \
+                git
+            ;;
+
+        debian)
             echo "📦 Installing system dependencies with apt..."
 
             sudo apt-get update
@@ -115,20 +132,22 @@ install_system_packages() {
     esac
 }
 
+check_docker_compose() {
+    cmd_exists docker &&
+        docker compose version >/dev/null 2>&1
+}
+
+system_dependencies_missing() {
+    ! cmd_exists x86_64-w64-mingw32-gcc ||
+    ! cmd_exists docker ||
+    ! check_docker_compose ||
+    ! cmd_exists curl ||
+    ! cmd_exists git
+}
+
 check_system_commands() {
-    local missing=0
-
-    command -v x86_64-w64-mingw32-gcc >/dev/null 2>&1 || missing=1
-    command -v docker >/dev/null 2>&1 || missing=1
-    command -v curl >/dev/null 2>&1 || missing=1
-    command -v git >/dev/null 2>&1 || missing=1
-
-    if ! command -v docker >/dev/null 2>&1 || \
-       ! docker compose version >/dev/null 2>&1; then
-        missing=1
-    fi
-
-    if [[ "$missing" -eq 1 ]]; then
+    if system_dependencies_missing; then
+        echo "⚠ Some system dependencies are missing."
         install_system_packages
     else
         echo "✔ System dependencies already installed."
@@ -140,7 +159,7 @@ check_system_commands() {
 # ==============================================================================
 
 ensure_mingw() {
-    if command -v x86_64-w64-mingw32-gcc >/dev/null 2>&1; then
+    if cmd_exists x86_64-w64-mingw32-gcc; then
         echo "✔ MinGW-w64 is available."
         return
     fi
@@ -156,11 +175,20 @@ ensure_mingw() {
 # Docker
 # ==============================================================================
 
-ensure_docker_service() {
-    if ! command -v docker >/dev/null 2>&1; then
-        echo "❌ Docker is not installed."
-        exit 1
+ensure_docker_installed() {
+    if cmd_exists docker; then
+        echo "✔ Docker is installed."
+        return
     fi
+
+    echo "❌ Docker is not installed."
+    echo ""
+    echo "Run setup again to install system dependencies."
+    exit 1
+}
+
+ensure_docker_service() {
+    ensure_docker_installed
 
     if docker info >/dev/null 2>&1; then
         echo "✔ Docker daemon is running."
@@ -169,7 +197,7 @@ ensure_docker_service() {
 
     echo "⚠ Docker is installed but the daemon is not running."
 
-    if command -v systemctl >/dev/null 2>&1; then
+    if cmd_exists systemctl; then
         echo "🚀 Attempting to start Docker..."
 
         if sudo systemctl enable --now docker; then
@@ -188,20 +216,24 @@ ensure_docker_service() {
 }
 
 ensure_docker_compose() {
-    if docker compose version >/dev/null 2>&1; then
+    if check_docker_compose; then
         echo "✔ Docker Compose is available."
         return
     fi
 
     echo "❌ Docker Compose is not available."
     echo ""
+    echo "Expected command:"
+    echo "  docker compose version"
+    echo ""
     echo "Please install the Docker Compose plugin for your distribution."
     exit 1
 }
 
 ensure_docker_user_access() {
-    # If Docker already works without sudo, nothing needs to be done.
+    # Docker already works without sudo.
     if docker info >/dev/null 2>&1; then
+        echo "✔ Current user can access Docker."
         return
     fi
 
@@ -214,7 +246,9 @@ ensure_docker_user_access() {
         echo "❌ Docker is still inaccessible even though $USER belongs to the docker group."
         echo ""
         echo "A new login session may be required."
-        echo "Please log out and back in, then run setup again."
+        echo "Please log out and back in, then run:"
+        echo ""
+        echo "  ./setup.sh"
         exit 1
     fi
 
@@ -245,7 +279,7 @@ setup_docker() {
 # ==============================================================================
 
 install_mise() {
-    if command -v mise >/dev/null 2>&1; then
+    if cmd_exists mise; then
         echo "✔ mise is already installed."
         return
     fi
@@ -256,7 +290,7 @@ install_mise() {
 
     export PATH="$HOME/.local/bin:$PATH"
 
-    if ! command -v mise >/dev/null 2>&1; then
+    if ! cmd_exists mise; then
         echo "❌ mise installation completed, but mise could not be found."
         echo ""
         echo "Expected location:"
@@ -294,7 +328,7 @@ run_project_setup() {
 # ==============================================================================
 
 setup_git_hooks() {
-    if command -v pre-commit >/dev/null 2>&1; then
+    if cmd_exists pre-commit; then
         echo "🔧 Installing pre-commit hooks..."
         pre-commit install
     fi

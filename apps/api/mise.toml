@@ -8,6 +8,7 @@ _.path = ["./.cargo/bin",]
 
 [tasks."setup"]
 description = "Setup API"
+depends = "db:migrate"
 run = "cargo check"
 
 [tasks."dev"]

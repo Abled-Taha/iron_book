@@ -43,6 +43,7 @@ nixos)
   echo "🐧 Running on Linux"
   cmd_exists mise || exit 1
   cmd_exists docker compose || exit 1
+  cmd_exists x86_64-w64-mingw32-gcc || exit 1
 
   echo "📦 Installing toolchains via mise..."
   export MISE_DATA_DIR="$(pwd)/.mise"
@@ -64,6 +65,7 @@ nixos)
   fi
 
   echo '🎉 All setup complete!'
+  echo 'Don\'t forget to copy ironbook.keystore to apps/android, to be able to make a release build.'
   exit 0
   ;;
 esac

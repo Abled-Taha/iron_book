@@ -46,6 +46,7 @@ Before contributing code, ensure you have the necessary runtime dependencies ins
 
 * **Mise**
 * **Docker & Docker Compose**
+* **MinGW-w64-GCC**
 
 ---
 

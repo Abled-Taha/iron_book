@@ -1,113 +1,77 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-source ./scripts/utility.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Command Functions
+source "$SCRIPT_DIR/scripts/utility.sh"
+source "$SCRIPT_DIR/scripts/build.sh"
 
-cmd_help() {
-    echo "Usage: ./iron_book.sh [command]"
-    echo ""
-    echo "Commands:"
-    echo "  tree            Generate directory structure while keeping the .gitignore file in context."
-    echo "  help            Show this help menu."
-    echo "  get_codebase    Generates the entire codebase in a single file, to be pasted in LLM."
-}
+# ==============================================================================
+# Configuration
+# ==============================================================================
 
-cmd_tree() {
-    # Check if tree is installed before running it
-    cmd_exists "tree" || return 1
+API_DIR="apps/api"
+API_CARGO_TOML="$API_DIR/Cargo.toml"
 
-    echo "🌳 Generating directory tree..."
+HOME_DIR="apps/home"
 
-    # -I ignores common clutter folders.
-    local tree_output
-    tree_output=$(tree -a --gitignore -I ".git")
+DESKTOP_DIR="apps/desktop"
+DESKTOP_PROJECT_FILE="$DESKTOP_DIR/ironbook.csproj"
 
-    # Double quotes preserve the line breaks/formatting of the tree
-    echo "$tree_output"
-}
+ANDROID_DIR="apps/android"
+ANDROID_BUILD_GRADLE="$ANDROID_DIR/app/build.gradle.kts"
 
-cmd_get_codebase() {
-    local output_file="codebase.txt"
+OUTPUT_DIR="output"
 
-    # 1. Initialize file and generate Directory Tree
-    echo "=== DIRECTORY TREE ===" > "$output_file"
+API_LINUX_OUTPUT="$OUTPUT_DIR/api/linux"
+API_WINDOWS_OUTPUT="$OUTPUT_DIR/api/windows"
 
-    # Exclude common large/compiled/dependency directories and the output file from the tree visualizer
-    tree -a -I "node_modules|build|dist|target|.git|.env|__pycache__|.next|.cache|.gradle|.venv|.idea|.android_sdk|.mise|$output_file" >> "$output_file"
+HOME_OUTPUT="$OUTPUT_DIR/home"
 
-    echo -e "\n=== FILE CONTENTS ===" >> "$output_file"
+DESKTOP_LINUX_OUTPUT="$OUTPUT_DIR/desktop/linux"
+DESKTOP_WINDOWS_OUTPUT="$OUTPUT_DIR/desktop/windows"
 
-    # 2. Complete isolation of directory pruning from file retrieval
-    find . \( \
-        -type d -name "node_modules" -o \
-        -type d -name "build" -o \
-        -type d -name "dist" -o \
-        -type d -name "target" -o \
-        -type d -name ".git" -o \
-        -type d -name "__pycache__" -o \
-        -type d -name ".next" -o \
-        -type d -name ".cache" -o \
-        -type d -name ".gradle" -o \
-        -type d -name ".venv" -o \
-        -type d -name ".idea" -o \
-        -type d -name ".android_sdk" -o \
-        -type d -name ".mise" \
-    \) -prune -o -type f ! -name "$output_file" | while read -r file; do
+ANDROID_OUTPUT="$OUTPUT_DIR/android"
 
-        # Strip leading "./" for cleaner pattern matching
-        local clean_file="${file#./}"
+WINDOWS_INSTALLER_OUTPUT="$OUTPUT_DIR/installer/"
 
-        # Rule 1: Exclude lockfiles, assets, and binary files
-        case "$clean_file" in
-            # Lockfiles and system configs
-            *pnpm-lock.yaml|*package-lock.json|*yarn.lock|*uv.lock|*Cargo.lock|*poetry.lock|*.DS_Store)
-                continue
-                ;;
-            # Web assets / Images
-            *.png|*.jpg|*.jpeg|*.gif|*.ico|*.svg|*.webp)
-                continue
-                ;;
-            # Documents and Binaries
-            *.pdf|*.zip|*.tar.gz|*.rar|*.bin|*.exe|*.so|*.dll|*.dylib|*.jar|*.lock)
-                continue
-                ;;
-            # Environment configurations
-            *.env|*.env.*)
-                continue
-                ;;
-        esac
+# ==============================================================================
+# Main Command Router
+# ==============================================================================
 
-        # Rule 2: Git environment check (respect local .gitignore rules if present)
-        if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-            if git check-ignore -q "$clean_file"; then
-                continue
-            fi
-        fi
+COMMAND="${1:-help}"
 
-        # Append the header and file content
-        echo -e "\n==> $clean_file <==" >> "$output_file"
-        cat "$file" >> "$output_file"
-    done
-
-    echo "✔ Codebase successfully compiled to $output_file."
-}
-
-# --- Main Command Router ---
-
-case "$1" in
+case "$COMMAND" in
     tree)
         cmd_tree
         ;;
-    help|--help|-h|"")
-        cmd_help
-        ;;
-    get_codebase)
+
+    get-codebase)
         cmd_get_codebase
         ;;
+
+    get-latest-changelog)
+        cmd_get_latest_changelog
+        ;;
+
+    update-version)
+        shift
+        cmd_update_version "$@"
+        ;;
+
+    build)
+        shift
+        cmd_build "$@"
+        ;;
+
+    help|--help|-h)
+        usage
+        ;;
+
     *)
-        echo "❌ Unknown command: '$1'"
-        cmd_help
+        echo "❌ Unknown command: '$COMMAND'"
+        echo ""
+        usage
         exit 1
         ;;
 esac

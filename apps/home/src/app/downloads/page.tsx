@@ -111,7 +111,7 @@ export default function Downloads() {
                       className={buttonStyle}
                       onClick={() =>
                         (window.location.href =
-                          "https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe")
+                          "https://github.com/Abled-taha/iron_book/releases/latest")
                       }
                     >
                       Latest Installer

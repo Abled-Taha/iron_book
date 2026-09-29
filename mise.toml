@@ -8,6 +8,9 @@ config_roots = [
     "apps/desktop"
 ]
 
+[settings]
+env_file = ".env"
+
 [env]
 MISE_DATA_DIR = "{{config_root}}/.mise"
 MISE_STATE_DIR = "{{env.MISE_DATA_DIR}}/state"
@@ -21,6 +24,12 @@ script = """
 
 [shell_alias]
 root = "cd {{config_root}}"
+android = "cd {{config_root}}/apps/android"
+api = "cd {{config_root}}/apps/api"
+desktop = "cd {{config_root}}/apps/desktop"
+home = "cd {{config_root}}/apps/home"
+web = "cd {{config_root}}/apps/web"
+ironbook = "cd {{config_root}} && ./iron_book.sh"
 
 [tasks."setup"]
 description = "Install all dependencies"

@@ -1,6 +1,6 @@
 [package]
 name = "ironbook_api"
-version = "0.1.0"
+version = "0.1.0-alpha"
 edition = "2024"
 
 [dependencies]
@@ -43,3 +43,9 @@ tonic-prost-build = "0.14"
 
 [features]
 integration-tests = []
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+panic = "abort"

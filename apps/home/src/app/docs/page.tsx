@@ -261,6 +261,12 @@ export default function Docs() {
                     >
                       Docker, DockerCLI, & Docker Compose
                     </a>
+                    <a
+                      href=""
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      MinGW-w64-GCC
+                    </a>
                   </li>
 
                   <li>Clone the repository</li>

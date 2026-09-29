@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#49]: Added local linting
 - [#20]: Added CI/CD linting and testing
 
+### Changed
+
+### Fixed
+
 ## [0.1.1-alpha] 2026-09-06
 
 ### Added

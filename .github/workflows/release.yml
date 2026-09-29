@@ -3,7 +3,7 @@ name: Build & Publish All Releases
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
 
 permissions:
   contents: write
@@ -16,86 +16,59 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # --- SETUP ENVIRONMENTS ---
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      # --- SETUP ENVIRONMENT ---
+      - name: Set up mise environment
+        uses: jdx/mise-action@v2
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'gradle'
-          cache-dependency-path: 'apps/android/**/*.gradle*'
+          install: true
+          cache: true
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
+      - name: Run project setup script
+        run: |
+          chmod +x ./setup.sh
+          bash ./setup.sh
 
+      # --- IMPORT SECRETS ---
       - name: Import GPG Key
         uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      # --- BUILD ANDROID APK ---
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x apps/android/gradlew
-
       - name: Decode Keystore
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_KEY }}
-        run: echo -n "$ENCODED_STRING" | base64 --decode > apps/android/ironbook.keystore
+        run: |
+          echo -n "$ENCODED_STRING" | base64 --decode > apps/android/ironbook.keystore
 
-      - name: Build Android APK
+      # --- BUILD ---
+      - name: Build Release
         env:
           KEYSTORE_PATH: "ironbook.keystore"
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease -Dorg.gradle.java.home="$JAVA_HOME"
-        working-directory: apps/android
-
-      - name: Prepare Dynamic APK Name
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          cp apps/android/app/build/outputs/apk/release/app-release.apk "ironbook-${TAG_NAME}.apk"
+          ./iron_book build "${GITHUB_REF_NAME#v}"
 
-      # --- BUILD AVALONIA DESKTOP ---
-      - name: Publish Desktop (Linux x64)
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          dotnet publish -c Release -r linux-x64 --self-contained true -o output/linux
-          cd output/linux && zip -r "../../../../ironbook-${TAG_NAME}-linux-x64.zip" .
-        working-directory: apps/desktop
-
-      - name: Publish Desktop (Windows x64)
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          dotnet publish -c Release -r win-x64 --self-contained true -o output/win
-          cd output/win && zip -r "../../../../ironbook-${TAG_NAME}-win-x64.zip" .
-        working-directory: apps/desktop
-
-      # --- SIGN ALL BINARIES WITH GPG ---
-      - name: Generate GPG Detached Signatures
-        run: |
-          for file in ironbook-*.apk ironbook-*.zip; do
-            gpg --batch --yes --detach-sign --armor "$file"
-          done
-
-      # --- EXTRACT LATEST CHANGELOG SECTION ---
-      - name: Extract Latest Release Notes
-        run: |
-          sed -n '/^## /,$p' .github/docs/CHANGELOG.md | sed -n '1p;2,/^## /p' | sed '$d' > latest_changelog.md
-
-      # --- UPLOAD ALL RELEASE ASSETS AND SIGNATURES ---
+      # --- PUBLISH ---
       - name: Upload All Release Assets
         uses: softprops/action-gh-release@v3
         with:
+          working_directory: output
           files: |
-            ironbook-*.apk
-            ironbook-*.apk.asc
-            ironbook-*-linux-x64.zip
-            ironbook-*-linux-x64.zip.asc
-            ironbook-*-win-x64.zip
-            ironbook-*-win-x64.zip.asc
+            android/*.zip
+            android/*.zip.asc
+            api/linux/*.zip
+            api/linux/*.zip.asc
+            api/windows/*.zip
+            api/windows/*.zip.asc
+            desktop/linux/*.zip
+            desktop/linux/*.zip.asc
+            desktop/windows/*.zip
+            desktop/windows/*.zip.asc
+            home/*.zip
+            home/*.zip.asc
+            installer/*.exe
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
           body_path: latest_changelog.md
         env:

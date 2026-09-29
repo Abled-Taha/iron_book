@@ -2,7 +2,6 @@
 set -eu
 
 REPO="Abled-Taha/iron_book"
-EXTENSION="zip"
 
 # Embedded GPG Public Key
 PUBKEY=$(cat << 'EOF'
@@ -71,18 +70,49 @@ if [ -z "$ASSETS_JSON" ] || [ "$ASSETS_JSON" = "null" ]; then
   exit 1
 fi
 
-ZIP_URL=$(echo "$ASSETS_JSON" | jq -r ".[] | select(.name | endswith(\".${EXTENSION}\")) | .browser_download_url" | head -n 1)
-ASC_URL=$(echo "$ASSETS_JSON" | jq -r '.[] | select(.name | endswith(".asc")) | .browser_download_url' | head -n 1)
+# Only install the Linux Desktop release.
+#
+# Example:
+#   ironbook-desktop-v0.1.0-alpha-linux-x64.zip
+#
+# Everything else in the GitHub release is ignored.
+ZIP_NAME=$(echo "$ASSETS_JSON" | jq -r '
+  .[]
+  | select(
+      .name
+      | test("^ironbook-desktop-v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?-linux-x64\\.zip$")
+    )
+  | .name
+' | head -n 1)
+
+if [ -z "$ZIP_NAME" ] || [ "$ZIP_NAME" = "null" ]; then
+  echo "Error: Linux Desktop release archive was not found." >&2
+  exit 1
+fi
+
+ZIP_URL=$(echo "$ASSETS_JSON" | jq -r \
+  --arg name "$ZIP_NAME" \
+  '.[] | select(.name == $name) | .browser_download_url' \
+  | head -n 1)
+
+ASC_NAME="${ZIP_NAME}.asc"
+
+ASC_URL=$(echo "$ASSETS_JSON" | jq -r \
+  --arg name "$ASC_NAME" \
+  '.[] | select(.name == $name) | .browser_download_url' \
+  | head -n 1)
 
 if [ -z "$ZIP_URL" ] || [ "$ZIP_URL" = "null" ]; then
-  echo "Error: Release asset matching .${EXTENSION} was not found." >&2
+  echo "Error: Linux Desktop release archive URL was not found." >&2
   exit 1
 fi
 
 if [ -z "$ASC_URL" ] || [ "$ASC_URL" = "null" ]; then
-  echo "Error: Release signature (.asc) was not found." >&2
+  echo "Error: Release signature (.asc) was not found for ${ZIP_NAME}." >&2
   exit 1
 fi
+
+echo "Selected release: ${ZIP_NAME}"
 
 # 2. Setup temporary workspace
 TMP_DIR=$(mktemp -d)
@@ -95,8 +125,8 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-ZIP_FILE="${TMP_DIR}/ironbook.${EXTENSION}"
-ASC_FILE="${TMP_DIR}/ironbook.${EXTENSION}.asc"
+ZIP_FILE="${TMP_DIR}/${ZIP_NAME}"
+ASC_FILE="${TMP_DIR}/${ASC_NAME}"
 KEY_FILE="${TMP_DIR}/pubkey.asc"
 
 # 3. Download release files
@@ -128,21 +158,26 @@ mkdir -p "$TARGET_BIN" "$TARGET_APPS" "${HOME}/.local/share"
 echo "Extracting application..."
 rm -rf "$TARGET_SHARE"
 mkdir -p "$TARGET_SHARE"
+
 unzip -q "$ZIP_FILE" -d "$TMP_DIR/extracted"
 
-# Handle top-level directory flattening inside zip if necessary
+# Handle top-level directory flattening inside zip if necessary.
 EXTRACTED_CONTENT=$(ls -A "$TMP_DIR/extracted")
-if [ $(echo "$EXTRACTED_CONTENT" | wc -l) -eq 1 ] && [ -d "$TMP_DIR/extracted/$EXTRACTED_CONTENT" ]; then
+
+if [ "$(echo "$EXTRACTED_CONTENT" | wc -l)" -eq 1 ] \
+  && [ -d "$TMP_DIR/extracted/$EXTRACTED_CONTENT" ]; then
+
   mv "$TMP_DIR/extracted/$EXTRACTED_CONTENT"/* "$TARGET_SHARE/"
 else
   mv "$TMP_DIR/extracted"/* "$TARGET_SHARE/"
 fi
 
-# Ensure main binary is executable
+# Ensure main binary is executable.
 chmod +x "${TARGET_SHARE}/ironbook"
 
 # 6. Generate embedded Uninstaller inside ~/.local/share/ironbook/
 echo "Embedding uninstaller..."
+
 cat << 'EOF' > "${TARGET_SHARE}/uninstall.sh"
 #!/usr/bin/env sh
 set -eu
@@ -167,7 +202,9 @@ if [ -f "$TARGET_DESKTOP" ]; then
 fi
 
 if command -v update-desktop-database >/dev/null 2>&1; then
-  update-desktop-database "${HOME}/.local/share/applications" 2>/dev/null || true
+  update-desktop-database \
+    "${HOME}/.local/share/applications" \
+    2>/dev/null || true
 fi
 
 printf "\nDo you also want to remove persistent app configuration and user databases? [y/N]: "
@@ -175,8 +212,14 @@ read -r REMOVE_DATA
 
 case "$REMOVE_DATA" in
   [yY]*)
-    [ -d "$CONFIG_DIR" ] && rm -rf "$CONFIG_DIR" && echo "Removed ${CONFIG_DIR}"
-    [ -d "$DATA_DIR" ] && rm -rf "$DATA_DIR" && echo "Removed ${DATA_DIR}"
+    [ -d "$CONFIG_DIR" ] \
+      && rm -rf "$CONFIG_DIR" \
+      && echo "Removed ${CONFIG_DIR}"
+
+    [ -d "$DATA_DIR" ] \
+      && rm -rf "$DATA_DIR" \
+      && echo "Removed ${DATA_DIR}"
+
     echo "App data purged."
     ;;
   *)
@@ -191,22 +234,27 @@ fi
 
 echo "Iron Book has been successfully uninstalled."
 EOF
+
 chmod +x "${TARGET_SHARE}/uninstall.sh"
 
 # 7. Wrapper script with --uninstall check
 echo "Creating launcher wrapper in ${TARGET_BIN}/ironbook..."
+
 cat << 'EOF' > "${TARGET_BIN}/ironbook"
 #!/usr/bin/env sh
+
 if [ "${1:-}" = "--uninstall" ]; then
   exec "${HOME}/.local/share/ironbook/uninstall.sh"
 fi
 
 exec "${HOME}/.local/share/ironbook/ironbook" "$@"
 EOF
+
 chmod +x "${TARGET_BIN}/ironbook"
 
 # 8. Desktop Entry generation
 echo "Creating desktop shortcut..."
+
 cat << EOF > "${TARGET_APPS}/ironbook.desktop"
 [Desktop Entry]
 Type=Application

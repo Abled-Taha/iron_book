@@ -32,7 +32,7 @@ This project is divided into multiple parts as following:
 
 ### Setup
 
-1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://www.docker.com/)
+1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://www.docker.com/) & mingw-w64-gcc
 1. Clone the repo
 1. Run `./setup.sh`
 
@@ -63,4 +63,4 @@ Open an issue on [GitHub]
 [GitHub]: https://github.com/Abled-Taha/iron_book
 [Documentation]: https://abled-taha.github.io/ironbook
 [Stable Release]: https://github.com/Abled-Taha/iron_book/releases/latest
-[Installer]: https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe
+[Installer]: https://github.com/Abled-taha/iron_book/releases/latest

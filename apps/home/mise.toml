@@ -3,7 +3,6 @@ node = "24"
 
 [env]
 MISE_COREPACK = "1"
-_.file = ".env"
 
 [tasks."setup"]
 description = "Setup NextJS Documentation Site"

@@ -429,7 +429,7 @@ package_android() {
 package_windows_installer() {
     local version="$1"
 
-    local archive="$WINDOWS_INSTALLER_OUTPUT/ironbook-installer-v${version}-win-x64.exe"
+    local archive="$WINDOWS_INSTALLER_OUTPUT/ironbook-installer-v${version}-win-x64.zip"
 
     echo "📦 Packaging Windows Installer..."
 
@@ -442,7 +442,7 @@ package_windows_installer() {
     tmp=$(mktemp -d)
 
     cp "$SCRIPT_DIR/scripts/Output/IronBook-Setup.exe" \
-        "$tmp/ironbook_Installer.exe"
+        "$tmp/ironbook_installer.exe"
 
     cp "$OUTPUT_DIR/latest_changelog.md" \
         "$tmp/latest_changelog.md"

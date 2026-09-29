@@ -6,6 +6,10 @@ rust = { version = "1.95.0", components = ["rustfmt", "clippy"], targets = ["x86
 [env]
 _.path = ["./.cargo/bin",]
 
+[tasks."setup"]
+description = "Setup API"
+run = "cargo check"
+
 [tasks."dev"]
 description = "Run Rust API Dev Server"
 run = "trap 'exit 0' INT TERM; cargo watch -c -w src -w Cargo.toml -i '*.md' -i 'logs/*' -i 'target/*' -x 'run --bin ironbook_api'"

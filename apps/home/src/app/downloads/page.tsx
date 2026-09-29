@@ -1,6 +1,6 @@
 "use client";
 
-async function downloadLatestPreRelease(extension: string) {
+async function downloadLatestPreRelease(prefix: string, extension: string) {
   try {
     // Get ALL releases (returns an array sorted by date, including pre-releases)
     const res = await fetch(
@@ -17,8 +17,9 @@ async function downloadLatestPreRelease(extension: string) {
     const latestBuild = releases[0];
 
     // Find the file (e.g., .apk, .exe, etc.)
-    const asset = latestBuild.assets?.find((a: { name: string }) =>
-      a.name.endsWith(extension),
+    const asset = latestBuild.assets?.find(
+      (a: { name: string }) =>
+        a.name.startsWith(prefix) && a.name.endsWith(extension),
     );
 
     if (asset) {
@@ -32,7 +33,7 @@ async function downloadLatestPreRelease(extension: string) {
   }
 }
 
-async function downloadLatestRelease(extension: string) {
+async function downloadLatestRelease(prefix: string, extension: string) {
   try {
     // Query GitHub's API for the latest release metadata
     const response = await fetch(
@@ -41,8 +42,9 @@ async function downloadLatestRelease(extension: string) {
     const release = await response.json();
 
     // Find the asset matching the desired file format (.apk, .exe, etc.)
-    const asset = release.assets?.find((a: { name: string }) =>
-      a.name.endsWith(extension),
+    const asset = release.assets?.find(
+      (a: { name: string }) =>
+        a.name.startsWith(prefix) && a.name.endsWith(extension),
     );
 
     if (asset) {
@@ -111,7 +113,7 @@ export default function Downloads() {
                       className={buttonStyle}
                       onClick={() =>
                         (window.location.href =
-                          "https://github.com/Abled-taha/iron_book/raw/refs/heads/main/scripts/Output/IronBook-Setup.exe")
+                          "https://github.com/Abled-taha/iron_book/releases/latest")
                       }
                     >
                       Latest Installer
@@ -131,13 +133,17 @@ export default function Downloads() {
                   <div className="flex gap-4">
                     <button
                       className={buttonStyle}
-                      onClick={() => downloadLatestRelease(".apk")}
+                      onClick={() =>
+                        downloadLatestRelease("ironbook-android", ".zip")
+                      }
                     >
                       Stable Release (.apk)
                     </button>
                     <button
                       className={buttonStyle}
-                      onClick={() => downloadLatestPreRelease(".apk")}
+                      onClick={() =>
+                        downloadLatestPreRelease("ironbook-android", ".zip")
+                      }
                     >
                       Pre-Release (.apk)
                     </button>

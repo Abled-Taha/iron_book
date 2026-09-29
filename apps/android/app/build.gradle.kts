@@ -28,7 +28,7 @@ android {
         applicationId = "com.abledtaha.ironbook"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
+        versionCode = 10010
         versionName = "0.1.0-alpha"
     }
 

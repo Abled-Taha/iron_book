@@ -259,7 +259,13 @@ export default function Docs() {
                       href="https://docs.docker.com/desktop/setup/install/linux/"
                       className="font-medium text-blue-600 hover:underline"
                     >
-                      Docker, DockerCLI, & Docker Compose
+                      Docker, DockerCLI, & Docker Compose,
+                    </a>{" "}
+                    <a
+                      href="https://www.mingw-w64.org/"
+                      className="font-medium text-blue-600 hover:underline"
+                    >
+                      MinGW-w64-GCC
                     </a>
                   </li>
 

@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 ### Added
 - [#49]: Added local linting
 - [#20]: Added CI/CD linting and testing
+- [#64]: Added a build task
+- [#65]: The build task now does the checking
+- [#68]: Setup now installs required dependencies automatically
+
+### Changed
+
+### Fixed
 
 ## [0.1.1-alpha] 2026-09-06
 

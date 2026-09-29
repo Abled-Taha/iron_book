@@ -3,7 +3,6 @@
 
 [env]
 _.python.venv = "{{config_root}}/.venv"
-_.file = ".env"
 
 [tasks."setup"]
 description = "Setup Django Web Client"

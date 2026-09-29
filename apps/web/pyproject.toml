@@ -13,6 +13,7 @@ dependencies = [
     "honcho==2.0.0",
     "whitenoise==6.12.0",
     "sqlparse>=0.6.0",
+    "uvicorn>=0.54.0", # Launcher.py needs to be added to run the prod server or from mise task (preferably not)
 ]
 
 [dependency-groups]

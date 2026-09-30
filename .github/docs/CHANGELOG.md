@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#64]: Added a build task
 - [#65]: The build task now does the checking
 - [#68]: Setup now installs required dependencies automatically
+- [#72]: Made a new release
 
 ### Changed
 [$55]: Changed logging to be a worker thread, tracing rather than blocking logic

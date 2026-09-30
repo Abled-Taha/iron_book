@@ -32,7 +32,7 @@ This project is divided into multiple parts as following:
 
 ### Setup
 
-1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://www.docker.com/) & mingw-w64-gcc
+1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://docker.com/) & [mingw-w64-gcc](https://https://mingw-w64.org/)
 1. Clone the repo
 1. Run `./setup.sh`
 

@@ -241,14 +241,11 @@ build_windows_installer() {
 
     docker run --rm \
         -v "$installer_dir:/work" \
+        -w /work \
         amake/innosetup \
-        /O/work/Output \
-        /Q \
-        /work/windows_installer.iss
+        windows_installer.iss
 
     cp "$installer_dir/Output/"* "$WINDOWS_INSTALLER_OUTPUT"
-
-    rm -rf "$installer_dir"
 
     echo "✔ Windows Installer build complete."
 }

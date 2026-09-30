@@ -22,7 +22,7 @@ run = "cargo test"
 [tasks."test-full"]
 description = "Run Tests, including Database related for Rust API"
 depends = "db:up"
-run = "cargo test --features integration-tests"
+run = "mise exec -- cargo test --features integration-tests"
 
 [tasks."db:up"]
 description = "Starts the ironbook_db service from docker-compose-dev.yaml"
@@ -43,15 +43,17 @@ run = [
 
 [tasks."db:migrate"]
 description = "Apply pending database migrations"
-depends = "db:up"
-run = "cargo sqlx migrate run"
+run = [
+    "mise run db:up",
+    "mise exec -- cargo sqlx migrate run",
+]
 
 [tasks."db:prepare"]
 description = "Prepares the .sqlx files for offline development"
 depends = "db:up"
-run = "cargo sqlx prepare"
+run = "mise exec -- cargo sqlx prepare"
 
 [tasks."db:reset"]
 description = "Reset database and apply migrations"
 depends = "db:restart"
-run = "cargo sqlx database reset"
+run = "mise exec -- cargo sqlx database reset"

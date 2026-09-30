@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#68]: Setup now installs required dependencies automatically
 
 ### Changed
+[$55]: Changed logging to be a worker thread, tracing rather than blocking logic
 
 ### Fixed
 [#71]: Added hyprlink for mingw in README

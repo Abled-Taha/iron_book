@@ -1,6 +1,5 @@
 use crate::db::common;
 use crate::errors::AppError;
-use crate::log;
 use crate::services::auth;
 use crate::state::AppState;
 use chrono::{Duration, Utc};
@@ -10,11 +9,11 @@ pub async fn register(
     state: &AppState,
     data: auth::RegisterRequest,
     token_hash: &String,
-) -> Result<u64, AppError> {
+) -> Result<i64, AppError> {
     let mut tx: Transaction<'_, Postgres> = state.db.begin().await?;
 
     // Insert the user into the database and return their newly generated ID
-    let user_id_i64: i64 = sqlx::query_scalar!(
+    let user_id: i64 = sqlx::query_scalar!(
         r#"
         INSERT INTO users (username, email, password_hash)
         VALUES ($1, $2, $3)
@@ -27,18 +26,6 @@ pub async fn register(
     .fetch_one(&mut *tx)
     .await?;
 
-    // Convert returned DB i64 to u64
-    let user_id_u64: u64 = user_id_i64.try_into().map_err(|_| {
-        let _ = log::write(
-            log::LogInfo {
-                severity: "ERROR".to_string(),
-                log: format!("Database generated negative or invalid user ID ({user_id_i64})"),
-            },
-            state,
-        );
-        AppError::Internal(anyhow::anyhow!("Invalid user ID returned from database"))
-    })?;
-
     // Set session expiration
     let expires_at = Utc::now() + Duration::days(365);
 
@@ -48,7 +35,7 @@ pub async fn register(
         INSERT INTO sessions (user_id, token_hash, expires_at, active)
         VALUES ($1, $2, $3, $4)
         "#,
-        user_id_i64,
+        user_id,
         token_hash,
         expires_at,
         true,
@@ -59,7 +46,7 @@ pub async fn register(
     // Commit the transaction to finalize the insertions
     tx.commit().await?;
 
-    Ok(user_id_u64)
+    Ok(user_id)
 }
 
 pub async fn login(
@@ -69,20 +56,9 @@ pub async fn login(
 ) -> Result<String, AppError> {
     let expires_at = Utc::now() + Duration::days(365);
 
-    let user_id_u64 = common::get_user_id_by_email(state, &data.email)
+    let user_id = common::get_user_id_by_email(state, &data.email)
         .await?
         .ok_or(AppError::InvalidCredentials)?;
-
-    let user_id_i64: i64 = user_id_u64.try_into().map_err(|_| {
-        let _ = log::write(
-            log::LogInfo {
-                severity: "ERROR".to_string(),
-                log: format!("User ID ({user_id_u64}) is too large for database i64"),
-            },
-            state,
-        );
-        AppError::InvalidCredentials
-    })?;
 
     // Insert the token into sessions table and return it
     let token_return: String = sqlx::query_scalar!(
@@ -91,7 +67,7 @@ pub async fn login(
         VALUES ($1, $2, $3, $4)
         RETURNING token_hash
         "#,
-        user_id_i64,
+        user_id,
         token_hash,
         expires_at,
         true,

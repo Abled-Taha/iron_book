@@ -28,8 +28,8 @@ android {
         applicationId = "com.abledtaha.ironbook"
         minSdk = 26
         targetSdk = 34
-        versionCode = 10010
-        versionName = "0.1.0-alpha"
+        versionCode = 10210
+        versionName = "0.1.2-alpha"
     }
 
     signingConfigs {

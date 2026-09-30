@@ -11,7 +11,7 @@ use axum::{
 
 pub async fn get_user_by_id(
     State(state): State<AppState>,
-    Path(id): Path<u64>,
+    Path(id): Path<i64>,
 ) -> Result<impl IntoResponse, AppError> {
     log::write(
         log::LogInfo {

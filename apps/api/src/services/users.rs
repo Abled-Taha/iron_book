@@ -14,11 +14,11 @@ pub struct SearchFilter {
 
 #[derive(Debug, Serialize)]
 pub struct UserResponse {
-    pub id: u64,
+    pub id: i64,
     pub username: String,
 }
 
-pub async fn get_user_by_id(state: &AppState, id: u64) -> Result<UserResponse, AppError> {
+pub async fn get_user_by_id(state: &AppState, id: i64) -> Result<UserResponse, AppError> {
     log::write(
         log::LogInfo {
             severity: "INFO".to_string(),

@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 
 ### Fixed
 [#71]: Added hyprlink for mingw in README
+[#54]: Replaced the conversion to be an explicit check
 
 ## [0.1.1-alpha] 2026-09-06
 

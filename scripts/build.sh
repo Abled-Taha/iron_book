@@ -239,13 +239,17 @@ build_windows_installer() {
 
     mkdir -p "$installer_dir/Output"
 
+    chmod -R a+rwx "$installer_dir"
+
     docker run --rm \
         -v "$installer_dir:/work" \
-        -w /work \
         amake/innosetup \
-        windows_installer.iss
+        /work/windows_installer.iss
 
-    cp "$installer_dir/Output/"* "$WINDOWS_INSTALLER_OUTPUT"
+    cp "$installer_dir/Output/IronBook-Setup.exe" \
+        "$WINDOWS_INSTALLER_OUTPUT/IronBook-Setup.exe"
+
+    rm -rf "$installer_dir"
 
     echo "✔ Windows Installer build complete."
 }
@@ -453,10 +457,9 @@ package_windows_installer() {
     rm -f "$archive"
 
     local tmp
+    tmp="$(mktemp -d)"
 
-    tmp=$(mktemp -d)
-
-    cp "$SCRIPT_DIR/scripts/Output/IronBook-Setup.exe" \
+    cp "$WINDOWS_INSTALLER_OUTPUT/IronBook-Setup.exe" \
         "$tmp/ironbook_installer.exe"
 
     cp "$OUTPUT_DIR/latest_changelog.md" \

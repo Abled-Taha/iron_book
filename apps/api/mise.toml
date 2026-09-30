@@ -1,5 +1,5 @@
 [tools]
-rust = { version = "1.95.0", components = ["rustfmt", "clippy"], targets = ["x86_64-pc-windows-gnu"] }
+rust = { version = "1.95.0", components = ["rustfmt", "clippy"] }
 "cargo:cargo-watch" = "8.5.3"
 "cargo:sqlx-cli" = { version = "0.9.0", features = ["postgres", "rustls"] }
 
@@ -9,7 +9,7 @@ _.path = ["./.cargo/bin",]
 [tasks."setup"]
 description = "Setup API"
 depends = "db:migrate"
-run = "cargo check"
+run = ["rustup target add x86_64-pc-windows-gnu", "cargo check"]
 
 [tasks."dev"]
 description = "Run Rust API Dev Server"

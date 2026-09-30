@@ -35,19 +35,20 @@ android {
     signingConfigs {
         create("release") {
             val storePath =
-                envProperties.getProperty("KEYSTORE_PATH")
-                    ?: System.getenv("KEYSTORE_PATH")
+                System.getenv("KEYSTORE_PATH")
+                    ?: envProperties.getProperty("KEYSTORE_PATH")
+
             if (!storePath.isNullOrEmpty()) {
                 storeFile = rootProject.file(storePath)
             }
-            storePassword = envProperties.getProperty("KEYSTORE_PASSWORD")
-                ?: System.getenv("KEYSTORE_PASSWORD")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+                ?: envProperties.getProperty("KEYSTORE_PASSWORD")
                 ?: ""
-            keyAlias = envProperties.getProperty("KEY_ALIAS")
-                ?: System.getenv("KEY_ALIAS")
+            keyAlias = System.getenv("KEY_ALIAS")
+                ?: envProperties.getProperty("KEY_ALIAS")
                 ?: ""
-            keyPassword = envProperties.getProperty("KEY_PASSWORD")
-                ?: System.getenv("KEY_PASSWORD")
+            keyPassword = System.getenv("KEY_PASSWORD")
+                ?: envProperties.getProperty("KEY_PASSWORD")
                 ?: ""
         }
     }

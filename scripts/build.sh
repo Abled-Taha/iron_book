@@ -154,8 +154,8 @@ build_api() {
     (
         cd "$API_DIR"
 
-        cargo build --release
-        cargo build --target x86_64-pc-windows-gnu --release
+        mise exec -- cargo build --release
+        mise exec -- cargo build --target x86_64-pc-windows-gnu --release
     )
 
     echo "✔ API build complete."
@@ -171,7 +171,7 @@ build_home() {
     (
         cd "$HOME_DIR"
 
-        pnpm build
+        mise exec -- pnpm build
     )
 
     echo "✔ Home build complete."
@@ -187,13 +187,13 @@ build_desktop() {
     (
         cd "$DESKTOP_DIR"
 
-        dotnet publish \
+        mise exec -- dotnet publish \
             -c Release \
             -r linux-x64 \
             --self-contained true \
             -o output/linux
 
-        dotnet publish \
+        mise exec -- dotnet publish \
             -c Release \
             -r win-x64 \
             --self-contained true \

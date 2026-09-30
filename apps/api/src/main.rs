@@ -21,20 +21,18 @@ use tower_http::cors::CorsLayer;
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
-    let log_file = log::get_log_file()?;
-    let db = db::connect().await?;
-    let state = AppState { db, log: log_file };
+    // 1. Initialize tracing subscriber and keep the worker guard alive for runtime duration
+    let _log_guard = log::init_tracing()?;
 
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "System initialized successfully.\n
-                HTTP: http://localhost:8000/\n
-                gRPC: localhost:50051"
-                .to_string(),
-        },
-        &state,
-    )?;
+    // 2. Initialize database connection pool and application state (without Mutex)
+    let db = db::connect().await?;
+    let state = AppState { db };
+
+    tracing::info!(
+        http_addr = "http://localhost:8000/",
+        grpc_addr = "localhost:50051",
+        "System initialized successfully"
+    );
 
     // HTTP Allowed Origins
     let allow_all = config::get("ALLOW_ALL_ORIGINS")
@@ -74,13 +72,12 @@ pub async fn main() -> Result<()> {
         .layer(cors)
         .with_state(state.clone());
 
-    // 1. Setup a broadcast channel for fan-out shutdown signals
+    // 3. Setup a broadcast channel for fan-out shutdown signals
     let (tx, _) = broadcast::channel::<()>(1);
     let mut rx_http = tx.subscribe();
     let mut rx_grpc = tx.subscribe();
 
-    // 2. Spawn a single listener task that catches Ctrl+C / SIGTERM
-    let signal_state = state.clone();
+    // 4. Spawn a single listener task that catches Ctrl+C / SIGTERM
     tokio::spawn(async move {
         let ctrl_c = async {
             tokio::signal::ctrl_c()
@@ -106,12 +103,9 @@ pub async fn main() -> Result<()> {
             sig = terminate => sig,
         };
 
-        let _ = log::write(
-            log::LogInfo {
-                severity: "WARN".to_string(),
-                log: format!("{} received! Initiating graceful shutdown...", signal_name),
-            },
-            &signal_state,
+        tracing::warn!(
+            signal = signal_name,
+            "Signal received! Initiating graceful shutdown..."
         );
 
         // Notify both servers to drop out
@@ -162,23 +156,12 @@ pub async fn main() -> Result<()> {
     tokio::try_join!(http_server, grpc_server)?;
 
     // --- APPLICATION CLEANUP LOGIC ---
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "Executing final cleanup routines before termination...".to_string(),
-        },
-        &state,
-    )?;
+    tracing::info!("Executing final cleanup routines before termination...");
 
     state.db.close().await;
 
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "Application state destroyed safely. Goodbye!".to_string(),
-        },
-        &state,
-    )?;
+    tracing::info!("Application state destroyed safely. Goodbye!");
+    tracing::info!("--------------------------------------------");
 
-    std::process::exit(0);
+    Ok(())
 }

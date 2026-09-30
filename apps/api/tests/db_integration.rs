@@ -14,7 +14,7 @@ use argon2::{
     password_hash::{PasswordHasher, SaltString, rand_core::OsRng},
 };
 use chrono::{Duration, Utc};
-use common::{cleanup_log, init_db, test_state};
+use common::{init_db, test_state};
 use ironbook_api::{db, errors::AppError, services};
 use sqlx::PgPool;
 
@@ -27,7 +27,7 @@ async fn reset(pool: &PgPool) {
 
 #[sqlx::test(migrations = false)]
 async fn common_lookup_functions_trim_inputs(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -68,14 +68,11 @@ async fn common_lookup_functions_trim_inputs(pool: PgPool) {
             .unwrap(),
         None
     );
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn api_token_verification_distinguishes_existing_and_missing_tokens(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -98,14 +95,11 @@ async fn api_token_verification_distinguishes_existing_and_missing_tokens(pool: 
             .await
             .unwrap()
     );
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn auth_register_creates_user_and_session(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -141,14 +135,11 @@ async fn auth_register_creates_user_and_session(pool: PgPool) {
     let now = Utc::now();
     assert!(expires_at >= now + Duration::days(364));
     assert!(expires_at <= now + Duration::days(366));
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn auth_login_creates_a_new_session_and_returns_its_token(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -173,14 +164,11 @@ async fn auth_login_creates_a_new_session_and_returns_its_token(pool: PgPool) {
     .unwrap();
 
     assert_eq!(token, "zyxwvutsrqponmlkjihgfedcba654321");
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn system_first_start_and_api_token_storage_work(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -215,14 +203,11 @@ async fn system_first_start_and_api_token_storage_work(pool: PgPool) {
             .unwrap(),
         Some("abcdefghijklmnopqrstuvwxyz123456".into())
     );
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn user_service_searches_by_email_and_username(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -269,14 +254,11 @@ async fn user_service_searches_by_email_and_username(pool: PgPool) {
     .await
     .unwrap_err();
     assert!(matches!(no_filter, AppError::InvalidCredentials));
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn user_service_get_by_id_returns_user_or_invalid_credentials(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -297,14 +279,11 @@ async fn user_service_get_by_id_returns_user_or_invalid_credentials(pool: PgPool
         .await
         .unwrap_err();
     assert!(matches!(missing, AppError::InvalidCredentials));
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -315,7 +294,7 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
         password: "hash".into(),
     };
 
-    let invalid = services::auth::register(&state, "bad-token".into(), request())
+    let invalid = services::auth::register(&state, "bad-token", request())
         .await
         .unwrap_err();
     assert!(matches!(invalid, AppError::InvalidApiToken));
@@ -328,13 +307,13 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
         .await
         .unwrap();
 
-    services::auth::register(&state, "abcdefghijklmnopqrstuvwxyz123456".into(), request())
+    services::auth::register(&state, "abcdefghijklmnopqrstuvwxyz123456", request())
         .await
         .unwrap();
 
     let duplicate_username = services::auth::register(
         &state,
-        "abcdefghijklmnopqrstuvwxyz123456".into(),
+        "abcdefghijklmnopqrstuvwxyz123456",
         services::auth::RegisterRequest {
             email: "other@example.com".into(),
             username: "new-user".into(),
@@ -350,7 +329,7 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
 
     let duplicate_email = services::auth::register(
         &state,
-        "abcdefghijklmnopqrstuvwxyz123456".into(),
+        "abcdefghijklmnopqrstuvwxyz123456",
         services::auth::RegisterRequest {
             email: "new@example.com".into(),
             username: "other-user".into(),
@@ -360,14 +339,11 @@ async fn auth_service_rejects_invalid_token_and_duplicates(pool: PgPool) {
     .await
     .unwrap_err();
     assert!(matches!(duplicate_email, AppError::EmailAlreadyExists));
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn login_service_covers_authentication_failures_and_success(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -382,7 +358,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
 
     let bad_api_token = services::auth::login(
         &state,
-        "bad-token".into(),
+        "bad-token",
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
             password: "hash".into(),
@@ -394,7 +370,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
 
     let missing_user = services::auth::login(
         &state,
-        "abcdefghijklmnopqrstuvwxyz123456".into(),
+        "abcdefghijklmnopqrstuvwxyz123456",
         services::auth::LoginRequest {
             email: "missing@example.com".into(),
             password: "hash".into(),
@@ -418,7 +394,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
 
     let bad_password = services::auth::login(
         &state,
-        "abcdefghijklmnopqrstuvwxyz123456".into(),
+        "abcdefghijklmnopqrstuvwxyz123456",
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
             password: "wrong".into(),
@@ -430,7 +406,7 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
 
     let success = services::auth::login(
         &state,
-        "abcdefghijklmnopqrstuvwxyz123456".into(),
+        "abcdefghijklmnopqrstuvwxyz123456",
         services::auth::LoginRequest {
             email: "alice@example.com".into(),
             password: "hash".into(),
@@ -441,14 +417,11 @@ async fn login_service_covers_authentication_failures_and_success(pool: PgPool) 
 
     assert_eq!(success.token.len(), 32);
     assert!(success.token.chars().all(|c| c.is_ascii_alphanumeric()));
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn generate_api_token_allows_bootstrap_without_auth(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -467,14 +440,11 @@ async fn generate_api_token_allows_bootstrap_without_auth(pool: PgPool) {
     assert_eq!(response.token.len(), 32);
     assert!(response.token.chars().all(|c| c.is_ascii_alphanumeric()));
     assert!(!db::system::is_first_start(&state).await.unwrap());
-
-    drop(state);
-    cleanup_log(path);
 }
 
 #[sqlx::test(migrations = false)]
 async fn generate_api_token_enforces_validation_and_existing_token_auth(pool: PgPool) {
-    let (mut state, path) = test_state();
+    let mut state = test_state();
     state.db = pool.clone();
     init_db(&pool).await;
     reset(&pool).await;
@@ -516,7 +486,7 @@ async fn generate_api_token_enforces_validation_and_existing_token_auth(pool: Pg
 
     let invalid_api = services::system::generate_api_token(
         &state,
-        Some("bad-token".into()),
+        Some("bad-token"),
         services::system::ApiTokenRequest {
             name: "second".into(),
             owner_email: "other@example.com".into(),
@@ -526,14 +496,14 @@ async fn generate_api_token_enforces_validation_and_existing_token_auth(pool: Pg
     .unwrap_err();
     assert!(matches!(invalid_api, AppError::InvalidApiToken));
 
+    let existing_token = db::system::get_api_token_by_name(&state, "first")
+        .await
+        .unwrap()
+        .unwrap();
+
     let duplicate_name = services::system::generate_api_token(
         &state,
-        Some(
-            db::system::get_api_token_by_name(&state, "first")
-                .await
-                .unwrap()
-                .unwrap(),
-        ),
+        Some(&existing_token),
         services::system::ApiTokenRequest {
             name: "first".into(),
             owner_email: "other@example.com".into(),
@@ -546,14 +516,9 @@ async fn generate_api_token_enforces_validation_and_existing_token_auth(pool: Pg
         AppError::ApiTokenNameAlreadyExists
     ));
 
-    let existing_token = db::system::get_api_token_by_name(&state, "first")
-        .await
-        .unwrap()
-        .unwrap();
-
     let duplicate_owner = services::system::generate_api_token(
         &state,
-        Some(existing_token),
+        Some(&existing_token),
         services::system::ApiTokenRequest {
             name: "second".into(),
             owner_email: "owner@example.com".into(),
@@ -565,7 +530,4 @@ async fn generate_api_token_enforces_validation_and_existing_token_auth(pool: Pg
         duplicate_owner,
         AppError::ApiTokenOwnerEmailAlreadyExists
     ));
-
-    drop(state);
-    cleanup_log(path);
 }

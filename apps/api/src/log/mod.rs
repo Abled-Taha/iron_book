@@ -1,68 +1,41 @@
 use anyhow::{Context, Result};
-use chrono::Local;
-use std::fs::{self, File, OpenOptions};
-use std::io::{self, Write};
+use std::fs;
 use std::path::PathBuf;
-use std::sync::{Arc, Mutex};
+use tracing_appender::non_blocking::WorkerGuard;
+use tracing_subscriber::{EnvFilter, fmt, prelude::*};
 
-use crate::state::AppState;
+/// Initializes the non-blocking subscriber for application telemetry.
+///
+/// Returns a `WorkerGuard` that MUST be held in `main()` for the lifetime of
+/// the application. When the guard drops, it flushes remaining log buffers.
+pub fn init_tracing() -> Result<WorkerGuard> {
+    let mut log_dir = PathBuf::from(".");
+    log_dir.push("logs");
 
-pub struct LogInfo {
-    pub severity: String, // "INFO", "WARN", "ERROR", "CRITICAL"
-    pub log: String,
-}
+    // Ensure directory exists
+    fs::create_dir_all(&log_dir).context("Failed to ensure logs/ directory exists")?;
 
-// Dynamically resolves the project root, ensures the `logs` directory exists,
-// and returns an opened handle to the target timestamped log file.
-pub fn get_log_file() -> Result<Arc<Mutex<File>>> {
-    // Target the workspace root directory safely
-    let mut path = PathBuf::from(".");
-    path.push("logs");
+    // Set up rolling daily log file appender (non-blocking thread pool worker)
+    let file_appender = tracing_appender::rolling::daily(log_dir, "app.log");
+    let (non_blocking_file, guard) = tracing_appender::non_blocking(file_appender);
 
-    // Ensure the "logs" directory physically exists inside the root folder
-    fs::create_dir_all(&path).context("Failed to ensure logs/ directory exists")?;
+    // Standard output layer (Human-readable / compact console output)
+    let stdout_layer = fmt::layer().compact().with_writer(std::io::stdout);
 
-    // Format the specific filename: YYYY-MM-DD_HH-MM-SS.log
-    let timestamp = Local::now().format("%Y-%m-%d_%H-%M-%S").to_string();
-    path.push(format!("{}.log", timestamp));
+    // Persistent file layer (Structured JSON format for analysis/parsing)
+    let file_layer = fmt::layer().json().with_writer(non_blocking_file);
 
-    // Open file descriptor with persistent appending permissions
-    let file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(path)
-        .context("Failed to open or initialize systemic log file target")?;
+    // Combine layers into subscriber with environment filter (RUST_LOG or defaults to INFO)
+    let filter = EnvFilter::try_from_default_env()
+        .unwrap_or_else(|_| EnvFilter::new("info,ironbook_api=debug"));
 
-    Ok(Arc::new(Mutex::new(file)))
-}
+    tracing_subscriber::registry()
+        .with(filter)
+        .with(stdout_layer)
+        .with(file_layer)
+        .init();
 
-// Consumes log data, outputs structured strings onto the console,
-// and mirrors outputs safely onto local files.
-pub fn write(log_info: LogInfo, state: &AppState) -> Result<()> {
-    let current_time = Local::now().format("%H:%M:%S").to_string();
-    let formatted_log = format!(
-        "[{}][{}] => {}\n",
-        current_time,
-        log_info.severity.to_uppercase(),
-        log_info.log
-    );
+    tracing::info!("Tracing framework initialized with non-blocking daily file writer");
 
-    // Write instantly to CLI stream
-    print!("{}", formatted_log);
-    io::stdout()
-        .flush()
-        .context("Failed to flush stdout stream")?;
-
-    // Lock file handle exclusively across working threads and apply outputs
-    let mut file = state
-        .log
-        .lock()
-        .map_err(|_| anyhow::anyhow!("Log mutex poisoned due to a panic in another thread"))?;
-
-    file.write_all(formatted_log.as_bytes())
-        .context("Failed writing bytes into persistent log volumes")?;
-    file.flush()
-        .context("Failed flushing buffers securely to persistent log storage disks")?;
-
-    Ok(())
+    Ok(guard)
 }

@@ -1,9 +1,9 @@
 use crate::db::{common, system};
 use crate::errors::AppError;
-use crate::log;
 use crate::state::AppState;
 use rand::distr::{Alphanumeric, SampleString};
 use serde::{Deserialize, Serialize};
+use tracing::{info, warn};
 
 #[derive(Debug, Serialize)]
 pub struct GreetResponse {
@@ -27,15 +27,8 @@ pub struct ApiTokenResponse {
     pub token: String,
 }
 
-pub async fn greet(state: &AppState) -> Result<GreetResponse, AppError> {
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "Serving \"greet\"".to_string(),
-        },
-        state,
-    )
-    .map_err(AppError::Internal)?;
+pub async fn greet(_state: &AppState) -> Result<GreetResponse, AppError> {
+    info!("Serving greet health check");
 
     Ok(GreetResponse {
         message: String::from("Hello, World!"),
@@ -43,15 +36,8 @@ pub async fn greet(state: &AppState) -> Result<GreetResponse, AppError> {
     })
 }
 
-pub async fn health_report(state: &AppState) -> Result<HealthReportResponse, AppError> {
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "Serving \"health\"".to_string(),
-        },
-        state,
-    )
-    .map_err(AppError::Internal)?;
+pub async fn health_report(_state: &AppState) -> Result<HealthReportResponse, AppError> {
+    info!("Serving system health report check");
 
     Ok(HealthReportResponse {
         overall: String::from("All OK!"),
@@ -60,9 +46,15 @@ pub async fn health_report(state: &AppState) -> Result<HealthReportResponse, App
 
 pub async fn generate_api_token(
     state: &AppState,
-    api_token_opt: Option<String>,
+    api_token_opt: Option<&str>,
     data: ApiTokenRequest,
 ) -> Result<ApiTokenResponse, AppError> {
+    info!(
+        token_name = %data.name,
+        owner_email = %data.owner_email,
+        "Processing API token generation request"
+    );
+
     async fn generate_api_token_inner(
         state: &AppState,
         data: ApiTokenRequest,
@@ -88,16 +80,19 @@ pub async fn generate_api_token(
 
         let token = Alphanumeric.sample_string(&mut rand::rng(), 32);
         system::store_api_token(state, data, &token).await?;
+
+        info!("Successfully generated and stored new API token");
         Ok(token)
     }
 
-    let api_token = api_token_opt.unwrap_or_default();
-
     if system::is_first_start(state).await? {
+        info!("Initial setup detected (first start): bypassing API token verification");
         let token = generate_api_token_inner(state, data).await?;
         Ok(ApiTokenResponse { token })
     } else {
-        if !common::verify_api_token(state, &api_token).await? {
+        let api_token = api_token_opt.unwrap_or_default();
+        if !common::verify_api_token(state, api_token).await? {
+            warn!("Unauthorized API token generation attempt");
             return Err(AppError::InvalidApiToken);
         }
         let token = generate_api_token_inner(state, data).await?;

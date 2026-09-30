@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#72]: Made a new release
 
 ### Changed
-[$55]: Changed logging to be a worker thread, tracing rather than blocking logic
+[#55]: Changed logging to be a worker thread, tracing rather than blocking logic
 
 ### Fixed
 [#71]: Added hyprlink for mingw in README

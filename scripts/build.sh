@@ -413,7 +413,7 @@ package_desktop() {
 package_android() {
     local version="$1"
 
-    local archive="$ANDROID_OUTPUT/ironbook-android-v${version}-android-x64.zip"
+    local archive="$ANDROID_OUTPUT/ironbook-android-v${version}-android-arm.zip"
 
     echo "📦 Packaging Android..."
 

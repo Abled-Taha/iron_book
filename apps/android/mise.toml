@@ -4,7 +4,6 @@ android-sdk = "1.0"
 
 [env]
 ANDROID_HOME = "{{config_root}}/.android_sdk"
-JAVA_HOME = "{{env.MISE_INSTALLS_DIR}}/java/openjdk-21"
 
 [tasks."setup"]
 description = "Setup Android App"
@@ -17,16 +16,16 @@ run = [
 # Android Tasks
 [tasks."build"]
 description = "Compile the Android App"
-run = "./gradlew assembleDebug"
+run = "mise exec -- ./gradlew assembleDebug"
 
 [tasks."install"]
 description = "Install the debug APK on a connected device/emulator"
-run = "./gradlew installDebug"
+run = "mise exec -- ./gradlew installDebug"
 
 [tasks."clean"]
 description = "Clean the Gradle build cache"
-run = "./gradlew clean"
+run = "mise exec -- ./gradlew clean"
 
 [tasks."test"]
 description = "Run Android local unit tests"
-run = "./gradlew testDebugUnitTest --daemon --quiet"
+run = "mise exec -- ./gradlew testDebugUnitTest --daemon --quiet"

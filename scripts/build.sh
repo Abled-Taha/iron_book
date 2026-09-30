@@ -226,11 +226,29 @@ build_android() {
 build_windows_installer() {
     echo "🔨 Building Windows Installer..."
 
-    (
-        cd "$SCRIPT_DIR/scripts"
-        echo "$PWD"
-        docker run --rm -v "$(pwd):/work" amake/innosetup windows_installer.iss
-    )
+    local installer_dir
+    installer_dir="$(mktemp -d)"
+
+    mkdir -p "$WINDOWS_INSTALLER_OUTPUT"
+
+    cp "$SCRIPT_DIR/scripts/windows_installer.iss" \
+        "$installer_dir/windows_installer.iss"
+
+    cp "$SCRIPT_DIR/scripts/fetch_and_install.ps1" \
+        "$installer_dir/fetch_and_install.ps1"
+
+    mkdir -p "$installer_dir/Output"
+
+    docker run --rm \
+        -v "$installer_dir:/work" \
+        amake/innosetup \
+        /O/work/Output \
+        /Q \
+        /work/windows_installer.iss
+
+    cp "$installer_dir/Output/"* "$WINDOWS_INSTALLER_OUTPUT"
+
+    rm -rf "$installer_dir"
 
     echo "✔ Windows Installer build complete."
 }

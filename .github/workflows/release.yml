@@ -70,7 +70,8 @@ jobs:
             desktop/windows/*.zip.asc
             home/*.zip
             home/*.zip.asc
-            installer/*.exe
+            installer/*.zip
+            installer/*.zip.asc
           prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
           body_path: output/latest_changelog.md
         env:

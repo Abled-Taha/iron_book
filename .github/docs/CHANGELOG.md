@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 ### Changed
 
 ### Fixed
+[#71]: Added hyprlink for mingw in README
 
 ## [0.1.1-alpha] 2026-09-06
 

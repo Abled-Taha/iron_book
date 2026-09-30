@@ -129,11 +129,31 @@ update_windows_installer_version() {
     echo "✔ Windows installer version updated."
 }
 
+update_changelog_version() {
+    local version="$1"
+    local changelog="$SCRIPT_DIR/.github/docs/CHANGELOG.md"
+    local date
+    date="$(date +%Y-%m-%d)"
+
+    echo "📦 Updating changelog to $version ($date)..."
+
+    if grep -q '^## \[Unreleased\]$' "$changelog"; then
+        sed -i \
+            "/^## \[Unreleased\]$/s//## [$version] $date/" \
+            "$changelog"
+
+        echo "✔ Changelog updated."
+    else
+        echo "⚠ No [Unreleased] section found. Skipping changelog update."
+    fi
+}
+
 cmd_update_version() {
     local version="${1:-}"
 
     require_version "$version" "update-version"
 
+    update_changelog_version "$version"
     update_api_version "$version"
     update_home_version "$version"
     update_desktop_version "$version"
@@ -570,6 +590,7 @@ cmd_build() {
     rm -rf output
 
     # --- Changelog ---
+    update_changelog_version "$version"
     cmd_get_latest_changelog
 
     # --- API ---

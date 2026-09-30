@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog] and this project adheres to [Semantic Versioning].
 
-## [Unreleased]
+## [0.1.2-alpha] 2026-09-30
 
 ### Added
 - [#49]: Added local linting

@@ -1,6 +1,6 @@
 mod common;
 
-use common::{cleanup_log, test_state};
+use common::test_state;
 use ironbook_api::grpc::system::SystemGrpcService;
 use ironbook_api::proto::system::{
     GreetRequest, HealthReportRequest, system_service_server::SystemService,
@@ -9,7 +9,7 @@ use tonic::{Code, Request};
 
 #[tokio::test]
 async fn greet_rpc_maps_service_response() {
-    let (state, path) = test_state();
+    let state = test_state();
     let service = SystemGrpcService { state };
 
     let response = service
@@ -19,13 +19,11 @@ async fn greet_rpc_maps_service_response() {
 
     assert_eq!(response.get_ref().message, "Hello, World!");
     assert_eq!(response.get_ref().status, "success");
-
-    cleanup_log(path);
 }
 
 #[tokio::test]
 async fn health_rpc_maps_service_response() {
-    let (state, path) = test_state();
+    let state = test_state();
     let service = SystemGrpcService { state };
 
     let response = service
@@ -34,19 +32,15 @@ async fn health_rpc_maps_service_response() {
         .expect("health RPC succeeds");
 
     assert_eq!(response.get_ref().overall, "All OK!");
-
-    cleanup_log(path);
 }
 
 #[tokio::test]
 async fn default_greet_request_is_accepted() {
-    let (state, path) = test_state();
+    let state = test_state();
     let service = SystemGrpcService { state };
 
     let result = service.greet(Request::new(GreetRequest::default())).await;
     assert!(result.is_ok());
-
-    cleanup_log(path);
 }
 
 #[test]

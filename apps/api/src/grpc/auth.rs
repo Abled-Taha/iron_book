@@ -25,7 +25,7 @@ impl AuthService for AuthGrpcService {
             password: req.password,
         };
 
-        let resp = auth::register(&self.state, req.api_token, data)
+        let resp = auth::register(&self.state, &req.api_token, data)
             .await
             .map_err(|e| e.to_grpc_status())?;
 
@@ -42,7 +42,7 @@ impl AuthService for AuthGrpcService {
             password: req.password,
         };
 
-        let resp = auth::login(&self.state, req.api_token, data)
+        let resp = auth::login(&self.state, &req.api_token, data)
             .await
             .map_err(|e| e.to_grpc_status())?;
 

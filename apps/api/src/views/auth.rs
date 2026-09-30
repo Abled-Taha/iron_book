@@ -1,5 +1,4 @@
 use crate::errors::AppError;
-use crate::log;
 use crate::services::auth;
 use crate::state::AppState;
 
@@ -9,25 +8,23 @@ use axum::{
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
 };
+use tracing::info;
 
 pub async fn register(
     State(state): State<AppState>,
     headers: HeaderMap,
     Json(payload): Json<auth::RegisterRequest>,
 ) -> Result<impl IntoResponse, AppError> {
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "HTTP request on \"/register\"".to_string(),
-        },
-        &state,
-    )
-    .map_err(AppError::Internal)?;
+    info!(
+        path = "/register",
+        username = %payload.username,
+        email = %payload.email,
+        "Received HTTP request"
+    );
 
     let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())
-        .map(|s| s.to_string())
         .ok_or(AppError::InvalidApiToken)?;
 
     let resp = auth::register(&state, api_token, payload).await?;
@@ -39,19 +36,15 @@ pub async fn login(
     headers: HeaderMap,
     Json(payload): Json<auth::LoginRequest>,
 ) -> Result<impl IntoResponse, AppError> {
-    log::write(
-        log::LogInfo {
-            severity: "INFO".to_string(),
-            log: "HTTP request on \"/login\"".to_string(),
-        },
-        &state,
-    )
-    .map_err(AppError::Internal)?;
+    info!(
+        path = "/login",
+        email = %payload.email,
+        "Received HTTP request"
+    );
 
     let api_token = headers
         .get("Authorization")
         .and_then(|value| value.to_str().ok())
-        .map(|s| s.to_string())
         .ok_or(AppError::InvalidApiToken)?;
 
     let resp = auth::login(&state, api_token, payload).await?;

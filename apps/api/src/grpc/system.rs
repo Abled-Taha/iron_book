@@ -51,7 +51,7 @@ impl SystemService for SystemGrpcService {
             owner_email: req.owner_email,
         };
 
-        let api_token = system::generate_api_token(&self.state, req.api_token, data)
+        let api_token = system::generate_api_token(&self.state, req.api_token.as_deref(), data)
             .await
             .map_err(|e| e.to_grpc_status())?;
 

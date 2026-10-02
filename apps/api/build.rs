@@ -9,6 +9,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .parent()
         .and_then(|p| p.parent())
         .expect("Failed to locate root workspace directory")
+        .join("contracts")
         .join("proto");
 
     let out_dir = PathBuf::from(env::var("OUT_DIR")?);

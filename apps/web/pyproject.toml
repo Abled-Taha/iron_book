@@ -1,6 +1,6 @@
 [project]
-name = "iron_book"
-version = "0.1.0"
+name = "ironbook"
+version = "0.1.2-alpha"
 description = "A Digital Dinancial Ledger"
 readme = "README.md"
 requires-python = "==3.11.9"
@@ -29,7 +29,7 @@ dev = [
 reportAssignmentType= "error"
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "iron_book.settings"
+DJANGO_SETTINGS_MODULE = "ironbook.settings"
 python_files = ["test_*.py", "*_test.py", "tests.py"]
 addopts = [
     "--strict-markers",

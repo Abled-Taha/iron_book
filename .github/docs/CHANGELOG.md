@@ -3,6 +3,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog] and this project adheres to [Semantic Versioning].
 
+## [Unreleased]
+
+### Added
+- [#81]: Added `/docs/CODEOWNDERS`
+
+### Removed
+- [#76]: Removed `/assets` directory
+
+### Changed
+- [#107]: Moved notes directory
+- [#83]: Moved documents from `/.github` to `/docs`
+- [#86]: Moved variables from `/iron_book.sh` to `/scripts/lib/vars.sh`
+- [#85]: Moved `/iron_book.sh` to `/scripts/iron_book.sh`
+- [#84]: Moved `/docker-compose-dev.yaml` & `/docker-compose-prod.yaml` to `/infra/docker/compose/`
+- [#82]: Moved `/proto/` to `/contracts/proto/`
+- [#90]: Moved `cmd_get_codebase()` from `/scripts/utility.sh` to `/scripts/tools/get_codebase.sh`
+- [#89]: Moved `tree()` from `/scripts/utility.sh` to `scripts/tools/tree.sh`
+- [#79]: Renamed every reference from `iron_book` to `ironbook`
+- [#100]: Moved `/scripts/linux_installer.sh` to `/scripts/install/linux/installer.sh`
+
+### Fixed
+- [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`
+- [#122]: Fixed `/apps/web` version not being updated automatically.
+
 ## [0.1.2-alpha] 2026-09-30
 
 ### Added

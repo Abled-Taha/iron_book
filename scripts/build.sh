@@ -11,7 +11,7 @@ update_api_version() {
 
     sed -i -E \
         '0,/^version = "[^"]+"/s//version = "'"$version"'"/' \
-        "$API_CARGO_TOML"
+        "$API_DIR/Cargo.toml"
 
     echo "✔ API version updated."
 }
@@ -36,7 +36,7 @@ update_desktop_version() {
 
     sed -i -E \
         's|<Version>[^<]+</Version>|<Version>'"$version"'</Version>|' \
-        "$DESKTOP_PROJECT_FILE"
+        "$DESKTOP_DIR/ironbook.csproj"
 
     echo "✔ Desktop version updated."
 }
@@ -108,11 +108,11 @@ update_android_version() {
 
     sed -i -E \
         's/versionName = "[^"]+"/versionName = "'"$version"'"/' \
-        "$ANDROID_BUILD_GRADLE"
+        "$ANDROID_DIR/app/build.gradle.kts"
 
     sed -i -E \
         's/versionCode = [0-9]+/versionCode = '"$version_code"'/' \
-        "$ANDROID_BUILD_GRADLE"
+        "$ANDROID_DIR/app/build.gradle.kts"
 
     echo "✔ Android version updated."
 }
@@ -124,16 +124,28 @@ update_windows_installer_version() {
 
     sed -i -E \
         's|^AppVersion=.*$|AppVersion='"$version"'|' \
-        "scripts/windows_installer.iss"
+        "$SCRIPTS_DIR/windows_installer.iss"
 
     echo "✔ Windows installer version updated."
 }
 
+update_web_version() {
+    local version="$1"
+
+    echo "📦 Updating Web version to $version..."
+
+    sed -i -E \
+        's|^version = ".*"$|version = "'"$version"'"|' \
+        "apps/web/pyproject.toml"
+
+    echo "✔ Web version updated."
+}
+
+
 update_changelog_version() {
     local version="$1"
-    local changelog="$SCRIPT_DIR/.github/docs/CHANGELOG.md"
-    local date
-    date="$(date +%Y-%m-%d)"
+    local changelog="$ROOT_DIR/.github/docs/CHANGELOG.md"
+    local date="$(date +%Y-%m-%d)"
 
     echo "📦 Updating changelog to $version ($date)..."
 
@@ -159,6 +171,7 @@ cmd_update_version() {
     update_desktop_version "$version"
     update_android_version "$version"
     update_windows_installer_version "$version"
+    update_web_version "$version"
 
     echo ""
     echo "✔ Version updated to $version"
@@ -171,6 +184,7 @@ cmd_update_version() {
 build_api() {
     echo "🔨 Building API..."
 
+    export SQLX_OFFLINE=true
     (
         cd "$API_DIR"
 
@@ -251,10 +265,10 @@ build_windows_installer() {
 
     mkdir -p "$WINDOWS_INSTALLER_OUTPUT"
 
-    cp "$SCRIPT_DIR/scripts/windows_installer.iss" \
+    cp "$SCRIPTS_DIR/windows_installer.iss" \
         "$installer_dir/windows_installer.iss"
 
-    cp "$SCRIPT_DIR/scripts/fetch_and_install.ps1" \
+    cp "$SCRIPTS_DIR/fetch_and_install.ps1" \
         "$installer_dir/fetch_and_install.ps1"
 
     mkdir -p "$installer_dir/Output"
@@ -308,7 +322,7 @@ package_api() {
 
     (
         cd "$linux_tmp"
-        zip -q -r "$OLDPWD/$linux_archive" .
+        zip -q -r "$linux_archive" .
     )
 
     # Windows
@@ -323,7 +337,7 @@ package_api() {
 
     (
         cd "$windows_tmp"
-        zip -q -r "$OLDPWD/$windows_archive" .
+        zip -q -r "$windows_archive" .
     )
 
     rm -rf "$linux_tmp" "$windows_tmp"
@@ -364,7 +378,7 @@ package_home() {
 
     (
         cd "$tmp"
-        zip -q -r "$OLDPWD/$archive" .
+        zip -q -r "$archive" .
     )
 
     rm -rf "$tmp"
@@ -404,7 +418,7 @@ package_desktop() {
 
     (
         cd "$linux_tmp"
-        zip -q -r "$OLDPWD/$linux_archive" .
+        zip -q -r "$linux_archive" .
     )
 
     # Windows
@@ -416,7 +430,7 @@ package_desktop() {
 
     (
         cd "$windows_tmp"
-        zip -q -r "$OLDPWD/$windows_archive" .
+        zip -q -r "$windows_archive" .
     )
 
     rm -rf "$linux_tmp" "$windows_tmp"
@@ -452,7 +466,7 @@ package_android() {
 
     (
         cd "$tmp"
-        zip -q -r "$OLDPWD/$archive" .
+        zip -q -r "$archive" .
     )
 
     rm -rf "$tmp"
@@ -487,7 +501,7 @@ package_windows_installer() {
 
     (
         cd "$tmp"
-        zip -q -r "$OLDPWD/$archive" .
+        zip -q -r "$archive" .
     )
 
     rm -rf "$tmp"
@@ -617,6 +631,9 @@ cmd_build() {
     update_windows_installer_version "$version"
     build_windows_installer
     package_windows_installer "$version"
+
+    # --- Web ---
+    update_web_version "$version"
 
     # --- Sign ---
     if [[ "$no_sign" -eq 0 ]]; then

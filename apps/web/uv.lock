@@ -260,8 +260,8 @@ wheels = [
 ]
 
 [[package]]
-name = "iron-book"
-version = "0.1.0"
+name = "ironbook"
+version = "0.1.2a0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },

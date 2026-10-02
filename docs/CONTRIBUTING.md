@@ -1,6 +1,6 @@
-# Contributing to iron_book
+# Contributing to ironbook
 
-First off, thank you for considering contributing to **iron_book**! Projects like this rely on community contributions, bug reports, and feedback to stay high quality.
+First off, thank you for considering contributing to **ironbook**! Projects like this rely on community contributions, bug reports, and feedback to stay high quality.
 
 This document outlines the workflow, environment setup, and coding conventions used across the project's polyglot monorepo.
 
@@ -29,7 +29,7 @@ Please keep discussions, issue threads, and pull request reviews respectful, con
 
 ## Monorepo Architecture
 
-`iron_book` is structured into isolated layers within a single repository:
+`ironbook` is structured into isolated layers within a single repository:
 
 * **Backend (`/apps/api` or root Rust crate):** Built with Rust and Axum.
 * **Web Frontend (`/apps/web`):** Built with Python and Django.
@@ -53,7 +53,7 @@ Before contributing code, ensure you have the necessary runtime dependencies ins
 ## Development Workflow
 
 ### 1. Find or Create an Issue
-Before diving into code, check the [Issue Tracker](https://github.com/Abled-Taha/iron_book/issues).
+Before diving into code, check the [Issue Tracker](https://github.com/Abled-Taha/ironbook/issues).
 * For existing open issues, leave a quick comment to let others know you are working on it.
 * For new features or non-trivial fixes, please **open an issue first** to discuss the proposed changes.
 

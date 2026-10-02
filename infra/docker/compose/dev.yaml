@@ -13,7 +13,7 @@ services:
   ironbook_home:
     build:
       context: .
-      dockerfile: apps/home/Dockerfile
+      dockerfile: ../../../apps/home/Dockerfile
     container_name: ironbook_home
     ports:
       - "3000:3000"

@@ -29,7 +29,7 @@ api = "cd {{config_root}}/apps/api"
 desktop = "cd {{config_root}}/apps/desktop"
 home = "cd {{config_root}}/apps/home"
 web = "cd {{config_root}}/apps/web"
-ironbook = "cd {{config_root}} && ./iron_book.sh"
+ironbook = "{{config_root}}/scripts/ironbook.sh"
 
 [tasks."setup"]
 description = "Install all dependencies"

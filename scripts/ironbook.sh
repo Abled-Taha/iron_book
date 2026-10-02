@@ -4,7 +4,7 @@ set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/vars.sh"
 
 source "$SCRIPTS_DIR/utility.sh"
-source "$SCRIPTS_DIR/build.sh"
+source "$SCRIPTS_DIR/build/build.sh"
 source "$SCRIPTS_DIR/tools/get_codebase.sh"
 source "$SCRIPTS_DIR/tools/tree.sh"
 source "$SCRIPTS_DIR/lib/help.sh"

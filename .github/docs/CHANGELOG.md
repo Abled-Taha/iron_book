@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#89]: Moved `tree()` from `/scripts/utility.sh` to `scripts/tools/tree.sh`
 - [#79]: Renamed every reference from `iron_book` to `ironbook`
 - [#100]: Moved `/scripts/linux_installer.sh` to `/scripts/install/linux/installer.sh`
+- [#101]: Moved `/scripts/windows_installer.iss` to `/scripts/install/windows/installer.iss`
 
 ### Fixed
 - [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`

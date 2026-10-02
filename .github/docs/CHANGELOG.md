@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 
 ### Fixed
 - [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`
+- [#122]: Fixed `/apps/web` version not being updated automatically.
 
 ## [0.1.2-alpha] 2026-09-30
 

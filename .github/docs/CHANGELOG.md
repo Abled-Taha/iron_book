@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#86]: Moved variables from `/iron_book.sh` to `/scripts/lib/vars.sh`
 - [#85]: Moved `/iron_book.sh` to `/scripts/iron_book.sh`
 - [#84]: Moved `/docker-compose-dev.yaml` & `/docker-compose-prod.yaml` to `/infra/docker/compose/`
+- [#82]: Moved `/proto/` to `/contracts/proto/`
 
 ### Fixed
 

@@ -13,6 +13,7 @@ run = "cargo check"
 
 [tasks."dev"]
 description = "Run Rust API Dev Server"
+depends = "db:up"
 run = "trap 'exit 0' INT TERM; cargo watch -c -w src -w Cargo.toml -i '*.md' -i 'logs/*' -i 'target/*' -x 'run --bin ironbook_api'"
 
 [tasks."test"]

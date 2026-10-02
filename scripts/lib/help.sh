@@ -11,4 +11,5 @@ cmd_help() {
     echo "    --no-sign             Skip signing release files."
     echo "  help                    Show this help menu."
     echo "  get-latest-changelog    Compile the changelog for the latest build."
+    echo "  setup                   Sets up the project after being cloned."
 }

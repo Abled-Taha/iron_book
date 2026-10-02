@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source ./scripts/utility.sh
-
 # ==============================================================================
 # Configuration
 # ==============================================================================
 
-export MISE_DATA_DIR="$(pwd)/.mise"
-export MISE_STATE_DIR="$(pwd)/.mise/state"
-export MISE_CACHE_DIR="$(pwd)/.mise/cache"
+export MISE_DATA_DIR="$ROOT_DIR/.mise"
+export MISE_STATE_DIR="$ROOT_DIR/.mise/state"
+export MISE_CACHE_DIR="$ROOT_DIR/.mise/cache"
 
 # mise installs to ~/.local/bin by default.
 export PATH="$HOME/.local/bin:$PATH"
@@ -36,12 +34,12 @@ copy_env_if_exists() {
 setup_environment_files() {
     echo "📝 Checking environment files..."
 
-    copy_env_if_exists "."
-    copy_env_if_exists "./apps/android"
-    copy_env_if_exists "./apps/api"
-    copy_env_if_exists "./apps/desktop"
-    copy_env_if_exists "./apps/home"
-    copy_env_if_exists "./apps/web"
+    copy_env_if_exists "$ROOT_DIR"
+    copy_env_if_exists "$ANDROID_DIR"
+    copy_env_if_exists "$API_DIR"
+    copy_env_if_exists "$DESKTOP_DIR"
+    copy_env_if_exists "$HOME_DIR"
+    copy_env_if_exists "$WEB_DIR"
 }
 
 # ==============================================================================
@@ -359,7 +357,7 @@ ensure_docker_user_access() {
         echo "A new login session may be required."
         echo "Please log out and back in, then run:"
         echo ""
-        echo "  ./setup.sh"
+        echo "  ./ironbook setup"
         exit 1
     fi
 
@@ -373,7 +371,7 @@ ensure_docker_user_access() {
     echo "⚠ A new login session is required before Docker can be used."
     echo "  Please log out and back in, then run:"
     echo ""
-    echo "    ./setup.sh"
+    echo "    ./ironbook setup"
     echo ""
 
     exit 0
@@ -493,7 +491,7 @@ echo "========================================"
 echo ""
 echo "Don't forget to copy your Android signing keystore to:"
 echo ""
-echo "  apps/android/ironbook.keystore"
+echo "  /apps/android/ironbook.keystore"
 echo ""
 echo "This is required to create a signed Android release."
 echo ""

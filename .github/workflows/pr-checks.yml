@@ -21,8 +21,7 @@ jobs:
 
       - name: Run project setup script
         run: |
-          chmod +x ./setup.sh
-          bash ./setup.sh
+          scripts/ironbook.sh setup
 
       - name: Run pre-commit checks
         run: mise exec -- pre-commit run --all-files

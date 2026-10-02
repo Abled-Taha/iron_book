@@ -74,7 +74,7 @@ export default function DocsHome() {
                   <li>
                     To setup, run (in project directory)
                     <pre className="min-w-max text-sm leading-6 text-zinc-100 ">
-                      `mise trust; ./setup.sh`
+                      `scripts/ironbook.sh setup`
                     </pre>
                   </li>
 

@@ -1,39 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/lib/vars.sh"
 
-source "$SCRIPT_DIR/scripts/utility.sh"
-source "$SCRIPT_DIR/scripts/build.sh"
-
-# ==============================================================================
-# Configuration
-# ==============================================================================
-
-API_DIR="apps/api"
-API_CARGO_TOML="$API_DIR/Cargo.toml"
-
-HOME_DIR="apps/home"
-
-DESKTOP_DIR="apps/desktop"
-DESKTOP_PROJECT_FILE="$DESKTOP_DIR/ironbook.csproj"
-
-ANDROID_DIR="apps/android"
-ANDROID_BUILD_GRADLE="$ANDROID_DIR/app/build.gradle.kts"
-
-OUTPUT_DIR="output"
-
-API_LINUX_OUTPUT="$OUTPUT_DIR/api/linux"
-API_WINDOWS_OUTPUT="$OUTPUT_DIR/api/windows"
-
-HOME_OUTPUT="$OUTPUT_DIR/home"
-
-DESKTOP_LINUX_OUTPUT="$OUTPUT_DIR/desktop/linux"
-DESKTOP_WINDOWS_OUTPUT="$OUTPUT_DIR/desktop/windows"
-
-ANDROID_OUTPUT="$OUTPUT_DIR/android"
-
-WINDOWS_INSTALLER_OUTPUT="$OUTPUT_DIR/installer/"
+source "$SCRIPTS_DIR/utility.sh"
+source "$SCRIPTS_DIR/build.sh"
 
 # ==============================================================================
 # Main Command Router

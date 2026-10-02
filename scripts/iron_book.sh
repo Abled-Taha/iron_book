@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/lib/vars.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/vars.sh"
 
 source "$SCRIPTS_DIR/utility.sh"
 source "$SCRIPTS_DIR/build.sh"

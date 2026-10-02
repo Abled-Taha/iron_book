@@ -124,7 +124,7 @@ update_windows_installer_version() {
 
     sed -i -E \
         's|^AppVersion=.*$|AppVersion='"$version"'|' \
-        "scripts/windows_installer.iss"
+        "$SCRIPTS_DIR/windows_installer.iss"
 
     echo "✔ Windows installer version updated."
 }
@@ -132,8 +132,7 @@ update_windows_installer_version() {
 update_changelog_version() {
     local version="$1"
     local changelog="$ROOT_DIR/.github/docs/CHANGELOG.md"
-    local date
-    date="$(date +%Y-%m-%d)"
+    local date="$(date +%Y-%m-%d)"
 
     echo "📦 Updating changelog to $version ($date)..."
 

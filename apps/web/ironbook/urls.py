@@ -5,7 +5,7 @@ from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-from iron_book import views
+from ironbook import views
 
 urlpatterns = [
     re_path(

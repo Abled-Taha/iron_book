@@ -4,7 +4,7 @@ param (
 )
 
 $ErrorActionPreference = "Stop"
-$Repo = "Abled-Taha/iron_book"
+$Repo = "Abled-Taha/ironbook"
 
 # Embedded Public GPG Key
 $GpgPubKey = @"

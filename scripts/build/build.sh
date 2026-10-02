@@ -640,7 +640,7 @@ cmd_build() {
 
     # --- Changelog ---
     update_changelog_version "$version"
-    cmd_get_latest_changelog
+    get_latest_changelog
 
     # --- API ---
     update_api_version "$version"

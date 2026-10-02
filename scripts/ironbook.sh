@@ -8,6 +8,7 @@ source "$SCRIPTS_DIR/build/build.sh"
 source "$SCRIPTS_DIR/tools/get_codebase.sh"
 source "$SCRIPTS_DIR/tools/tree.sh"
 source "$SCRIPTS_DIR/lib/help.sh"
+source "$SCRIPTS_DIR/release/get_latest_changelog.sh"
 
 # ==============================================================================
 # Main Command Router
@@ -25,7 +26,7 @@ case "$COMMAND" in
         ;;
 
     get-latest-changelog)
-        cmd_get_latest_changelog
+        get_latest_changelog
         ;;
 
     update-version)

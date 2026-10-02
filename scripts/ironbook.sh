@@ -7,6 +7,7 @@ source "$SCRIPTS_DIR/utility.sh"
 source "$SCRIPTS_DIR/build.sh"
 source "$SCRIPTS_DIR/tools/get_codebase.sh"
 source "$SCRIPTS_DIR/tools/tree.sh"
+source "$SCRIPTS_DIR/lib/help.sh"
 
 # ==============================================================================
 # Main Command Router
@@ -38,13 +39,13 @@ case "$COMMAND" in
         ;;
 
     help|--help|-h)
-        usage
+        cmd_help
         ;;
 
     *)
         echo "❌ Unknown command: '$COMMAND'"
         echo ""
-        usage
+        cmd_help
         exit 1
         ;;
 esac

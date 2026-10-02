@@ -576,9 +576,7 @@ cmd_build() {
             *)
                 echo "❌ Unknown build option: '$1'"
                 echo ""
-                echo "Usage: ./ironbook.sh build <version> [options]"
-                echo "Options:"
-                echo "  --no-sign    Skip signing release files."
+                cmd_help
                 return 1
                 ;;
         esac

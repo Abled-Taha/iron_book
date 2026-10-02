@@ -313,7 +313,7 @@ export default function Docs() {
                 <p className="text-zinc-700 dark:text-zinc-300">
                   Open an issue on{" "}
                   <a
-                    href="https://github.com/Abled-Taha/ironbook"
+                    href="https://github.com/ironbook-labs/ironbook"
                     className="font-medium text-blue-600 hover:underline"
                   >
                     GitHub

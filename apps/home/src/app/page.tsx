@@ -15,7 +15,7 @@ export default function Home() {
           <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             Looking for Git Repo? Head over to{" "}
             <a
-              href="https://github.com/Abled-Taha/ironbook/"
+              href="https://github.com/ironbook-labs/ironbook/"
               className="font-medium text-zinc-950 dark:text-zinc-50"
               target="_blank"
             >

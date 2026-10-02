@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-REPO="Abled-Taha/ironbook"
+REPO="ironbook-labs/ironbook"
 
 # Embedded GPG Public Key
 PUBKEY=$(cat << 'EOF'

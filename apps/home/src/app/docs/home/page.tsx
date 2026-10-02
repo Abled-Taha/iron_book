@@ -66,7 +66,7 @@ export default function DocsHome() {
 
                   <li>
                     Clone{" "}
-                    <a href="https://github.com/Abled-Taha/ironbook">
+                    <a href="https://github.com/ironbook-labs/ironbook">
                       Git Repo
                     </a>
                   </li>

@@ -43,7 +43,7 @@ This section is targeted towards the users of this project.
 ### Installation
 - Linux:
   ```bash
-  curl -sSL https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh | sh
+  curl -sSL https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/installer/linux/installer.sh | sh
   ```
 - Windows: Download and install the latest [Installer] or visit the [Documentation].
 - Android: Download and install the latest [Stable Release] or visit the [Documentation].

@@ -94,7 +94,7 @@ export default function Downloads() {
                   <li>Run this curl command.</li>
                   <p className="font-mono text-sm bg-zinc-100 dark:bg-zinc-800 p-2 rounded">
                     curl -sSL
-                    https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh
+                    https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/installer/linux/installer.sh
                     | sh
                   </p>
                 </ul>

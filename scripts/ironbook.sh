@@ -39,6 +39,10 @@ case "$COMMAND" in
         cmd_build "$@"
         ;;
 
+    setup)
+        source "$SCRIPTS_DIR/setup/setup.sh"
+        ;;
+
     help|--help|-h)
         cmd_help
         ;;

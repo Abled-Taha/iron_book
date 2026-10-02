@@ -274,7 +274,7 @@ export default function Docs() {
                   <li>
                     Run{" "}
                     <code className="rounded bg-zinc-200 px-2 py-1 text-sm dark:bg-zinc-800">
-                      setup.sh
+                      scripts/ironbook.sh setup
                     </code>
                   </li>
                 </ol>

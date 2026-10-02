@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#85]: Moved `/iron_book.sh` to `/scripts/iron_book.sh`
 - [#84]: Moved `/docker-compose-dev.yaml` & `/docker-compose-prod.yaml` to `/infra/docker/compose/`
 - [#82]: Moved `/proto/` to `/contracts/proto/`
+- [#90]: Moved `cmd_get_codebase()` from `/scripts/utility.sh` to `/scripts/tools/get_codebase.sh`
 
 ### Fixed
 

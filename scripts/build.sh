@@ -170,6 +170,7 @@ cmd_update_version() {
 build_api() {
     echo "🔨 Building API..."
 
+    export SQLX_OFFLINE=true
     (
         cd "$API_DIR"
 

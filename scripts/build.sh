@@ -129,6 +129,19 @@ update_windows_installer_version() {
     echo "✔ Windows installer version updated."
 }
 
+update_web_version() {
+    local version="$1"
+
+    echo "📦 Updating Web version to $version..."
+
+    sed -i -E \
+        's|^version = ".*"$|version = "'"$version"'"|' \
+        "apps/web/pyproject.toml"
+
+    echo "✔ Web version updated."
+}
+
+
 update_changelog_version() {
     local version="$1"
     local changelog="$ROOT_DIR/.github/docs/CHANGELOG.md"
@@ -158,6 +171,7 @@ cmd_update_version() {
     update_desktop_version "$version"
     update_android_version "$version"
     update_windows_installer_version "$version"
+    update_web_version "$version"
 
     echo ""
     echo "✔ Version updated to $version"
@@ -617,6 +631,9 @@ cmd_build() {
     update_windows_installer_version "$version"
     build_windows_installer
     package_windows_installer "$version"
+
+    # --- Web ---
+    update_web_version "$version"
 
     # --- Sign ---
     if [[ "$no_sign" -eq 0 ]]; then

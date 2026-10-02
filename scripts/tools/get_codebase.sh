@@ -4,14 +4,6 @@
 cmd_get_codebase() {
     local output_file="codebase.txt"
 
-    echo "=== DIRECTORY TREE ===" > "$output_file"
-
-    tree -a \
-        -I "node_modules|build|dist|target|.git|.env|__pycache__|.next|.cache|.gradle|.venv|.idea|.android_sdk|.mise|$output_file" \
-        >> "$output_file"
-
-    echo -e "\n=== FILE CONTENTS ===" >> "$output_file"
-
     find . \
         -type d \( \
             -name "node_modules" -o \

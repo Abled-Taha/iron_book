@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog] and this project adheres to [Semantic Versioning].
 
+## [Unreleased]
+
+### Added
+- [#81]: Added `/docs/CODEOWNDERS`
+
+### Removed
+- [#76]: Removed `/assets` directory
+
+### Changed
+- [#107]: Moved notes directory
+- [#83]: Moved documents from `/.github` to `/docs`
+- [#86]: Moved variables from `/iron_book.sh` to `/scripts/lib/vars.sh`
+- [#85]: Moved `/iron_book.sh` to `/scripts/iron_book.sh`
+
+### Fixed
+
 ## [0.1.2-alpha] 2026-09-30
 
 ### Added

@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#101]: Moved `/scripts/windows_installer.iss` to `/scripts/install/windows/installer.iss`
 - [#88]: Moved `usage()` from `/scripts/utility.sh` to `/scripts/lib/help.sh`
 - [#96]: Moved `/scripts/build.sh` to `/scripts/build/build.sh`
+- [#91]: Moved `cmd_get_latest_changelog()` from `/scripts/utility.sh` to `/scripts/release/get_latest_changelog.sh`
 
 ### Fixed
 - [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`

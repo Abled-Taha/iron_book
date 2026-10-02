@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#83]: Moved documents from `/.github` to `/docs`
 - [#86]: Moved variables from `/iron_book.sh` to `/scripts/lib/vars.sh`
 - [#85]: Moved `/iron_book.sh` to `/scripts/iron_book.sh`
+- [#82]: Moved `/proto/` to `/contracts/proto/`
 
 ### Fixed
 

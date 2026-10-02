@@ -27,13 +27,14 @@ repos:
 
       - id: cargo-fmt
         name: cargo fmt
-        entry: cargo fmt --manifest-path apps/api/Cargo.toml -- --check
+        entry: bash -c 'mise -C apps/api exec -- cargo fmt -- --emit files && git diff --quiet apps/api'
         language: system
         types: [rust]
+        pass_filenames: false
 
       - id: cargo-clippy
         name: cargo clippy
-        entry: cargo clippy --manifest-path apps/api/Cargo.toml -- -D warnings #-W clippy::pedantic
+        entry: bash -c 'mise -C apps/api exec -- cargo clippy --fix --allow-dirty -- -D warnings && git diff --quiet apps/api' #-W clippy::pedantic
         language: system
         types: [rust]
         pass_filenames: false
@@ -50,14 +51,14 @@ repos:
     hooks:
       - id: next-prettier
         name: next prettier check
-        entry: bash -c 'mise exec -C apps/home -- pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write'
+        entry: bash -c 'mise exec -C apps/home -- pnpm exec prettier --check "src/**/*.{js,jsx,ts,tsx,css,json}" --write && git diff --quiet apps/home'
         language: system
         types_or: [javascript, jsx, ts, tsx, css, json]
         pass_filenames: false
 
       - id: next-eslint
         name: next lint
-        entry: bash -c 'mise exec -C apps/home -- pnpm run lint'
+        entry: bash -c 'mise exec -C apps/home -- pnpm run lint && git diff --quiet apps/home'
         language: system
         types_or: [javascript, jsx, ts, tsx]
         pass_filenames: false
@@ -81,14 +82,14 @@ repos:
     hooks:
       - id: django-ruff-format
         name: django ruff format
-        entry: bash -c 'mise exec -C apps/web -- uv run ruff format . && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/web -- uv run ruff format . && git diff --quiet apps/web'
         language: system
         types: [python]
         pass_filenames: false
 
       - id: django-ruff-lint
         name: django ruff lint
-        entry: bash -c 'mise exec -C apps/web -- uv run ruff check --fix && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/web -- uv run ruff check --fix && git diff --quiet apps/web'
         language: system
         types: [python]
         pass_filenames: false
@@ -96,7 +97,7 @@ repos:
         # 2. Django Model Migration Check (Fails if models changed without running makemigrations)
       - id: django-check-migrations
         name: django check missing migrations
-        entry: bash -c 'mise exec -C apps/web -- uv run python manage.py makemigrations --check --dry-run'
+        entry: bash -c 'mise exec -C apps/web -- uv run python manage.py makemigrations && git diff --quiet apps/web'
         language: system
         types: [python]
         pass_filenames: false
@@ -122,7 +123,7 @@ repos:
     hooks:
       - id: dotnet-format
         name: desktop dotnet format
-        entry: bash -c 'dotnet format apps/desktop --verify-no-changes'
+        entry: bash -c 'mise exec -C apps/desktop -- dotnet format . && git diff --quiet apps/desktop'
         language: system
         types_or: [c#]
         pass_filenames: false
@@ -139,14 +140,14 @@ repos:
     hooks:
       - id: ktlint
         name: android ktlint check
-        entry: bash -c 'mise exec -C apps/android -- ./gradlew ktlintFormat --daemon && git diff --quiet .'
+        entry: bash -c 'mise exec -C apps/android -- ./gradlew ktlintFormat --daemon && git diff --quiet apps/android'
         language: system
         types_or: [kotlin]
         pass_filenames: false
 
       - id: android-lint
         name: android lint check
-        entry: bash -c 'mise exec -C apps/android -- ./gradlew lintDebug --daemon'
+        entry: bash -c 'mise exec -C apps/android -- ./gradlew lintFix --daemon && git diff --quiet apps/android'
         language: system
         types_or: [kotlin, xml]
         pass_filenames: false

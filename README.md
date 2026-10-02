@@ -61,6 +61,6 @@ Open an issue on [GitHub]
 ---
 
 [GitHub]: https://github.com/ironbook-labs/ironbook
-[Documentation]: https://abled-taha.github.io/ironbook
+[Documentation]: https://ironbook-labs.github.io
 [Stable Release]: https://github.com/ironbook-labs/ironbook/releases/latest
 [Installer]: https://github.com/ironbook-labs/ironbook/releases/latest

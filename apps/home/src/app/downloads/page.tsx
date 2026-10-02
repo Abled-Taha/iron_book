@@ -4,7 +4,7 @@ async function downloadLatestPreRelease(prefix: string, extension: string) {
   try {
     // Get ALL releases (returns an array sorted by date, including pre-releases)
     const res = await fetch(
-      "https://api.github.com/repos/Abled-Taha/iron_book/releases",
+      "https://api.github.com/repos/Abled-Taha/ironbook/releases",
     );
     const releases = await res.json();
 
@@ -37,7 +37,7 @@ async function downloadLatestRelease(prefix: string, extension: string) {
   try {
     // Query GitHub's API for the latest release metadata
     const response = await fetch(
-      "https://api.github.com/repos/Abled-Taha/iron_book/releases/latest",
+      "https://api.github.com/repos/Abled-Taha/ironbook/releases/latest",
     );
     const release = await response.json();
 
@@ -94,7 +94,7 @@ export default function Downloads() {
                   <li>Run this curl command.</li>
                   <p className="font-mono text-sm bg-zinc-100 dark:bg-zinc-800 p-2 rounded">
                     curl -sSL
-                    https://raw.githubusercontent.com/Abled-Taha/iron_book/refs/heads/main/scripts/linux_installer.sh
+                    https://raw.githubusercontent.com/Abled-Taha/ironbook/refs/heads/main/scripts/linux_installer.sh
                     | sh
                   </p>
                 </ul>
@@ -113,7 +113,7 @@ export default function Downloads() {
                       className={buttonStyle}
                       onClick={() =>
                         (window.location.href =
-                          "https://github.com/Abled-taha/iron_book/releases/latest")
+                          "https://github.com/Abled-taha/ironbook/releases/latest")
                       }
                     >
                       Latest Installer

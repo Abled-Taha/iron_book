@@ -49,7 +49,7 @@ if DEBUG:
     INSTALLED_APPS += ["django_browser_reload"]
     MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
 
-ROOT_URLCONF = "iron_book.urls"
+ROOT_URLCONF = "ironbook.urls"
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
-WSGI_APPLICATION = "iron_book.wsgi.application"
+WSGI_APPLICATION = "ironbook.wsgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#84]: Moved `/docker-compose-dev.yaml` & `/docker-compose-prod.yaml` to `/infra/docker/compose/`
 - [#82]: Moved `/proto/` to `/contracts/proto/`
 - [#90]: Moved `cmd_get_codebase()` from `/scripts/utility.sh` to `/scripts/tools/get_codebase.sh`
+- [#89]: Moved `tree()` from `/scripts/utility.sh` to `scripts/tools/tree.sh`
 
 ### Fixed
 

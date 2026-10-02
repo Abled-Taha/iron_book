@@ -5,7 +5,7 @@ description = "A Digital Dinancial Ledger"
 readme = "README.md"
 requires-python = "==3.11.9"
 dependencies = [
-    "django==5.2.16",
+    "django==5.2.17",
     "django-cors-headers==4.9.0",
     "django-environ==0.13.0",
     "django-tailwind[cookiecutter,honcho,reload]==4.4.2",
@@ -14,6 +14,7 @@ dependencies = [
     "whitenoise==6.12.0",
     "sqlparse>=0.6.0",
     "uvicorn>=0.54.0", # Launcher.py needs to be added to run the prod server or from mise task (preferably not)
+    "urllib3>=2.8.0",
 ]
 
 [dependency-groups]

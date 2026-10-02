@@ -124,7 +124,7 @@ update_windows_installer_version() {
 
     sed -i -E \
         's|^AppVersion=.*$|AppVersion='"$version"'|' \
-        "$SCRIPTS_DIR/windows_installer.iss"
+        "$SCRIPTS_DIR/install/windows/installer.iss"
 
     echo "✔ Windows installer version updated."
 }
@@ -265,10 +265,10 @@ build_windows_installer() {
 
     mkdir -p "$WINDOWS_INSTALLER_OUTPUT"
 
-    cp "$SCRIPTS_DIR/windows_installer.iss" \
-        "$installer_dir/windows_installer.iss"
+    cp "$SCRIPTS_DIR/install/windows/installer.iss" \
+        "$installer_dir/installer.iss"
 
-    cp "$SCRIPTS_DIR/fetch_and_install.ps1" \
+    cp "$SCRIPTS_DIR/install/windows/fetch_and_install.ps1" \
         "$installer_dir/fetch_and_install.ps1"
 
     mkdir -p "$installer_dir/Output"
@@ -278,7 +278,7 @@ build_windows_installer() {
     docker run --rm \
         -v "$installer_dir:/work" \
         amake/innosetup \
-        /work/windows_installer.iss
+        /work/installer.iss
 
     cp "$installer_dir/Output/IronBook-Setup.exe" \
         "$WINDOWS_INSTALLER_OUTPUT/IronBook-Setup.exe"

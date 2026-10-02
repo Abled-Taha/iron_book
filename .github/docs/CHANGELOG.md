@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog] and this project adheres to [Semantic Versioning].
 
-## [0.1.2-alpha] 2026-10-02
+## [Unreleased]
 
 ### Added
 - [#81]: Added `/docs/CODEOWNDERS`
@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#90]: Moved `cmd_get_codebase()` from `/scripts/utility.sh` to `/scripts/tools/get_codebase.sh`
 - [#89]: Moved `tree()` from `/scripts/utility.sh` to `scripts/tools/tree.sh`
 - [#79]: Renamed every reference from `iron_book` to `ironbook`
+- [#100]: Moved `/scripts/linux_installer.sh` to `/scripts/install/linux/installer.sh`
 
 ### Fixed
 - [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`

@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic 
 - [#94]: Moved `/setup.sh` to `/scripts/setup/setup.sh`
 - [#99]: Moved `sign_release_files()` from `/scripts/build/build.sh` to `/scripts/release/sign.sh`
 - [#98]: Moved `update_version_*()` from `/scripts/build/build.sh` to `/scripts/release/update_version.sh`
+- [#97]: Moved `package_*()` from `/scripts/build/build.sh` to `/scripts/build/package.sh`
 
 ### Fixed
 - [#120]: Updated the path to the `/scripts/iron_book.sh` in `/.github/workflows/release.yml`

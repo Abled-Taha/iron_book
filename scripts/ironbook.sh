@@ -4,10 +4,11 @@ set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/vars.sh"
 
 source "$SCRIPTS_DIR/lib/utility.sh"
+source "$SCRIPTS_DIR/lib/help.sh"
 source "$SCRIPTS_DIR/build/build.sh"
+source "$SCRIPTS_DIR/build/package.sh"
 source "$SCRIPTS_DIR/tools/get_codebase.sh"
 source "$SCRIPTS_DIR/tools/tree.sh"
-source "$SCRIPTS_DIR/lib/help.sh"
 source "$SCRIPTS_DIR/release/get_latest_changelog.sh"
 source "$SCRIPTS_DIR/release/sign.sh"
 source "$SCRIPTS_DIR/release/update_version.sh"

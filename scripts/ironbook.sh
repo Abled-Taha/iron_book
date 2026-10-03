@@ -9,6 +9,7 @@ source "$SCRIPTS_DIR/tools/get_codebase.sh"
 source "$SCRIPTS_DIR/tools/tree.sh"
 source "$SCRIPTS_DIR/lib/help.sh"
 source "$SCRIPTS_DIR/release/get_latest_changelog.sh"
+source "$SCRIPTS_DIR/release/sign.sh"
 
 # ==============================================================================
 # Main Command Router

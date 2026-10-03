@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+
+# ==============================================================================
+# Docker
+# ==============================================================================
+
+ensure_docker_installed() {
+    if cmd_exists docker; then
+        echo "✔ Docker is installed."
+        return 0
+    fi
+
+    echo "❌ Docker is not installed."
+    echo ""
+    echo "Run setup again to install system dependencies."
+
+    return 1
+}
+
+ensure_docker_service() {
+    ensure_docker_installed
+
+    if docker info >/dev/null 2>&1; then
+        echo "✔ Docker daemon is running."
+        return 0
+    fi
+
+    echo "⚠ Docker is installed but the daemon is not running."
+
+    if cmd_exists systemctl; then
+        echo "🚀 Attempting to start Docker..."
+
+        if sudo systemctl enable --now docker; then
+            if docker info >/dev/null 2>&1; then
+                echo "✔ Docker daemon started."
+                return 0
+            fi
+        fi
+    fi
+
+    echo ""
+    echo "❌ Docker daemon could not be started."
+    echo ""
+    echo "Please start Docker manually and run setup again."
+
+    return 1
+}
+
+ensure_docker_compose() {
+    if docker compose version >/dev/null 2>&1; then
+        echo "✔ Docker Compose is available."
+        return 0
+    fi
+
+    echo "❌ Docker Compose is not available."
+    echo ""
+    echo "Expected command:"
+    echo "  docker compose version"
+    echo ""
+    echo "Please install the Docker Compose plugin for your distribution."
+
+    return 1
+}
+
+ensure_docker_user_access() {
+    # Docker already works without sudo.
+    if docker info >/dev/null 2>&1; then
+        echo "✔ Current user can access Docker."
+        return 0
+    fi
+
+    if ! getent group docker >/dev/null 2>&1; then
+        echo "⚠ Docker group does not exist."
+        return 0
+    fi
+
+    if id -nG "$USER" | tr ' ' '\n' | grep -qx "docker"; then
+        echo "❌ Docker is still inaccessible even though $USER belongs to the docker group."
+        echo ""
+        echo "A new login session may be required."
+        echo "Please log out and back in, then run:"
+        echo ""
+        echo "  ./ironbook setup"
+
+        return 1
+    fi
+
+    echo "👤 Adding $USER to the docker group..."
+
+    sudo usermod -aG docker "$USER"
+
+    echo ""
+    echo "✔ Added $USER to the docker group."
+    echo ""
+    echo "⚠ A new login session is required before Docker can be used."
+    echo "  Please log out and back in, then run:"
+    echo ""
+    echo "    ./ironbook setup"
+    echo ""
+
+    # This is a successful setup step, but the current shell cannot
+    # acquire the new group membership. Tell the caller to stop.
+    return 2
+}
+
+setup_docker() {
+    ensure_docker_service
+    ensure_docker_compose
+
+    if ensure_docker_user_access; then
+        return 0
+    fi
+
+    local status=$?
+
+    if [[ "$status" -eq 2 ]]; then
+        # Docker group membership has just been changed. This is not
+        # an installation failure, but setup cannot continue safely.
+        return 0
+    fi
+
+    return "$status"
+}

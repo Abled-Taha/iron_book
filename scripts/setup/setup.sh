@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 # ==============================================================================
-# Configuration
+# Environment
 # ==============================================================================
 
 export MISE_DATA_DIR="$ROOT_DIR/.mise"
@@ -13,451 +12,26 @@ export MISE_CACHE_DIR="$ROOT_DIR/.mise/cache"
 export PATH="$HOME/.local/bin:$PATH"
 
 # ==============================================================================
-# Linux Distribution
+# Load setup modules
 # ==============================================================================
 
-get_linux_distro() {
-    if [[ -f /etc/os-release ]]; then
-        # shellcheck disable=SC1091
-        source /etc/os-release
-        echo "${ID:-unknown}"
-        return
-    fi
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/environment.sh"
 
-    if command -v lsb_release >/dev/null 2>&1; then
-        lsb_release -si | tr '[:upper:]' '[:lower:]'
-        return
-    fi
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/system.sh"
 
-    echo "unknown"
-}
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/docker.sh"
 
-DISTRO="$(get_linux_distro)"
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/mise.sh"
 
-# ==============================================================================
-# Environment Files
-# ==============================================================================
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/project.sh"
 
-copy_env_if_exists() {
-    local target_dir="$1"
-
-    if [[ ! -f "$target_dir/.env" && -f "$target_dir/.env.example" ]]; then
-        echo "📝 Creating $target_dir/.env"
-        cp "$target_dir/.env.example" "$target_dir/.env"
-    fi
-}
-
-setup_environment_files() {
-    echo "📝 Checking environment files..."
-
-    copy_env_if_exists "$ROOT_DIR"
-    copy_env_if_exists "$ANDROID_DIR"
-    copy_env_if_exists "$API_DIR"
-    copy_env_if_exists "$DESKTOP_DIR"
-    copy_env_if_exists "$HOME_DIR"
-    copy_env_if_exists "$WEB_DIR"
-}
-
-# ==============================================================================
-# System Package Installation
-# ==============================================================================
-
-install_system_packages() {
-    case "$DISTRO" in
-        arch|cachyos|manjaro)
-            echo "📦 Installing system dependencies with pacman..."
-
-            local packages=()
-
-            if ! cmd_exists x86_64-w64-mingw32-gcc; then
-                packages+=(mingw-w64-gcc)
-            fi
-
-            if ! cmd_exists docker; then
-                packages+=(docker)
-            fi
-
-            if ! docker compose version >/dev/null 2>&1; then
-                packages+=(docker-compose)
-            fi
-
-            if ! cmd_exists curl; then
-                packages+=(curl)
-            fi
-
-            if ! cmd_exists git; then
-                packages+=(git)
-            fi
-
-            if [[ "${#packages[@]}" -gt 0 ]]; then
-                sudo pacman -S --needed --noconfirm "${packages[@]}"
-            fi
-            ;;
-
-        ubuntu|linuxmint|pop)
-            echo "📦 Installing system dependencies with apt..."
-
-            sudo apt-get update
-
-            # Install only packages that are actually missing.
-            #
-            # IMPORTANT:
-            # Do not install docker.io if Docker is already installed.
-            # Ubuntu's containerd package conflicts with Docker's containerd.io,
-            # which is commonly already installed on GitHub Actions runners.
-            local packages=()
-
-            if ! cmd_exists x86_64-w64-mingw32-gcc; then
-                packages+=(gcc-mingw-w64-x86-64)
-            fi
-
-            if ! cmd_exists docker; then
-                packages+=(docker.io)
-            fi
-
-            if ! docker compose version >/dev/null 2>&1; then
-                packages+=(docker-compose-v2)
-            fi
-
-            if ! cmd_exists curl; then
-                packages+=(curl)
-            fi
-
-            if ! cmd_exists git; then
-                packages+=(git)
-            fi
-
-            if [[ "${#packages[@]}" -gt 0 ]]; then
-                sudo apt-get install -y "${packages[@]}"
-            fi
-            ;;
-
-        debian)
-            echo "📦 Installing system dependencies with apt..."
-
-            sudo apt-get update
-
-            local packages=()
-
-            if ! cmd_exists x86_64-w64-mingw32-gcc; then
-                packages+=(gcc-mingw-w64-x86-64)
-            fi
-
-            if ! cmd_exists docker; then
-                packages+=(docker.io)
-            fi
-
-            if ! docker compose version >/dev/null 2>&1; then
-                packages+=(docker-compose-v2)
-            fi
-
-            if ! cmd_exists curl; then
-                packages+=(curl)
-            fi
-
-            if ! cmd_exists git; then
-                packages+=(git)
-            fi
-
-            if [[ "${#packages[@]}" -gt 0 ]]; then
-                sudo apt-get install -y "${packages[@]}"
-            fi
-            ;;
-
-        fedora)
-            echo "📦 Installing system dependencies with dnf..."
-
-            local packages=()
-
-            if ! cmd_exists x86_64-w64-mingw32-gcc; then
-                packages+=(mingw64-gcc)
-            fi
-
-            if ! cmd_exists docker; then
-                packages+=(docker)
-            fi
-
-            if ! docker compose version >/dev/null 2>&1; then
-                packages+=(docker-compose)
-            fi
-
-            if ! cmd_exists curl; then
-                packages+=(curl)
-            fi
-
-            if ! cmd_exists git; then
-                packages+=(git)
-            fi
-
-            if [[ "${#packages[@]}" -gt 0 ]]; then
-                sudo dnf install -y "${packages[@]}"
-            fi
-            ;;
-
-        opensuse-tumbleweed|opensuse-leap)
-            echo "📦 Installing system dependencies with zypper..."
-
-            local packages=()
-
-            if ! cmd_exists x86_64-w64-mingw32-gcc; then
-                packages+=(mingw64-cross-gcc)
-            fi
-
-            if ! cmd_exists docker; then
-                packages+=(docker)
-            fi
-
-            if ! docker compose version >/dev/null 2>&1; then
-                packages+=(docker-compose)
-            fi
-
-            if ! cmd_exists curl; then
-                packages+=(curl)
-            fi
-
-            if ! cmd_exists git; then
-                packages+=(git)
-            fi
-
-            if [[ "${#packages[@]}" -gt 0 ]]; then
-                sudo zypper install -y "${packages[@]}"
-            fi
-            ;;
-
-        nixos)
-            echo "❌ NixOS is not currently supported."
-            exit 1
-            ;;
-
-        *)
-            echo "❌ Unsupported Linux distribution: $DISTRO"
-            echo ""
-            echo "Please install these dependencies manually:"
-            echo "  - MinGW-w64"
-            echo "  - Docker"
-            echo "  - Docker Compose"
-            echo "  - curl"
-            echo "  - git"
-            exit 1
-            ;;
-    esac
-}
-
-check_system_commands() {
-    local missing=0
-
-    if ! cmd_exists x86_64-w64-mingw32-gcc; then
-        echo "❌ Required command not found: x86_64-w64-mingw32-gcc"
-        missing=1
-    fi
-
-    if ! cmd_exists docker; then
-        echo "❌ Required command not found: docker"
-        missing=1
-    fi
-
-    if ! docker compose version >/dev/null 2>&1; then
-        echo "❌ Docker Compose is not available."
-        missing=1
-    fi
-
-    if ! cmd_exists curl; then
-        echo "❌ Required command not found: curl"
-        missing=1
-    fi
-
-    if ! cmd_exists git; then
-        echo "❌ Required command not found: git"
-        missing=1
-    fi
-
-    if [[ "$missing" -eq 1 ]]; then
-        echo "⚠ Some system dependencies are missing."
-        install_system_packages
-    else
-        echo "✔ System dependencies already installed."
-    fi
-}
-
-# ==============================================================================
-# MinGW
-# ==============================================================================
-
-ensure_mingw() {
-    if cmd_exists x86_64-w64-mingw32-gcc; then
-        echo "✔ MinGW-w64 is available."
-        return
-    fi
-
-    echo "❌ MinGW-w64 installation was unsuccessful."
-    echo ""
-    echo "Expected command:"
-    echo "  x86_64-w64-mingw32-gcc"
-    exit 1
-}
-
-# ==============================================================================
-# Docker
-# ==============================================================================
-
-ensure_docker_installed() {
-    if cmd_exists docker; then
-        echo "✔ Docker is installed."
-        return
-    fi
-
-    echo "❌ Docker is not installed."
-    echo ""
-    echo "Run setup again to install system dependencies."
-    exit 1
-}
-
-ensure_docker_service() {
-    ensure_docker_installed
-
-    if docker info >/dev/null 2>&1; then
-        echo "✔ Docker daemon is running."
-        return
-    fi
-
-    echo "⚠ Docker is installed but the daemon is not running."
-
-    if cmd_exists systemctl; then
-        echo "🚀 Attempting to start Docker..."
-
-        if sudo systemctl enable --now docker; then
-            if docker info >/dev/null 2>&1; then
-                echo "✔ Docker daemon started."
-                return
-            fi
-        fi
-    fi
-
-    echo ""
-    echo "❌ Docker daemon could not be started."
-    echo ""
-    echo "Please start Docker manually and run setup again."
-    exit 1
-}
-
-ensure_docker_compose() {
-    if docker compose version >/dev/null 2>&1; then
-        echo "✔ Docker Compose is available."
-        return
-    fi
-
-    echo "❌ Docker Compose is not available."
-    echo ""
-    echo "Expected command:"
-    echo "  docker compose version"
-    echo ""
-    echo "Please install the Docker Compose plugin for your distribution."
-    exit 1
-}
-
-ensure_docker_user_access() {
-    # Docker already works without sudo.
-    if docker info >/dev/null 2>&1; then
-        echo "✔ Current user can access Docker."
-        return
-    fi
-
-    if ! getent group docker >/dev/null 2>&1; then
-        echo "⚠ Docker group does not exist."
-        return
-    fi
-
-    if id -nG "$USER" | tr ' ' '\n' | grep -qx "docker"; then
-        echo "❌ Docker is still inaccessible even though $USER belongs to the docker group."
-        echo ""
-        echo "A new login session may be required."
-        echo "Please log out and back in, then run:"
-        echo ""
-        echo "  ./ironbook setup"
-        exit 1
-    fi
-
-    echo "👤 Adding $USER to the docker group..."
-
-    sudo usermod -aG docker "$USER"
-
-    echo ""
-    echo "✔ Added $USER to the docker group."
-    echo ""
-    echo "⚠ A new login session is required before Docker can be used."
-    echo "  Please log out and back in, then run:"
-    echo ""
-    echo "    ./ironbook setup"
-    echo ""
-
-    exit 0
-}
-
-setup_docker() {
-    ensure_docker_service
-    ensure_docker_compose
-    ensure_docker_user_access
-}
-
-# ==============================================================================
-# mise
-# ==============================================================================
-
-install_mise() {
-    if cmd_exists mise; then
-        echo "✔ mise is already installed."
-        return
-    fi
-
-    echo "📦 Installing mise..."
-
-    curl https://mise.run | sh
-
-    export PATH="$HOME/.local/bin:$PATH"
-
-    if ! cmd_exists mise; then
-        echo "❌ mise installation completed, but mise could not be found."
-        echo ""
-        echo "Expected location:"
-        echo "  $HOME/.local/bin/mise"
-        exit 1
-    fi
-
-    echo "✔ mise installed."
-}
-
-setup_mise() {
-    install_mise
-
-    echo "📦 Installing project toolchains via mise..."
-
-    mise trust
-    mise install
-}
-
-# ==============================================================================
-# Project Setup
-# ==============================================================================
-
-run_project_setup() {
-    echo "🚀 Running project setup tasks..."
-
-    if ! mise run setup; then
-        echo "❌ Project setup task failed."
-        exit 1
-    fi
-}
-
-# ==============================================================================
-# Git Hooks
-# ==============================================================================
-
-setup_git_hooks() {
-    if cmd_exists pre-commit; then
-        echo "🔧 Installing pre-commit hooks..."
-        pre-commit install
-    fi
-}
+# shellcheck source=/dev/null
+source "$SCRIPTS_DIR/setup/git-hooks.sh"
 
 # ==============================================================================
 # Main
@@ -483,10 +57,6 @@ echo "🔍 Checking system dependencies..."
 check_system_commands
 
 echo ""
-echo "🔍 Checking MinGW-w64..."
-ensure_mingw
-
-echo ""
 echo "🐳 Checking Docker..."
 setup_docker
 
@@ -507,7 +77,7 @@ echo "========================================"
 echo ""
 echo "Don't forget to copy your Android signing keystore to:"
 echo ""
-echo "  /apps/android/ironbook.keystore"
+echo "  $ANDROID_DIR/ironbook.keystore"
 echo ""
 echo "This is required to create a signed Android release."
 echo ""

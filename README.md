@@ -32,7 +32,7 @@ This project is divided into multiple parts as following:
 
 ### Setup
 
-1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://docker.com/) & [mingw-w64-gcc](https://www.mingw-w64.org/)
+1. Install [Mise](https://mise.jdx.dev/) & [Docker / Docker Compose](https://docker.com/) & [mingw-w64-gcc](https://www.mingw-w64.org/) (only needed manually if you are not on a [supported platform](docs/setup/supported_platforms.md))
 2. Clone the repo
 3. Run `scripts/ironbook.sh setup`
 

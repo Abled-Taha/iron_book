@@ -132,7 +132,7 @@ update_web_version() {
 
     sed -i -E \
         's|^version = ".*"$|version = "'"$version"'"|' \
-        "apps/web/pyproject.toml"
+        "$WEB_DIR/pyproject.toml"
 
     echo "✔ Web version updated."
 }
@@ -154,4 +154,18 @@ update_changelog_version() {
     else
         echo "⚠ No [Unreleased] section found. Skipping changelog update."
     fi
+}
+
+cmd_update_version() {
+    local version="${1:-}"
+
+    require_version "$version" || return 1
+
+    update_api_version "$version"
+    update_home_version "$version"
+    update_desktop_version "$version"
+    update_android_version "$version"
+    update_windows_installer_version "$version"
+    update_web_version "$version"
+    update_changelog_version "$version"
 }

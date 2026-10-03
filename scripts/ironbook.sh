@@ -7,11 +7,12 @@ source "$SCRIPTS_DIR/lib/utility.sh"
 source "$SCRIPTS_DIR/lib/help.sh"
 source "$SCRIPTS_DIR/build/build.sh"
 source "$SCRIPTS_DIR/build/package.sh"
+source "$SCRIPTS_DIR/build/generate_latest_changelog.sh"
 source "$SCRIPTS_DIR/tools/get_codebase.sh"
-source "$SCRIPTS_DIR/tools/tree.sh"
-source "$SCRIPTS_DIR/release/get_latest_changelog.sh"
+source "$SCRIPTS_DIR/tools/get_tree.sh"
 source "$SCRIPTS_DIR/release/sign.sh"
 source "$SCRIPTS_DIR/release/update_version.sh"
+source "$SCRIPTS_DIR/release/release.sh"
 
 # ==============================================================================
 # Main Command Router
@@ -20,16 +21,12 @@ source "$SCRIPTS_DIR/release/update_version.sh"
 COMMAND="${1:-help}"
 
 case "$COMMAND" in
-    tree)
-        cmd_tree
+    get-tree)
+        cmd_get_tree
         ;;
 
     get-codebase)
         cmd_get_codebase
-        ;;
-
-    get-latest-changelog)
-        get_latest_changelog
         ;;
 
     update-version)
@@ -40,6 +37,11 @@ case "$COMMAND" in
     build)
         shift
         cmd_build "$@"
+        ;;
+
+    release)
+        shift
+        cmd_release "$@"
         ;;
 
     setup)

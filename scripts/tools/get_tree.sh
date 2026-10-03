@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cmd_tree() {
+cmd_get_tree() {
     cmd_exists "tree" || return 1
 
     local output_file="tree.txt"

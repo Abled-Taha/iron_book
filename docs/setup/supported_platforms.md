@@ -10,6 +10,7 @@
 - `pop`
 - `debian`
 - `fedora`
-- `nixos`
+- `opensuse-tumbleweed`
+- `opensuse-leap`
 
 If your distribution is listed above, `scripts/ironbook.sh setup` takes care of dependencies for you. If not, install them manually before running setup (see the first step in the README).
